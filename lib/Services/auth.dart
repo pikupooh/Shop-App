@@ -9,6 +9,12 @@ class AuthServices {
   String verificationId;
   String errorMessage = '';
   FirebaseAuth _auth = FirebaseAuth.instance;
+  signInOTP(smsCode, verId, name, phoneNo) {
+    AuthCredential authCredential = PhoneAuthProvider.getCredential(
+        verificationId: verId, smsCode: smsCode);
+
+    signIn(authCredential: authCredential, name: name, phoneNo: phoneNo);
+  }
 
   User _fromFirebaseUser(FirebaseUser user) {
     return user != null ? User(id: user.uid) : null;
@@ -47,7 +53,7 @@ class AuthServices {
 
   onAuthSuccess() async {
     print("suth success");
-    
+
     final snapShot = await Firestore.instance
         .collection('posts')
         .document(this.phoneNo)
@@ -56,24 +62,29 @@ class AuthServices {
     if (snapShot == null || !snapShot.exists) {
       print("Does not exits");
       DatabaseServices().createUser(this.phoneNo);
-    }
-    else{
+    } else {
       print("Exits");
     }
   }
 
-  Future signIn(String otp) async {
-    this.smsOTP = otp;
-    try {
-      final AuthCredential credential = PhoneAuthProvider.getCredential(
-        verificationId: verificationId,
-        smsCode: smsOTP,
-      );
-      final user = await _auth.signInWithCredential(credential);
-      final FirebaseUser currentUser = await _auth.currentUser();
-      assert(user.user.uid == currentUser.uid);
-      onAuthSuccess();
-    } catch (e) {}
+  // Future signIn(String otp) async {
+  //   this.smsOTP = otp;
+  //   try {
+  //     final AuthCredential credential = PhoneAuthProvider.getCredential(
+  //       verificationId: verificationId,
+  //       smsCode: smsOTP,
+  //     );
+  //     final user = await _auth.signInWithCredential(credential);
+  //     final FirebaseUser currentUser = await _auth.currentUser();
+  //     assert(user.user.uid == currentUser.uid);
+  //     onAuthSuccess();
+  //   } catch (e) {}
+  // }
+  signIn({AuthCredential authCredential, String name, String phoneNo}) async {
+    AuthResult result = await _auth.signInWithCredential(authCredential);
+    FirebaseUser user = result.user;
+
+    // await DataBaseServices(uid: user.uid).createUserDatabase(name, phoneNo);
   }
 
   void signOut() {
