@@ -24,7 +24,7 @@ class _MyAppState extends State<MyApp> {
         debugShowCheckedModeBanner: false,
         theme: ThemeData(
             //TODO theme
-            ),
+            primaryColor: Color(0xFF0013A8)),
         home: LandingPage(),
       ),
     );
