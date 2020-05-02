@@ -188,6 +188,11 @@ class _RegisterPageState extends State<RegisterPage> {
                                       phone = "+91" + value;
                                     });
                                   },
+                                  validator: (String value) {
+                                    if (value.isEmpty || value.length != 10)
+                                      return "Enter 10 digits";
+                                    return null;
+                                  },
                                 ),
                           SizedBox(height: 10),
                           Padding(
@@ -215,14 +220,16 @@ class _RegisterPageState extends State<RegisterPage> {
                                             Color(0xEE075E55),
                                         text: "Send OTP",
                                         onTap: () async {
-                                          print(phone);
-                                          setState(() {
-                                            readonly = true;
-                                          });
-                                          await verifyPhone(phone);
-                                          setState(() {
-                                            sendingOtp = true;
-                                          });
+                                          if (formkey.currentState.validate()) {
+                                            print(phone);
+                                            setState(() {
+                                              readonly = true;
+                                            });
+                                            await verifyPhone(phone);
+                                            setState(() {
+                                              sendingOtp = true;
+                                            });
+                                          }
                                         },
                                       ),
                           ),
