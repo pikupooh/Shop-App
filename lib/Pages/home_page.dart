@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -105,6 +106,8 @@ class _HomePageState extends State<HomePage> {
                 ],
               ),
               SizedBox(height: 20),
+              _buildCategory(),
+              SizedBox(height: 20),
               Center(
                 child: RaisedButton(
                   child: Text(user.phone),
@@ -116,5 +119,42 @@ class _HomePageState extends State<HomePage> {
             ],
           ),
         ));
+  }
+
+  Widget _buildCategory() {
+    return Container(
+      height: 100,
+      child: StreamBuilder(
+        stream: Firestore.instance.collection('Categories').snapshots(),
+        builder: (context, snap) {
+          if (snap.hasData) return _buildCategoryList(snap.data.documents);
+          return Text("Loading");
+        },
+      ),
+    );
+  }
+
+  Widget _buildCategoryList(List<DocumentSnapshot> snapshot) {
+    return ListView(
+      scrollDirection: Axis.horizontal,
+      children: snapshot
+          .map((data) => _buildCaterogyListItem(context, data))
+          .toList(),
+    );
+  }
+
+  Widget _buildCaterogyListItem(BuildContext context, DocumentSnapshot doc) {
+    return Container(
+      height: 30, 
+      width: 100,
+      child: Stack(
+        children: <Widget>[
+          // TODO UI
+          Positioned(
+            height: 20,
+            child: Text(doc.documentID),
+          ),
+        ],
+      ));
   }
 }
