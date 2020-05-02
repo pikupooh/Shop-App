@@ -17,7 +17,7 @@ class AuthServices {
   }
 
   User _fromFirebaseUser(FirebaseUser user) {
-    return user != null ? User(id: user.uid) : null;
+    return user != null ? User(id: user.uid, phone: this.phoneNo) : null;
   }
 
   Stream<User> get user {
@@ -52,7 +52,7 @@ class AuthServices {
   }
 
   onAuthSuccess() async {
-    print("suth success");
+    print("suth success " + this.phoneNo);
 
     final snapShot = await Firestore.instance
         .collection('posts')
@@ -81,8 +81,13 @@ class AuthServices {
   //   } catch (e) {}
   // }
   signIn({AuthCredential authCredential, String name, String phoneNo}) async {
+    this.phoneNo = phoneNo;
+    print("On sign in " + phoneNo);
     AuthResult result = await _auth.signInWithCredential(authCredential);
     FirebaseUser user = result.user;
+    final FirebaseUser currentUser = await _auth.currentUser();
+    assert(user.uid == currentUser.uid);
+    onAuthSuccess();
 
     // await DataBaseServices(uid: user.uid).createUserDatabase(name, phoneNo);
   }
