@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import 'package:shop_app/Services/auth.dart';
 import 'Models/user.dart';
@@ -23,6 +24,8 @@ class _MyAppState extends State<MyApp> {
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
         theme: ThemeData(
+            appBarTheme: AppBarTheme(textTheme: GoogleFonts.latoTextTheme()),
+            textTheme: GoogleFonts.questrialTextTheme(),
             //TODO theme
             primaryColor: Color(0xFF0013A8)),
         home: LandingPage(),
