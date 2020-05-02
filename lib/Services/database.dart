@@ -1,9 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class DatabaseServices{
-
+  final CollectionReference _doc = Firestore.instance.collection('Users');
   void createUser(String phoneNumber) async {
-    final CollectionReference _doc = Firestore.instance.collection('Users');
     await _doc.document(phoneNumber).setData({
       'address': "None",
       'phoneNumber': phoneNumber,

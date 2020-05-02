@@ -33,7 +33,7 @@ class _HomePageState extends State<HomePage> {
         ),
         body: Center(
           child: RaisedButton(
-            child: Text(user.id),
+            child: Text(user.phone),
             onPressed: () {
               AuthServices().signOut();
             },
