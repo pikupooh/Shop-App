@@ -49,6 +49,7 @@ class _ProfilePageState extends State<ProfilePage> {
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
                 CircleAvatar(
+                  child: Icon(CupertinoIcons.person_add_solid,color: Colors.white,size: 100,),
                   backgroundColor: Colors.grey[200],
                   radius: 70,
                 )
