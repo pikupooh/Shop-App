@@ -4,6 +4,8 @@ import 'package:provider/provider.dart';
 import 'package:shop_app/Models/user.dart';
 import 'package:shop_app/Pages/profile_page.dart';
 import 'package:shop_app/Services/auth.dart';
+import 'package:shop_app/Widgets/category_list.dart';
+import 'package:shop_app/Widgets/product_list.dart';
 import 'package:shop_app/reusables/constants.dart';
 
 class HomePage extends StatefulWidget {
@@ -12,6 +14,12 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+  String currentCategory = "all";
+  void changeCategory(String cat){
+    setState(() {
+      currentCategory = cat;
+    });
+  }
   @override
   Widget build(BuildContext context) {
     final user = Provider.of<User>(context);
@@ -105,6 +113,9 @@ class _HomePageState extends State<HomePage> {
                 ],
               ),
               SizedBox(height: 20),
+              CatergoryList(),
+              SizedBox(height: 20),
+              ProductList(currentCategory: currentCategory,),
               Center(
                 child: RaisedButton(
                   child: Text(user.phone),
@@ -117,4 +128,8 @@ class _HomePageState extends State<HomePage> {
           ),
         ));
   }
+
+  
+
+  
 }
