@@ -15,11 +15,12 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   String currentCategory = "all";
-  void changeCategory(String cat){
+  void changeCategory(String cat) {
     setState(() {
       currentCategory = cat;
     });
   }
+
   @override
   Widget build(BuildContext context) {
     final user = Provider.of<User>(context);
@@ -73,7 +74,7 @@ class _HomePageState extends State<HomePage> {
                   padding: const EdgeInsets.only(left: 20.0, bottom: 10),
                   child: Text(
                     "Food & Groceries",
-                    style: TextStyle(fontSize: 25),
+                    style: TextStyle(fontSize: 30),
                   ),
                 ),
               ),
@@ -113,9 +114,12 @@ class _HomePageState extends State<HomePage> {
                 ],
               ),
               SizedBox(height: 20),
-              CatergoryList(),
+              CategoryList(),
               SizedBox(height: 20),
-              ProductList(currentCategory: currentCategory,),
+              Expanded(
+                  child: ProductList(
+                currentCategory: currentCategory,
+              )),
               Center(
                 child: RaisedButton(
                   child: Text(user.phone),
@@ -128,8 +132,4 @@ class _HomePageState extends State<HomePage> {
           ),
         ));
   }
-
-  
-
-  
 }

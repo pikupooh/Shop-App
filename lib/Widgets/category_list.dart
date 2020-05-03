@@ -2,12 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:shop_app/Models/categories.dart';
 import 'package:shop_app/Services/database.dart';
 
-class CatergoryList extends StatefulWidget {
+class CategoryList extends StatefulWidget {
   @override
-  _CatergoryListState createState() => _CatergoryListState();
+  _CategoryListState createState() => _CategoryListState();
 }
 
-class _CatergoryListState extends State<CatergoryList> {
+class _CategoryListState extends State<CategoryList> {
   @override
   Widget build(BuildContext context) {
     return _buildCategory();
@@ -15,13 +15,16 @@ class _CatergoryListState extends State<CatergoryList> {
 
   Widget _buildCategory() {
     return Container(
-      height: 100,
+      //color: Colors.black12,
+      height: 120,
       child: StreamBuilder(
         stream: DatabaseServices().getCateries(),
         builder: (context, snap) {
-          List<Category> categories = snap.data ;
-          if (snap.hasData) return _buildCategoryList(categories); //_buildCategoryList(snap.data.documents);
-          return Text("Loading");
+          List<Category> categories = snap.data;
+          if (snap.hasData)
+            return _buildCategoryList(
+                categories); //_buildCategoryList(snap.data.documents);
+          return CircularProgressIndicator();
         },
       ),
     );
@@ -37,17 +40,43 @@ class _CatergoryListState extends State<CatergoryList> {
   }
 
   Widget _buildCaterogyListItem(BuildContext context, Category doc) {
-    return Container(
-      height: 30, 
-      width: 100,
-      child: Stack(
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 15.0, vertical: 10),
+      child: Container(
+          // height: 30,
+          // width: 100,
+          child: Column(
         children: <Widget>[
           // TODO UI
-          Positioned(
-            height: 20,
-            child: Text(doc.name),
+          Material(
+            shadowColor: Color(0x77d1dff7),
+            elevation: 10,
+            shape: CircleBorder(),
+            child: InkWell(
+              customBorder: CircleBorder(),
+              onTap: () {},
+              child: CircleAvatar(
+                radius: 30,
+                backgroundColor: Color(0x77d1dff7),
+                child: Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Image.asset(
+                    'assets/${doc.name}.png' ?? 'assets/Fish.png',
+                    errorBuilder: (context, error, stackTrace) {
+                      return Image.asset('assets/Fish.png');
+                    },
+                  ),
+                ),
+              ),
+            ),
+          ),
+          SizedBox(height: 10),
+          Text(
+            doc.name,
+            style: TextStyle(fontSize: 17),
           ),
         ],
-      ));
+      )),
+    );
   }
 }
