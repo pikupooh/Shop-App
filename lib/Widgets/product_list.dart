@@ -17,8 +17,8 @@ class _ProductListState extends State<ProductList> {
 
   Widget _buildProducts() {
     return StreamBuilder(
-      stream: DatabaseServices().getProducts(),
-      builder: (context, snap) {
+      stream: DatabaseServices().getProducts(widget.currentCategory),
+      builder: (context, AsyncSnapshot<dynamic> snap) {
         List<Product> products = snap.data;
         if (snap.hasData) return _buildProductList(products);
         return Text("Loading");
