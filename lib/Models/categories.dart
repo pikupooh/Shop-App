@@ -1,15 +1,9 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 
-class CategoryCollection{
-  List<String> category;
-
-  CategoryCollection();
-  factory CategoryCollection.fromFirebase(){
-    
-  }
-}
-
 class Category{
   String name ;
-
+  Category({this.name});
+  factory Category.fromFirebae(DocumentSnapshot doc){
+    return Category(name: doc.data['category']) ;
+  }
 }

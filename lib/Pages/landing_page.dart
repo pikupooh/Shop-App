@@ -14,6 +14,8 @@ class _LandingPageState extends State<LandingPage> {
   Widget build(BuildContext context) {
     final user = Provider.of<User>(context);
     if(user == null) return RegisterPage();
-    else return HomePage();
+    else{
+      return HomePage();
+    }
   }
 }

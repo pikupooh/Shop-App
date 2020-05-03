@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:shop_app/Models/categories.dart';
+import 'package:shop_app/Models/product.dart';
 import 'package:shop_app/Models/user.dart';
 
 class DatabaseServices {
@@ -24,8 +25,12 @@ class DatabaseServices {
   }
 
   Stream<List<Category>> getCateries() {
-    var ref = _db.collection('Category').snapshots();
-    print(ref);
-    //return _db.collection('Category').snapshots().;
+    var ref = _db.collection('Categories').snapshots();
+    return ref.map((list) => list.documents.map((item) => Category.fromFirebae(item)).toList());
+  }
+
+  Stream<List<Product>> getProducts(){
+    var ref = _db.collection('Shop').snapshots();
+    return ref.map((list) => list.documents.map((item) => Product.fromFirebase(item)).toList());
   }
 }

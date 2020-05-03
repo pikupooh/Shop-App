@@ -3,6 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:shop_app/Models/user.dart';
 import 'package:shop_app/Services/database.dart';
 
+
 class AuthServices {
   String phoneNo;
   String smsOTP;
@@ -58,31 +59,3 @@ class AuthServices {
     _auth.signOut();
   }
 }
-
-
-  // Future verifyPhone(String phonenumber) async {
-  //   print('otp send');
-  //   this.phoneNo = phonenumber;
-  //   final PhoneCodeSent smsOTPSent = (String verId, [int forceCodeResend]) {
-  //     this.verificationId = verId;
-  //   };
-  //   try {
-  //     await _auth.verifyPhoneNumber(
-  //         phoneNumber: this.phoneNo,
-  //         codeAutoRetrievalTimeout: (String verId) {
-  //           this.verificationId = verId;
-  //         },
-  //         codeSent: smsOTPSent,
-  //         timeout: const Duration(seconds: 20),
-  //         verificationCompleted: (AuthCredential phoneAuthCredential) {
-  //           _auth
-  //               .signInWithCredential(phoneAuthCredential)
-  //               .then((AuthResult val) {
-  //             if (val.user != null) onAuthSuccess();
-  //           });
-  //         },
-  //         verificationFailed: (AuthException exceptio) {
-  //           print('${exceptio.message}');
-  //         });
-  //   } catch (e) {}
-  // }
