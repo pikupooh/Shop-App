@@ -51,6 +51,7 @@ class _HomePageState extends State<HomePage> {
           ],
         ),
         body: Container(
+         
           color: Colors.grey[100],
           child: Column(
             children: <Widget>[
@@ -61,7 +62,8 @@ class _HomePageState extends State<HomePage> {
                       const EdgeInsets.only(left: 20.0, top: 10, bottom: 10),
                   child: Text(
                     "Quality",
-                    style: TextStyle(fontSize: 40, fontWeight: FontWeight.w700),
+                    style:
+                        TextStyle(fontSize: 40, fontWeight: FontWeight.w700),
                   ),
                 ),
               ),
@@ -114,16 +116,19 @@ class _HomePageState extends State<HomePage> {
               CategoryList(
                 onTap: changeCategory,
               ),
-              Text(currentCategory),
               SizedBox(height: 20),
               Expanded(
-                child: ProductList(
-                  currentCategory: currentCategory,
+                flex: 2,
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 10.0),
+                  child: ProductList(
+                    currentCategory: currentCategory,
+                  ),
                 ),
               ),
-              SizedBox(
-                height: 30,
-              )
+              // SizedBox(
+              //   height: 30,
+              // )
             ],
           ),
         ));

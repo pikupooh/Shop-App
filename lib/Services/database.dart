@@ -31,9 +31,9 @@ class DatabaseServices {
   }
 
   Stream<List<Product>> getProducts(String cat) {
-
-    var ref =
-        _db.collection("Shop").where('category', isEqualTo: cat).snapshots();
+    var ref = cat != "all"
+        ? _db.collection("Shop").where('category', isEqualTo: cat).snapshots()
+        : _db.collection("Shop").snapshots();
     return ref.map((list) =>
         list.documents.map((item) => Product.fromFirebase(item)).toList());
   }
