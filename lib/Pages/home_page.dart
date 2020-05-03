@@ -114,7 +114,10 @@ class _HomePageState extends State<HomePage> {
                 ],
               ),
               SizedBox(height: 20),
-              CategoryList(),
+              CategoryList(
+                onTap: changeCategory,
+              ),
+              Text(currentCategory),
               SizedBox(height: 20),
               Expanded(
                   child: ProductList(

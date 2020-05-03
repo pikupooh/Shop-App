@@ -3,6 +3,8 @@ import 'package:shop_app/Models/categories.dart';
 import 'package:shop_app/Services/database.dart';
 
 class CategoryList extends StatefulWidget {
+  final Function onTap;
+  CategoryList({this.onTap});
   @override
   _CategoryListState createState() => _CategoryListState();
 }
@@ -54,7 +56,9 @@ class _CategoryListState extends State<CategoryList> {
             shape: CircleBorder(),
             child: InkWell(
               customBorder: CircleBorder(),
-              onTap: () {},
+              onTap: () {
+                widget.onTap(doc.name);
+              },
               child: CircleAvatar(
                 radius: 30,
                 backgroundColor: Color(0x77d1dff7),
