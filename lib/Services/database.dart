@@ -26,11 +26,15 @@ class DatabaseServices {
 
   Stream<List<Category>> getCateries() {
     var ref = _db.collection('Categories').snapshots();
-    return ref.map((list) => list.documents.map((item) => Category.fromFirebase(item)).toList());
+    return ref.map((list) =>
+        list.documents.map((item) => Category.fromFirebase(item)).toList());
   }
 
-  Stream<List<Product>> getProducts(){
-    var ref = _db.collection('Shop').snapshots();
-    return ref.map((list) => list.documents.map((item) => Product.fromFirebase(item)).toList());
+  Stream<List<Product>> getProducts(String cat) {
+    var ref = cat != "all"
+        ? _db.collection("Shop").where('category', isEqualTo: cat).snapshots()
+        : _db.collection("Shop").snapshots();
+    return ref.map((list) =>
+        list.documents.map((item) => Product.fromFirebase(item)).toList());
   }
 }

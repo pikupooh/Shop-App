@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:shop_app/Pages/profile_page.dart';
+import 'package:shop_app/Services/auth.dart';
 import 'package:shop_app/Widgets/category_list.dart';
 import 'package:shop_app/Widgets/product_list.dart';
 import 'package:shop_app/reusables/constants.dart';
@@ -113,24 +114,19 @@ class _HomePageState extends State<HomePage> {
               CategoryList(
                 onTap: changeCategory,
               ),
-              Text(currentCategory),
               SizedBox(height: 20),
-
               Expanded(
+                flex: 2,
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 10.0),
                   child: ProductList(
-                currentCategory: currentCategory,
-              )),
-              Center(
-                child: RaisedButton(
-                  child: Text(user.phone),
-                  onPressed: () {
-                    AuthServices().signOut();
-                  },
+                    currentCategory: currentCategory,
+                  ),
                 ),
               ),
-
-              ProductList(currentCategory: currentCategory,),
-              SizedBox(height: 30,),>>>>>>> master
+              // SizedBox(
+              //   height: 30,
+              // )
             ],
           ),
         ));
