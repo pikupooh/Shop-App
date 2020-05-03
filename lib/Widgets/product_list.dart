@@ -1,7 +1,10 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:shop_app/Models/product.dart';
 import 'package:shop_app/Services/database.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
+
 class ProductList extends StatefulWidget {
   final String currentCategory;
   ProductList({this.currentCategory = "all"});
@@ -22,10 +25,9 @@ class _ProductListState extends State<ProductList> {
         List<Product> products = snap.data;
         if (snap.hasData) {
           return GridView.builder(
-         
               itemCount: products.length,
-              gridDelegate:
-                  SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 2,childAspectRatio: 1/1.3),
+              gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                  crossAxisCount: 2, childAspectRatio: 1 / 1.4),
               itemBuilder: (context, index) {
                 return _gridViewItem(context, index, products);
               });
@@ -43,11 +45,12 @@ class _ProductListState extends State<ProductList> {
       padding: const EdgeInsets.all(8.0),
       child: Material(
         elevation: 5,
+        shadowColor: Colors.white,
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
         child: Container(
-     
           decoration: BoxDecoration(
-              color: Color(0x33d1dff7), borderRadius: BorderRadius.circular(20)),
+              color: Colors.white ?? (0x33d1dff7),
+              borderRadius: BorderRadius.circular(20)),
           child: Column(
             children: <Widget>[
               Padding(
@@ -74,7 +77,56 @@ class _ProductListState extends State<ProductList> {
                           TextStyle(fontSize: 24, fontWeight: FontWeight.w600),
                     )),
               ),
-              Text("1 Kg.")
+              Align(
+                  alignment: Alignment.centerLeft,
+                  child: Padding(
+                    padding: const EdgeInsets.only(left: 20.0, top: 10),
+                    child: Text(
+                      "1 Kg.",
+                      style: TextStyle(color: Colors.grey),
+                    ),
+                  )),
+              SizedBox(height: 10),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: <Widget>[
+                  Align(
+                    alignment: Alignment.centerLeft,
+                    child: Padding(
+                      padding: const EdgeInsets.only(left: 20.0, top: 5),
+                      child: RichText(
+                        text: TextSpan(
+                            text: '₹ ',
+                            style: TextStyle(color: Colors.redAccent),
+                            children: <TextSpan>[
+                              TextSpan(
+                                  text: product.cost,
+                                  style: GoogleFonts.lato(
+                                      fontWeight: FontWeight.bold,
+                                      color: Colors.black,
+                                      fontSize: 29)),
+                            ]),
+                      ),
+                    ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 10.0),
+                    child: Material(
+                      elevation: 7,
+                      shape: CircleBorder(),
+                      child: CircleAvatar(
+                        backgroundColor: Colors.yellow,
+                        child: IconButton(
+                            icon: Icon(
+                              CupertinoIcons.add,
+                              color: Colors.black,
+                            ),
+                            onPressed: () {}),
+                      ),
+                    ),
+                  )
+                ],
+              )
             ],
           ),
         ),

@@ -51,7 +51,6 @@ class _HomePageState extends State<HomePage> {
           ],
         ),
         body: Container(
-         
           color: Colors.grey[100],
           child: Column(
             children: <Widget>[
@@ -62,8 +61,7 @@ class _HomePageState extends State<HomePage> {
                       const EdgeInsets.only(left: 20.0, top: 10, bottom: 10),
                   child: Text(
                     "Quality",
-                    style:
-                        TextStyle(fontSize: 40, fontWeight: FontWeight.w700),
+                    style: TextStyle(fontSize: 40, fontWeight: FontWeight.w700),
                   ),
                 ),
               ),
