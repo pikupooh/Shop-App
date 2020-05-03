@@ -1,9 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
-import 'package:shop_app/Models/user.dart';
 import 'package:shop_app/Pages/profile_page.dart';
-import 'package:shop_app/Services/auth.dart';
 import 'package:shop_app/Widgets/category_list.dart';
 import 'package:shop_app/Widgets/product_list.dart';
 import 'package:shop_app/reusables/constants.dart';
@@ -23,7 +20,6 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
-    final user = Provider.of<User>(context);
     return Scaffold(
         backgroundColor: Colors.white,
         appBar: AppBar(
@@ -119,6 +115,7 @@ class _HomePageState extends State<HomePage> {
               ),
               Text(currentCategory),
               SizedBox(height: 20),
+
               Expanded(
                   child: ProductList(
                 currentCategory: currentCategory,
@@ -131,6 +128,9 @@ class _HomePageState extends State<HomePage> {
                   },
                 ),
               ),
+
+              ProductList(currentCategory: currentCategory,),
+              SizedBox(height: 30,),>>>>>>> master
             ],
           ),
         ));
