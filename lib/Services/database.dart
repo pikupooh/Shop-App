@@ -26,7 +26,7 @@ class DatabaseServices {
 
   Stream<List<Category>> getCateries() {
     var ref = _db.collection('Categories').snapshots();
-    return ref.map((list) => list.documents.map((item) => Category.fromFirebae(item)).toList());
+    return ref.map((list) => list.documents.map((item) => Category.fromFirebase(item)).toList());
   }
 
   Stream<List<Product>> getProducts(){

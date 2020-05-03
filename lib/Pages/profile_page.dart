@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:shop_app/Models/user.dart';
+import 'package:shop_app/Services/auth.dart';
 import 'package:shop_app/Services/database.dart';
 import 'package:shop_app/reusables/components.dart';
 import 'package:shop_app/reusables/constants.dart';
@@ -123,6 +124,21 @@ class _ProfilePageState extends State<ProfilePage> {
               buttonColor: Colors.orangeAccent,
               text: "Update Profile",
               icon: Icons.done,
+            ),
+          ),
+          SizedBox(height: 30,),
+          Material(
+            shape:
+                RoundedRectangleBorder(borderRadius: BorderRadius.circular(50)),
+            elevation: 10,
+            child: Buttons(
+              buttonColor: Colors.redAccent,
+              text: "Logout",
+              icon: Icons.done,
+              onTap: (){
+                Navigator.pop(context);
+                AuthServices().signOut();
+              },
             ),
           ),
           SizedBox(height: 30,)

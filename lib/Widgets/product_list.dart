@@ -15,37 +15,30 @@ class _ProductListState extends State<ProductList> {
     return _buildProducts();
   }
 
-  Widget _buildProducts(){
+  Widget _buildProducts() {
     return StreamBuilder(
       stream: DatabaseServices().getProducts(),
-      builder: (context, snap){
+      builder: (context, snap) {
         List<Product> products = snap.data;
-        if (snap.hasData) return _buildProductList(products); //_buildCategoryList(snap.data.documents);
-          return Text("Loading");
+        if (snap.hasData) return _buildProductList(products);
+        return Text("Loading");
       },
-    ) ;
+    );
   }
 
   Widget _buildProductList(List<Product> snapshot) {
-    return ListView(
-      children: snapshot
-          .map((data) => _buildProductListItem(context, data))
-          .toList(),
+    return Container(
+      height: 305,
+      child: ListView(
+        children: snapshot
+            .map((data) => _buildProductListItem(context, data))
+            .toList(),
+      ),
     );
   }
 
   Widget _buildProductListItem(BuildContext context, Product doc) {
-    return Container(
-      height: 30, 
-      width: 100,
-      child: Stack(
-        children: <Widget>[
-          // TODO UI
-          Positioned(
-            height: 20,
-            child: Text(doc.name),
-          ),
-        ],
-      ));
+    // TODO UI
+    return Text(doc.name);
   }
 }
