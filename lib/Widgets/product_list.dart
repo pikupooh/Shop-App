@@ -4,6 +4,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:shop_app/Models/product.dart';
 import 'package:shop_app/Services/database.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
+import 'package:shop_app/reusables/constants.dart';
 
 class ProductList extends StatefulWidget {
   final String currentCategory;
@@ -27,7 +28,7 @@ class _ProductListState extends State<ProductList> {
           return GridView.builder(
               itemCount: products.length,
               gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                  crossAxisCount: 2, childAspectRatio: 1 / 1.4),
+                  crossAxisCount: 2, childAspectRatio: 1 / 1.5),
               itemBuilder: (context, index) {
                 return _gridViewItem(context, index, products);
               });
@@ -42,96 +43,104 @@ class _ProductListState extends State<ProductList> {
       BuildContext context, int index, List<Product> products) {
     Product product = products[index];
     return Padding(
-      padding: const EdgeInsets.all(8.0),
-      child: Material(
-        elevation: 5,
-        shadowColor: Colors.white,
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
-        child: Container(
-          decoration: BoxDecoration(
-              color: Colors.white ?? (0x33d1dff7),
-              borderRadius: BorderRadius.circular(20)),
-          child: Column(
+        padding: const EdgeInsets.all(8.0),
+        child: Material(
+    elevation: 5,
+    shadowColor: Colors.white,
+    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+    child: Container(
+      decoration: BoxDecoration(
+          color: kbackgroundColor,
+          boxShadow: [
+            BoxShadow(
+                color: kshadowColor, offset: Offset(8, 6), blurRadius: 12),
+            BoxShadow(
+                color: klightShadowColor,
+                offset: Offset(-8, -6),
+                blurRadius: 12),
+          ],
+          borderRadius: BorderRadius.circular(20)),
+      child: Column(
+        children: <Widget>[
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Container(
+              height: 130,
+              width: 130,
+              child: ClipRRect(
+                borderRadius: BorderRadius.circular(20),
+                child: Image.network(
+                  product.imageurl,
+                  fit: BoxFit.contain,
+                ),
+              ),
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.only(left: 20.0),
+            child: Align(
+                alignment: Alignment.centerLeft,
+                child: Text(
+                  product.name,
+                  style:
+                      TextStyle(fontSize: 24, fontWeight: FontWeight.w600),
+                )),
+          ),
+          Align(
+              alignment: Alignment.centerLeft,
+              child: Padding(
+                padding: const EdgeInsets.only(left: 20.0, top: 10),
+                child: Text(
+                  "1 Kg.",
+                  style: TextStyle(color: Colors.grey),
+                ),
+              )),
+          SizedBox(height: 10),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: <Widget>[
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: SizedBox(
-                  height: 130,
-                  width: 130,
-                  child: ClipRRect(
-                    borderRadius: BorderRadius.circular(20),
-                    child: Image.network(
-                      product.imageurl,
-                      fit: BoxFit.contain,
-                    ),
+              Align(
+                alignment: Alignment.centerLeft,
+                child: Padding(
+                  padding: const EdgeInsets.only(left: 20.0, top: 5),
+                  child: RichText(
+                    text: TextSpan(
+                        text: '₹ ',
+                        style: TextStyle(color: Colors.redAccent),
+                        children: <TextSpan>[
+                          TextSpan(
+                              text: product.cost,
+                              style: GoogleFonts.lato(
+                                  fontWeight: FontWeight.bold,
+                                  color: Colors.black,
+                                  fontSize: 29)),
+                        ]),
                   ),
                 ),
               ),
               Padding(
-                padding: const EdgeInsets.only(left: 20.0),
-                child: Align(
-                    alignment: Alignment.centerLeft,
-                    child: Text(
-                      product.name,
-                      style:
-                          TextStyle(fontSize: 24, fontWeight: FontWeight.w600),
-                    )),
-              ),
-              Align(
-                  alignment: Alignment.centerLeft,
-                  child: Padding(
-                    padding: const EdgeInsets.only(left: 20.0, top: 10),
-                    child: Text(
-                      "1 Kg.",
-                      style: TextStyle(color: Colors.grey),
-                    ),
-                  )),
-              SizedBox(height: 10),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: <Widget>[
-                  Align(
-                    alignment: Alignment.centerLeft,
-                    child: Padding(
-                      padding: const EdgeInsets.only(left: 20.0, top: 5),
-                      child: RichText(
-                        text: TextSpan(
-                            text: '₹ ',
-                            style: TextStyle(color: Colors.redAccent),
-                            children: <TextSpan>[
-                              TextSpan(
-                                  text: product.cost,
-                                  style: GoogleFonts.lato(
-                                      fontWeight: FontWeight.bold,
-                                      color: Colors.black,
-                                      fontSize: 29)),
-                            ]),
-                      ),
-                    ),
+                padding: const EdgeInsets.symmetric(horizontal: 10.0),
+                child: Material(
+                  elevation: 7,
+                  shape: CircleBorder(),
+                  child: CircleAvatar(
+                    backgroundColor: Colors.yellow,
+                    child: IconButton(
+                        icon: Icon(
+                          CupertinoIcons.add,
+                          color: Colors.black,
+                        ),
+                        onPressed: () {}),
                   ),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 10.0),
-                    child: Material(
-                      elevation: 7,
-                      shape: CircleBorder(),
-                      child: CircleAvatar(
-                        backgroundColor: Colors.yellow,
-                        child: IconButton(
-                            icon: Icon(
-                              CupertinoIcons.add,
-                              color: Colors.black,
-                            ),
-                            onPressed: () {}),
-                      ),
-                    ),
-                  )
-                ],
+                ),
               )
             ],
-          ),
-        ),
+          )
+        ],
       ),
-    );
+    ),
+        ),
+      );
   }
 
   // Widget _buildProductList(List<Product> snapshot) {

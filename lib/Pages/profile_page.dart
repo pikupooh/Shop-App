@@ -28,7 +28,7 @@ class _ProfilePageState extends State<ProfilePage> {
           if (snap.hasData) {
             return _buildUserForm(snap.data);
           } else
-            return Text('Loading');
+            return CircularProgressIndicator();
         },
       ),
     );
@@ -36,7 +36,7 @@ class _ProfilePageState extends State<ProfilePage> {
 
   Widget _buildUserForm(User user) {
     return SingleChildScrollView(
-          child: Column(
+      child: Column(
         // TODO UI
 
         children: <Widget>[
@@ -48,7 +48,11 @@ class _ProfilePageState extends State<ProfilePage> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
                   CircleAvatar(
-                    child: Icon(CupertinoIcons.person_add_solid,color: Colors.white,size: 100,),
+                    child: Icon(
+                      CupertinoIcons.person_add_solid,
+                      color: Colors.white,
+                      size: 100,
+                    ),
                     backgroundColor: Colors.grey[200],
                     radius: 70,
                   )
@@ -126,7 +130,9 @@ class _ProfilePageState extends State<ProfilePage> {
               icon: Icons.done,
             ),
           ),
-          SizedBox(height: 30,),
+          SizedBox(
+            height: 30,
+          ),
           Material(
             shape:
                 RoundedRectangleBorder(borderRadius: BorderRadius.circular(50)),
@@ -135,13 +141,15 @@ class _ProfilePageState extends State<ProfilePage> {
               buttonColor: Colors.redAccent,
               text: "Logout",
               icon: Icons.done,
-              onTap: (){
+              onTap: () {
                 Navigator.pop(context);
                 AuthServices().signOut();
               },
             ),
           ),
-          SizedBox(height: 30,)
+          SizedBox(
+            height: 30,
+          )
         ],
       ),
     );
