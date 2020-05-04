@@ -46,19 +46,29 @@ class _HomePageState extends State<HomePage> {
         actions: <Widget>[
           IconButton(
             icon: Icon(
+              CupertinoIcons.search,
+              color: Colors.black,
+            ),
+            onPressed: () {
+              Navigator.push(
+                  context, MaterialPageRoute(builder: (context) => CartPage()));
+            },
+          ),
+          IconButton(
+            icon: Icon(
               CupertinoIcons.shopping_cart,
               color: Colors.black,
             ),
-
-            onPressed: () { Navigator.push(context, MaterialPageRoute(builder: (context) => CartPage()));},
+            onPressed: () {
+              Navigator.push(
+                  context, MaterialPageRoute(builder: (context) => CartPage()));
+            },
           )
         ],
       ),
       body: SingleChildScrollView(
         child: Container(
           color: kbackgroundColor ?? Colors.grey[100],
-
-
           child: Column(
             children: <Widget>[
               Align(
@@ -83,42 +93,42 @@ class _HomePageState extends State<HomePage> {
                 ),
               ),
               SizedBox(height: 15),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: <Widget>[
-                  // SizedBox(
-                  //   width: 30,
-                  // ),
-                  SizedBox(
-                    width: MediaQuery.of(context).size.width / 1.3,
-                    child: TextField(
-                      textAlign: TextAlign.center,
-                      decoration: kInputDecoration.copyWith(
-                        alignLabelWithHint: true,
-                        hintText: "Search",
-                        fillColor: Colors.white,
-                      ),
-                    ),
-                  ),
-                  Material(
-                    shape: CircleBorder(),
-                    elevation: 10,
-                    child: Container(
-                      decoration: BoxDecoration(
-                        shape: BoxShape.circle,
-                        color: Colors.orangeAccent,
-                      ),
-                      child: IconButton(
-                          icon: Icon(
-                            CupertinoIcons.search,
-                            color: Colors.white,
-                          ),
-                          onPressed: () {}),
-                    ),
-                  ),
-                  // SizedBox(width: 5)
-                ],
-              ),
+              // Row(
+              //   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              //   children: <Widget>[
+              //     // SizedBox(
+              //     //   width: 30,
+              //     // ),
+              //     SizedBox(
+              //       width: MediaQuery.of(context).size.width / 1.3,
+              //       child: TextField(
+              //         textAlign: TextAlign.center,
+              //         decoration: kInputDecoration.copyWith(
+              //           alignLabelWithHint: true,
+              //           hintText: "Search",
+              //           fillColor: Colors.white,
+              //         ),
+              //       ),
+              //     ),
+              //     Material(
+              //       shape: CircleBorder(),
+              //       elevation: 10,
+              //       child: Container(
+              //         decoration: BoxDecoration(
+              //           shape: BoxShape.circle,
+              //           color: Colors.orangeAccent,
+              //         ),
+              //         child: IconButton(
+              //             icon: Icon(
+              //               CupertinoIcons.search,
+              //               color: Colors.white,
+              //             ),
+              //             onPressed: () {}),
+              //       ),
+              //     ),
+              //     // SizedBox(width: 5)
+              //   ],
+              // ),
 
               CategoryList(
                 onTap: changeCategory,
