@@ -112,15 +112,15 @@ class _HomePageState extends State<HomePage> {
                   SizedBox(width: 5)
                 ],
               ),
-              SizedBox(height: 20),
+
               CategoryList(
                 onTap: changeCategory,
               ),
-              SizedBox(height: 20),
+
               Expanded(
                 flex: 2,
                 child: Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 10.0),
+                  padding: const EdgeInsets.symmetric(horizontal: 0.0),
                   child: ProductList(
                     currentCategory: currentCategory,
                   ),
