@@ -26,6 +26,8 @@ class _ProductListState extends State<ProductList> {
         List<Product> products = snap.data;
         if (snap.hasData) {
           return GridView.builder(
+              physics: ScrollPhysics(),
+              shrinkWrap: true,
               itemCount: products.length,
               gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                   crossAxisCount: 2, childAspectRatio: 1 / 1.5),
