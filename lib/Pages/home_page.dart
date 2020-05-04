@@ -79,15 +79,18 @@ class _HomePageState extends State<HomePage> {
               ),
               SizedBox(height: 15),
               Row(
-                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: <Widget>[
+                  // SizedBox(
+                  //   width: 30,
+                  // ),
                   SizedBox(
-                    width: 30,
-                  ),
-                  SizedBox(
-                    width: MediaQuery.of(context).size.width / 1.4,
+                    width: MediaQuery.of(context).size.width / 1.3,
                     child: TextField(
+                      textAlign: TextAlign.center,
                       decoration: kInputDecoration.copyWith(
+                        alignLabelWithHint: true,
+                        
                         hintText: "Search",
                         fillColor: Colors.white,
                       ),
@@ -109,7 +112,7 @@ class _HomePageState extends State<HomePage> {
                           onPressed: () {}),
                     ),
                   ),
-                  SizedBox(width: 5)
+                  // SizedBox(width: 5)
                 ],
               ),
 

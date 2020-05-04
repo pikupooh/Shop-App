@@ -74,20 +74,16 @@ class _ProductListState extends State<ProductList> {
                   ),
                 ),
               ),
-              Padding(
-                padding: const EdgeInsets.only(left: 20.0),
-                child: Align(
-                    alignment: Alignment.centerLeft,
-                    child: Text(
-                      product.name,
-                      style:
-                          TextStyle(fontSize: 24, fontWeight: FontWeight.w600),
-                    )),
-              ),
+              Align(
+                  alignment: Alignment.centerLeft,
+                  child: Text(
+                    product.name,
+                    style: TextStyle(fontSize: 24, fontWeight: FontWeight.w600),
+                  )),
               Align(
                   alignment: Alignment.centerLeft,
                   child: Padding(
-                    padding: const EdgeInsets.only(left: 20.0, top: 10),
+                    padding: const EdgeInsets.only(top: 10),
                     child: Text(
                       "1 Kg.",
                       style: TextStyle(color: Colors.grey),
