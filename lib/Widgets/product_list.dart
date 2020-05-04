@@ -6,6 +6,7 @@ import 'package:shop_app/Models/product.dart';
 import 'package:shop_app/Models/user.dart';
 import 'package:shop_app/Services/database.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
+import 'package:shop_app/reusables/constants.dart';
 
 class ProductList extends StatefulWidget {
   final String currentCategory;
@@ -27,6 +28,8 @@ class _ProductListState extends State<ProductList> {
         List<Product> products = snap.data;
         if (snap.hasData) {
           return GridView.builder(
+              physics: ScrollPhysics(),
+              shrinkWrap: true,
               itemCount: products.length,
               gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                   crossAxisCount: 2, childAspectRatio: 1 / 1.5),
@@ -45,20 +48,26 @@ class _ProductListState extends State<ProductList> {
     Product product = products[index];
     User user = Provider.of<User>(context);
     return Padding(
-      padding: const EdgeInsets.all(8.0),
-      child: Material(
-        elevation: 5,
-        shadowColor: Colors.white,
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
-        child: Container(
-          decoration: BoxDecoration(
-              color: Colors.white ?? (0x33d1dff7),
-              borderRadius: BorderRadius.circular(20)),
+      padding: const EdgeInsets.all(9.0),
+      child: Container(
+        decoration: BoxDecoration(
+            color: kbackgroundColor,
+            boxShadow: [
+              BoxShadow(
+                  color: kshadowColor, offset: Offset(8, 6), blurRadius: 12),
+              BoxShadow(
+                  color: klightShadowColor,
+                  offset: Offset(-8, -6),
+                  blurRadius: 12),
+            ],
+            borderRadius: BorderRadius.circular(20)),
+        child: FittedBox(
+          fit: BoxFit.contain,
           child: Column(
             children: <Widget>[
               Padding(
                 padding: const EdgeInsets.all(8.0),
-                child: SizedBox(
+                child: Container(
                   height: 130,
                   width: 130,
                   child: ClipRRect(
@@ -70,20 +79,16 @@ class _ProductListState extends State<ProductList> {
                   ),
                 ),
               ),
-              Padding(
-                padding: const EdgeInsets.only(left: 20.0),
-                child: Align(
-                    alignment: Alignment.centerLeft,
-                    child: Text(
-                      product.name,
-                      style:
-                          TextStyle(fontSize: 24, fontWeight: FontWeight.w600),
-                    )),
-              ),
+              Align(
+                  alignment: Alignment.centerLeft,
+                  child: Text(
+                    product.name,
+                    style: TextStyle(fontSize: 24, fontWeight: FontWeight.w600),
+                  )),
               Align(
                   alignment: Alignment.centerLeft,
                   child: Padding(
-                    padding: const EdgeInsets.only(left: 20.0, top: 10),
+                    padding: const EdgeInsets.only(top: 10),
                     child: Text(
                       "1 Kg.",
                       style: TextStyle(color: Colors.grey),
@@ -113,7 +118,8 @@ class _ProductListState extends State<ProductList> {
                     ),
                   ),
                   Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 10.0),
+                    padding: const EdgeInsets.symmetric(
+                        horizontal: 10.0, vertical: 5),
                     child: Material(
                       elevation: 7,
                       shape: CircleBorder(),

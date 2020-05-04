@@ -23,38 +23,42 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        backgroundColor: Colors.white,
-        appBar: AppBar(
-          elevation: 0,
-          leading: IconButton(
+      backgroundColor: kbackgroundColor,
+      appBar: AppBar(
+        elevation: 0,
+        leading: IconButton(
+          icon: Icon(
+            CupertinoIcons.ellipsis,
+            color: Colors.black,
+          ),
+          onPressed: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => ProfilePage()),
+            );
+          },
+        ),
+
+        backgroundColor: kbackgroundColor ??
+            Colors.grey[100] ??
+            Color.fromRGBO(0, 0, 500, 0.3),
+        //  title: Text('Shop'),
+        actions: <Widget>[
+          IconButton(
             icon: Icon(
-              CupertinoIcons.ellipsis,
+              CupertinoIcons.shopping_cart,
               color: Colors.black,
             ),
-            onPressed: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => ProfilePage()),
-              );
-            },
-          ),
 
-          backgroundColor: Colors.grey[100] ?? Color.fromRGBO(0, 0, 500, 0.3),
-          //  title: Text('Shop'),
-          actions: <Widget>[
-            IconButton(
-              icon: Icon(
-                CupertinoIcons.shopping_cart,
-                color: Colors.black,
-              ),
-              onPressed: () {
-                Navigator.push(context, MaterialPageRoute(builder: (context) => CartPage()));
-              },
-            )
-          ],
-        ),
-        body: Container(
-          color: Colors.grey[100],
+            onPressed: () { Navigator.push(context, MaterialPageRoute(builder: (context) => CartPage()));},
+          )
+        ],
+      ),
+      body: SingleChildScrollView(
+        child: Container(
+          color: kbackgroundColor ?? Colors.grey[100],
+
+
           child: Column(
             children: <Widget>[
               Align(
@@ -80,15 +84,17 @@ class _HomePageState extends State<HomePage> {
               ),
               SizedBox(height: 15),
               Row(
-                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: <Widget>[
+                  // SizedBox(
+                  //   width: 30,
+                  // ),
                   SizedBox(
-                    width: 30,
-                  ),
-                  SizedBox(
-                    width: MediaQuery.of(context).size.width / 1.4,
+                    width: MediaQuery.of(context).size.width / 1.3,
                     child: TextField(
+                      textAlign: TextAlign.center,
                       decoration: kInputDecoration.copyWith(
+                        alignLabelWithHint: true,
                         hintText: "Search",
                         fillColor: Colors.white,
                       ),
@@ -110,21 +116,18 @@ class _HomePageState extends State<HomePage> {
                           onPressed: () {}),
                     ),
                   ),
-                  SizedBox(width: 5)
+                  // SizedBox(width: 5)
                 ],
               ),
-              SizedBox(height: 20),
+
               CategoryList(
                 onTap: changeCategory,
               ),
-              SizedBox(height: 20),
-              Expanded(
-                flex: 2,
-                child: Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 10.0),
-                  child: ProductList(
-                    currentCategory: currentCategory,
-                  ),
+
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 0.0),
+                child: ProductList(
+                  currentCategory: currentCategory,
                 ),
               ),
               // SizedBox(
@@ -132,6 +135,8 @@ class _HomePageState extends State<HomePage> {
               // )
             ],
           ),
-        ));
+        ),
+      ),
+    );
   }
 }
