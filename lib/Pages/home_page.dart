@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:shop_app/Pages/cart_page.dart';
 import 'package:shop_app/Pages/profile_page.dart';
 import 'package:shop_app/Services/auth.dart';
 import 'package:shop_app/Widgets/category_list.dart';
@@ -46,7 +47,9 @@ class _HomePageState extends State<HomePage> {
                 CupertinoIcons.shopping_cart,
                 color: Colors.black,
               ),
-              onPressed: () {},
+              onPressed: () {
+                Navigator.push(context, MaterialPageRoute(builder: (context) => CartPage()));
+              },
             )
           ],
         ),

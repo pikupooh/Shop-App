@@ -3,7 +3,6 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:shop_app/Models/user.dart';
 import 'package:shop_app/Services/database.dart';
 
-
 class AuthServices {
   String phoneNo;
   String smsOTP;
@@ -11,7 +10,6 @@ class AuthServices {
   String errorMessage = '';
   FirebaseAuth _auth = FirebaseAuth.instance;
 
-  
   signInOTP(smsCode, verId, name, phoneNo) {
     this.phoneNo = phoneNo;
     AuthCredential authCredential = PhoneAuthProvider.getCredential(
@@ -28,20 +26,31 @@ class AuthServices {
     return _auth.onAuthStateChanged.map(_fromFirebaseUser);
   }
 
-
-  onAuthSuccess() async {
+  onAuthSuccess(String phoneNumber) async {
     print("suth success " + this.phoneNo);
 
-    final snapShot = await Firestore.instance
+    final usersnapShot = await Firestore.instance
         .collection('Users')
-        .document(this.phoneNo)
+        .document(phoneNumber)
         .get();
 
-    if (snapShot == null || !snapShot.exists) {
+    if (usersnapShot == null || !usersnapShot.exists) {
       print("Does not exits");
-      DatabaseServices().createUser(this.phoneNo);
+      DatabaseServices().createUser(phoneNumber);
     } else {
       print("Exits");
+    }
+
+    final cartsnapShot = await Firestore.instance
+        .collection('Cart')
+        .document(phoneNumber)
+        .get();
+    
+    if (cartsnapShot == null || !cartsnapShot.exists) {
+      print("Cart Does not exits");
+      DatabaseServices().createCart(phoneNumber);
+    } else {
+      print("Cart Exits");
     }
   }
 
@@ -51,7 +60,7 @@ class AuthServices {
     FirebaseUser user = result.user;
     final FirebaseUser currentUser = await _auth.currentUser();
     assert(user.uid == currentUser.uid);
-    onAuthSuccess();
+    onAuthSuccess(phoneNo);
   }
 
   void signOut() {

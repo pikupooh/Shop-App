@@ -1,7 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:provider/provider.dart';
 import 'package:shop_app/Models/product.dart';
+import 'package:shop_app/Models/user.dart';
 import 'package:shop_app/Services/database.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 
@@ -27,7 +29,7 @@ class _ProductListState extends State<ProductList> {
           return GridView.builder(
               itemCount: products.length,
               gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                  crossAxisCount: 2, childAspectRatio: 1 / 1.4),
+                  crossAxisCount: 2, childAspectRatio: 1 / 1.5),
               itemBuilder: (context, index) {
                 return _gridViewItem(context, index, products);
               });
@@ -41,6 +43,7 @@ class _ProductListState extends State<ProductList> {
   Widget _gridViewItem(
       BuildContext context, int index, List<Product> products) {
     Product product = products[index];
+    User user = Provider.of<User>(context);
     return Padding(
       padding: const EdgeInsets.all(8.0),
       child: Material(
@@ -121,7 +124,10 @@ class _ProductListState extends State<ProductList> {
                               CupertinoIcons.add,
                               color: Colors.black,
                             ),
-                            onPressed: () {}),
+                            onPressed: () {
+                              
+                              DatabaseServices().addToCart(product, user);
+                            }),
                       ),
                     ),
                   )

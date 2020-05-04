@@ -66,9 +66,7 @@ class _CategoryListState extends State<CategoryList> {
                   padding: const EdgeInsets.all(8.0),
                   child: Image.asset(
                     'assets/${doc.name}.png' ?? 'assets/Fish.png',
-                    errorBuilder: (context, error, stackTrace) {
-                      return Image.asset('assets/Fish.png');
-                    },
+                   
                   ),
                 ),
               ),
