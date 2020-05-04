@@ -1,7 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:provider/provider.dart';
 import 'package:shop_app/Models/product.dart';
+import 'package:shop_app/Models/user.dart';
 import 'package:shop_app/Services/database.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:shop_app/reusables/constants.dart';
@@ -44,6 +46,7 @@ class _ProductListState extends State<ProductList> {
   Widget _gridViewItem(
       BuildContext context, int index, List<Product> products) {
     Product product = products[index];
+    User user = Provider.of<User>(context);
     return Padding(
       padding: const EdgeInsets.all(9.0),
       child: Container(
@@ -127,7 +130,10 @@ class _ProductListState extends State<ProductList> {
                               CupertinoIcons.add,
                               color: Colors.black,
                             ),
-                            onPressed: () {}),
+                            onPressed: () {
+                              
+                              DatabaseServices().addToCart(product, user);
+                            }),
                       ),
                     ),
                   )
