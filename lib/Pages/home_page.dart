@@ -38,7 +38,9 @@ class _HomePageState extends State<HomePage> {
             },
           ),
 
-          backgroundColor: Colors.grey[100] ?? Color.fromRGBO(0, 0, 500, 0.3),
+          backgroundColor: kbackgroundColor ??
+              Colors.grey[100] ??
+              Color.fromRGBO(0, 0, 500, 0.3),
           //  title: Text('Shop'),
           actions: <Widget>[
             IconButton(
@@ -51,7 +53,7 @@ class _HomePageState extends State<HomePage> {
           ],
         ),
         body: Container(
-          color: Colors.grey[100],
+          color: kbackgroundColor ?? Colors.grey[100],
           child: Column(
             children: <Widget>[
               Align(
