@@ -49,142 +49,144 @@ class _ProfilePageState extends State<ProfilePage> {
   }
 
   Widget _buildUserForm(User user) {
-    return SingleChildScrollView(
-      child: Column(
-        // TODO UI
-
-        children: <Widget>[
-          Padding(
-            padding: EdgeInsets.only(top: 20.0),
-            child: Stack(fit: StackFit.loose, children: <Widget>[
-              Row(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: <Widget>[
-                  Container(
-                    decoration: BoxDecoration(
-                      shape: BoxShape.circle,
-                      color: kbackgroundColor,
-                      boxShadow: [
-                        BoxShadow(
-                            color: kshadowColor,
-                            offset: Offset(8, 6),
-                            blurRadius: 12),
-                        BoxShadow(
-                            color: klightShadowColor,
-                            offset: Offset(-8, -6),
-                            blurRadius: 12),
-                      ],
-                    ),
-                    child: CircleAvatar(
-                      child: Icon(
-                        CupertinoIcons.person_add_solid,
-                        color: Colors.white,
-                        size: 100,
-                      ),
-                      backgroundColor: kbackgroundColor ?? Colors.grey[200],
-                      radius: 70,
-                    ),
-                  )
-                ],
-              ),
+    
+        return SingleChildScrollView(
+          child: Column(
+            // TODO UI
+    
+            children: <Widget>[
               Padding(
-                  padding: EdgeInsets.only(top: 90.0, left: 100.0),
-                  child: Row(
+                padding: EdgeInsets.only(top: 20.0),
+                child: Stack(fit: StackFit.loose, children: <Widget>[
+                  Row(
+                    crossAxisAlignment: CrossAxisAlignment.center,
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: <Widget>[
-                      CircleAvatar(
-                        backgroundColor: Colors.orange,
-                        radius: 25.0,
-                        child: Icon(
-                          CupertinoIcons.photo_camera,
-                          color: Colors.white,
+                      Container(
+                        decoration: BoxDecoration(
+                          shape: BoxShape.circle,
+                          color: kbackgroundColor,
+                          boxShadow: [
+                            BoxShadow(
+                                color: kshadowColor,
+                                offset: Offset(8, 6),
+                                blurRadius: 12),
+                            BoxShadow(
+                                color: klightShadowColor,
+                                offset: Offset(-8, -6),
+                                blurRadius: 12),
+                          ],
+                        ),
+                        child: CircleAvatar(
+                          child: Icon(
+                            CupertinoIcons.person_add_solid,
+                            color: Colors.white,
+                            size: 100,
+                          ),
+                          backgroundColor: kbackgroundColor ?? Colors.grey[200],
+                          radius: 70,
                         ),
                       )
                     ],
-                  )),
-            ]),
-          ),
-          SizedBox(
-            height: 20,
-          ),
-          Container(
-            decoration: kSoftShadowDecoration.copyWith(
-                borderRadius: BorderRadius.circular(30)),
-            child: SizedBox(
-              width: MediaQuery.of(context).size.width / 1.3,
-              child: TextField(
-                decoration: kInputDecoration.copyWith(
-                  fillColor: kbackgroundColor,
-                  prefixIcon: Icon(CupertinoIcons.person),
-                  hintText: user.name,
+                  ),
+                  Padding(
+                      padding: EdgeInsets.only(top: 90.0, left: 100.0),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: <Widget>[
+                          CircleAvatar(
+                            backgroundColor: Colors.orange,
+                            radius: 25.0,
+                            child: Icon(
+                              CupertinoIcons.photo_camera,
+                              color: Colors.white,
+                            ),
+                          )
+                        ],
+                      )),
+                ]),
+              ),
+              SizedBox(
+                height: 20,
+              ),
+              Container(
+                decoration: kSoftShadowDecoration.copyWith(
+                    borderRadius: BorderRadius.circular(30)),
+                child: SizedBox(
+                  width: MediaQuery.of(context).size.width / 1.3,
+                  child: TextField(
+                    decoration: kInputDecoration.copyWith(
+                      fillColor: kbackgroundColor,
+                      prefixIcon: Icon(CupertinoIcons.person),
+                      hintText: user.name,
+                    ),
+                  ),
                 ),
               ),
-            ),
-          ),
-          SizedBox(height: 10),
-          Container(
-            decoration: kSoftShadowDecoration.copyWith(
-                borderRadius: BorderRadius.circular(30)),
-            child: SizedBox(
-              width: MediaQuery.of(context).size.width / 1.3,
-              child: TextField(
-                decoration: kInputDecoration.copyWith(
-                  fillColor: kbackgroundColor,
-                  prefixIcon: Icon(CupertinoIcons.phone),
-                  hintText: user.phone,
+              SizedBox(height: 10),
+              Container(
+                decoration: kSoftShadowDecoration.copyWith(
+                    borderRadius: BorderRadius.circular(30)),
+                child: SizedBox(
+                  width: MediaQuery.of(context).size.width / 1.3,
+                  child: TextField(
+                    decoration: kInputDecoration.copyWith(
+                      fillColor: kbackgroundColor,
+                      prefixIcon: Icon(CupertinoIcons.phone),
+                      hintText: user.phone,
+                    ),
+                  ),
                 ),
               ),
-            ),
-          ),
-          SizedBox(height: 10),
-          Container(
-            decoration: kSoftShadowDecoration.copyWith(
-                borderRadius: BorderRadius.circular(30)),
-            child: SizedBox(
-              width: MediaQuery.of(context).size.width / 1.3,
-              child: TextField(
-                decoration: kInputDecoration.copyWith(
-                  fillColor: kbackgroundColor,
-                  prefixIcon: Icon(CupertinoIcons.phone_solid),
-                  hintText: user.alternatePhoneNumber,
+              SizedBox(height: 10),
+              Container(
+                decoration: kSoftShadowDecoration.copyWith(
+                    borderRadius: BorderRadius.circular(30)),
+                child: SizedBox(
+                  width: MediaQuery.of(context).size.width / 1.3,
+                  child: TextField(
+                    decoration: kInputDecoration.copyWith(
+                      fillColor: kbackgroundColor,
+                      prefixIcon: Icon(CupertinoIcons.phone_solid),
+                      hintText: user.alternatePhoneNumber,
+                    ),
+                  ),
                 ),
               ),
-            ),
-          ),
-          SizedBox(height: 10),
-          Container(
-            decoration: kSoftShadowDecoration.copyWith(
-                borderRadius: BorderRadius.circular(30)),
-            child: SizedBox(
-              width: MediaQuery.of(context).size.width / 1.3,
-              child: TextField(
-                decoration: kInputDecoration.copyWith(
-                  fillColor: kbackgroundColor,
-                  prefixIcon: Icon(CupertinoIcons.location),
-                  hintText: user.address,
+              SizedBox(height: 10),
+              Container(
+                decoration: kSoftShadowDecoration.copyWith(
+                    borderRadius: BorderRadius.circular(30)),
+                child: SizedBox(
+                  width: MediaQuery.of(context).size.width / 1.3,
+                  child: TextField(
+                    decoration: kInputDecoration.copyWith(
+                      fillColor: kbackgroundColor,
+                      prefixIcon: Icon(CupertinoIcons.location),
+                      hintText: user.address,
+                    ),
+                  ),
                 ),
               ),
-            ),
-          ),
-          SizedBox(
-            height: 20,
-          ),
-          Container(
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(50),
-              shape: BoxShape.rectangle,
-              color: kbackgroundColor,
-              boxShadow: [
-                BoxShadow(
-                    color: kshadowColor, offset: Offset(8, 6), blurRadius: 12),
-                BoxShadow(
-                    color: klightShadowColor,
-                    offset: Offset(-8, -6),
-                    blurRadius: 12),
-              ],
-            ),
-            child: Buttons(
+              SizedBox(
+                height: 20,
+              ),
+              Container(
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(50),
+                  shape: BoxShape.rectangle,
+                  color: kbackgroundColor,
+                  boxShadow: [
+                    BoxShadow(
+                        color: kshadowColor, offset: Offset(8, 6), blurRadius: 12),
+                    BoxShadow(
+                        color: klightShadowColor,
+                        offset: Offset(-8, -6),
+                        blurRadius: 12),
+                  ],
+                ),
+                child: Buttons(
+                
               iconColor: Colors.green,
               textColor: Colors.green,
               buttonColor: kbackgroundColor,
