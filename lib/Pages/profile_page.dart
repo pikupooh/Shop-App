@@ -18,9 +18,23 @@ class _ProfilePageState extends State<ProfilePage> {
     var user = Provider.of<User>(context);
     //print(user);
     return Scaffold(
+      backgroundColor: kbackgroundColor,
       appBar: AppBar(
-        backgroundColor: Colors.orangeAccent,
-        title: Text('Settings'),
+        centerTitle: true,
+        leading: IconButton(
+            icon: Icon(
+              CupertinoIcons.back,
+              color: Colors.black,
+            ),
+            onPressed: () {
+              Navigator.pop(context);
+            }),
+        elevation: 0,
+        backgroundColor: kbackgroundColor,
+        title: Text(
+          'Settings',
+          style: TextStyle(fontSize: 22),
+        ),
       ),
       body: StreamBuilder(
         stream: DatabaseServices().streamUser(user),
@@ -123,11 +137,11 @@ class _ProfilePageState extends State<ProfilePage> {
           Material(
             shape:
                 RoundedRectangleBorder(borderRadius: BorderRadius.circular(50)),
-            elevation: 10,
+            elevation: 3,
             child: Buttons(
-              buttonColor: Colors.orangeAccent,
+              buttonColor: Colors.orange,
               text: "Update Profile",
-              icon: Icons.done,
+              icon: Icons.refresh,
             ),
           ),
           SizedBox(
@@ -136,11 +150,11 @@ class _ProfilePageState extends State<ProfilePage> {
           Material(
             shape:
                 RoundedRectangleBorder(borderRadius: BorderRadius.circular(50)),
-            elevation: 10,
+            elevation: 3,
             child: Buttons(
-              buttonColor: Colors.redAccent,
+              buttonColor: Colors.red,
               text: "Logout",
-              icon: Icons.done,
+              icon: Icons.exit_to_app,
               onTap: () {
                 Navigator.pop(context);
                 AuthServices().signOut();

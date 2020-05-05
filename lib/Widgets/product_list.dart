@@ -123,7 +123,7 @@ class _ProductListState extends State<ProductList> {
                       elevation: 7,
                       shape: CircleBorder(),
                       child: CircleAvatar(
-                        backgroundColor: Colors.yellow,
+                        backgroundColor: Colors.orangeAccent,
                         child: IconButton(
                             icon: Icon(
                               CupertinoIcons.add,

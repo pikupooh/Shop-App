@@ -22,6 +22,7 @@ class _RegisterPageState extends State<RegisterPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: kbackgroundColor,
       body: verComplete
           ? Center(
               child: CircularProgressIndicator(
