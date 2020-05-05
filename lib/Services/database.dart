@@ -23,10 +23,9 @@ class DatabaseServices {
       String imageUrl, String address) async {
     final CollectionReference _doc = _db.collection('Users');
     await _doc.document(phoneNumber).updateData({
-      'address': address ?? "Add your address",
-      'phoneNumber': phoneNumber,
-      'name': name ?? "Name",
-      'alternatePhoneNumber': alternatePhone ?? "Enter alternate phone number",
+      'address': address??"Enter your Address",
+      'name': name??"Name",
+      'alternatePhoneNumber': alternatePhone??"Alternate phone number",
       'imageUrl': imageUrl
     });
   }
