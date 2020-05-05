@@ -6,11 +6,13 @@ class CartItem {
   int quantity;
   String cost;
   String totalCost;
+  String imageurl;
 
-  CartItem({this.name, this.cost, this.quantity, this.totalCost});
+  CartItem({this.name, this.cost, this.quantity, this.totalCost, this.imageurl});
 
   factory CartItem.fromProduct(Product product) {
     return CartItem(
+        imageurl: product.imageurl,
         name: product.name,
         cost: product.cost,
         quantity: 1,
@@ -19,6 +21,7 @@ class CartItem {
 
   factory CartItem.fromMap(dynamic doc) {
     return CartItem(
+      imageurl: doc['imageurl'],
       name: doc['name'],
       cost: doc['cost'],
       quantity: doc['quantity'],
@@ -30,8 +33,7 @@ class CartItem {
     var data = doc.data;
     List<CartItem> cartItems = new List();
     data.forEach((k, v) {
-      if(k != 'id')
-        cartItems.add(CartItem.fromMap(v));
+      if (k != 'id') cartItems.add(CartItem.fromMap(v));
     });
     return cartItems;
   }

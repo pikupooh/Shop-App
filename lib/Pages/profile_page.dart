@@ -18,9 +18,23 @@ class _ProfilePageState extends State<ProfilePage> {
     var user = Provider.of<User>(context);
     //print(user);
     return Scaffold(
+      backgroundColor: kbackgroundColor,
       appBar: AppBar(
-        backgroundColor: Colors.orangeAccent,
-        title: Text('Settings'),
+        centerTitle: true,
+        leading: IconButton(
+            icon: Icon(
+              CupertinoIcons.back,
+              color: Colors.black,
+            ),
+            onPressed: () {
+              Navigator.pop(context);
+            }),
+        elevation: 0,
+        backgroundColor: kbackgroundColor,
+        title: Text(
+          'Profile',
+          style: TextStyle(fontSize: 22),
+        ),
       ),
       body: StreamBuilder(
         stream: DatabaseServices().streamUser(user),
@@ -47,14 +61,30 @@ class _ProfilePageState extends State<ProfilePage> {
                 crossAxisAlignment: CrossAxisAlignment.center,
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
-                  CircleAvatar(
-                    child: Icon(
-                      CupertinoIcons.person_add_solid,
-                      color: Colors.white,
-                      size: 100,
+                  Container(
+                    decoration: BoxDecoration(
+                      shape: BoxShape.circle,
+                      color: kbackgroundColor,
+                      boxShadow: [
+                        BoxShadow(
+                            color: kshadowColor,
+                            offset: Offset(8, 6),
+                            blurRadius: 12),
+                        BoxShadow(
+                            color: klightShadowColor,
+                            offset: Offset(-8, -6),
+                            blurRadius: 12),
+                      ],
                     ),
-                    backgroundColor: Colors.grey[200],
-                    radius: 70,
+                    child: CircleAvatar(
+                      child: Icon(
+                        CupertinoIcons.person_add_solid,
+                        color: Colors.white,
+                        size: 100,
+                      ),
+                      backgroundColor: kbackgroundColor ?? Colors.grey[200],
+                      radius: 70,
+                    ),
                   )
                 ],
               ),
@@ -64,9 +94,9 @@ class _ProfilePageState extends State<ProfilePage> {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: <Widget>[
                       CircleAvatar(
-                        backgroundColor: Colors.orangeAccent,
+                        backgroundColor: Colors.orange,
                         radius: 25.0,
-                        child: new Icon(
+                        child: Icon(
                           CupertinoIcons.photo_camera,
                           color: Colors.white,
                         ),
@@ -78,69 +108,113 @@ class _ProfilePageState extends State<ProfilePage> {
           SizedBox(
             height: 20,
           ),
-          SizedBox(
-            width: MediaQuery.of(context).size.width / 1.3,
-            child: TextField(
-              decoration: kInputDecoration.copyWith(
-                prefixIcon: Icon(CupertinoIcons.person),
-                hintText: user.name,
+          Container(
+            decoration: kSoftShadowDecoration.copyWith(
+                borderRadius: BorderRadius.circular(30)),
+            child: SizedBox(
+              width: MediaQuery.of(context).size.width / 1.3,
+              child: TextField(
+                decoration: kInputDecoration.copyWith(
+                  fillColor: kbackgroundColor,
+                  prefixIcon: Icon(CupertinoIcons.person),
+                  hintText: user.name,
+                ),
               ),
             ),
           ),
-          SizedBox(height: 5),
-          SizedBox(
-            width: MediaQuery.of(context).size.width / 1.3,
-            child: TextField(
-              decoration: kInputDecoration.copyWith(
-                prefixIcon: Icon(CupertinoIcons.phone),
-                hintText: user.phone,
+          SizedBox(height: 10),
+          Container(
+            decoration: kSoftShadowDecoration.copyWith(
+                borderRadius: BorderRadius.circular(30)),
+            child: SizedBox(
+              width: MediaQuery.of(context).size.width / 1.3,
+              child: TextField(
+                decoration: kInputDecoration.copyWith(
+                  fillColor: kbackgroundColor,
+                  prefixIcon: Icon(CupertinoIcons.phone),
+                  hintText: user.phone,
+                ),
               ),
             ),
           ),
-          SizedBox(height: 5),
-          SizedBox(
-            width: MediaQuery.of(context).size.width / 1.3,
-            child: TextField(
-              decoration: kInputDecoration.copyWith(
-                prefixIcon: Icon(CupertinoIcons.phone_solid),
-                hintText: user.alternatePhoneNumber,
+          SizedBox(height: 10),
+          Container(
+            decoration: kSoftShadowDecoration.copyWith(
+                borderRadius: BorderRadius.circular(30)),
+            child: SizedBox(
+              width: MediaQuery.of(context).size.width / 1.3,
+              child: TextField(
+                decoration: kInputDecoration.copyWith(
+                  fillColor: kbackgroundColor,
+                  prefixIcon: Icon(CupertinoIcons.phone_solid),
+                  hintText: user.alternatePhoneNumber,
+                ),
               ),
             ),
           ),
-          SizedBox(height: 5),
-          SizedBox(
-            width: MediaQuery.of(context).size.width / 1.3,
-            child: TextField(
-              decoration: kInputDecoration.copyWith(
-                prefixIcon: Icon(CupertinoIcons.location),
-                hintText: user.address,
+          SizedBox(height: 10),
+          Container(
+            decoration: kSoftShadowDecoration.copyWith(
+                borderRadius: BorderRadius.circular(30)),
+            child: SizedBox(
+              width: MediaQuery.of(context).size.width / 1.3,
+              child: TextField(
+                decoration: kInputDecoration.copyWith(
+                  fillColor: kbackgroundColor,
+                  prefixIcon: Icon(CupertinoIcons.location),
+                  hintText: user.address,
+                ),
               ),
             ),
           ),
           SizedBox(
-            height: 10,
+            height: 20,
           ),
-          Material(
-            shape:
-                RoundedRectangleBorder(borderRadius: BorderRadius.circular(50)),
-            elevation: 10,
+          Container(
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(50),
+              shape: BoxShape.rectangle,
+              color: kbackgroundColor,
+              boxShadow: [
+                BoxShadow(
+                    color: kshadowColor, offset: Offset(8, 6), blurRadius: 12),
+                BoxShadow(
+                    color: klightShadowColor,
+                    offset: Offset(-8, -6),
+                    blurRadius: 12),
+              ],
+            ),
             child: Buttons(
-              buttonColor: Colors.orangeAccent,
+              iconColor: Colors.green,
+              textColor: Colors.green,
+              buttonColor: kbackgroundColor,
               text: "Update Profile",
-              icon: Icons.done,
+              icon: Icons.refresh,
             ),
           ),
           SizedBox(
             height: 30,
           ),
-          Material(
-            shape:
-                RoundedRectangleBorder(borderRadius: BorderRadius.circular(50)),
-            elevation: 10,
+          Container(
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(50),
+              shape: BoxShape.rectangle,
+              color: kbackgroundColor,
+              boxShadow: [
+                BoxShadow(
+                    color: kshadowColor, offset: Offset(8, 6), blurRadius: 12),
+                BoxShadow(
+                    color: klightShadowColor,
+                    offset: Offset(-8, -6),
+                    blurRadius: 12),
+              ],
+            ),
             child: Buttons(
-              buttonColor: Colors.redAccent,
+              iconColor: Colors.redAccent,
+              textColor: Colors.redAccent,
+              buttonColor: kbackgroundColor ?? Colors.red,
               text: "Logout",
-              icon: Icons.done,
+              icon: Icons.exit_to_app,
               onTap: () {
                 Navigator.pop(context);
                 AuthServices().signOut();

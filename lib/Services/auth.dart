@@ -27,7 +27,7 @@ class AuthServices {
   }
 
   onAuthSuccess(String phoneNumber) async {
-    print("suth success " + this.phoneNo);
+    //print("suth success " + this.phoneNo);
 
     final usersnapShot = await Firestore.instance
         .collection('Users')

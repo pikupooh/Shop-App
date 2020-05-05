@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -6,6 +7,7 @@ import 'package:shop_app/Models/product.dart';
 import 'package:shop_app/Models/user.dart';
 import 'package:shop_app/Services/database.dart';
 import 'package:shop_app/reusables/constants.dart';
+import 'package:path_provider/path_provider.dart';
 
 class ProductList extends StatefulWidget {
   final String currentCategory;
@@ -37,7 +39,7 @@ class _ProductListState extends State<ProductList> {
               });
         }
         // _buildProductList(products);
-        return Text("Loading");
+        return CircularProgressIndicator();
       },
     );
   }
@@ -70,12 +72,11 @@ class _ProductListState extends State<ProductList> {
                   height: 130,
                   width: 130,
                   child: ClipRRect(
-                    borderRadius: BorderRadius.circular(20),
-                    child: Image.network(
-                      product.imageurl,
-                      fit: BoxFit.contain,
-                    ),
-                  ),
+                      borderRadius: BorderRadius.circular(20),
+                      child: CachedNetworkImage(
+                        imageUrl: product.imageurl,
+                        fit: BoxFit.contain,
+                      )),
                 ),
               ),
               Align(
@@ -123,14 +124,13 @@ class _ProductListState extends State<ProductList> {
                       elevation: 7,
                       shape: CircleBorder(),
                       child: CircleAvatar(
-                        backgroundColor: Colors.yellow,
+                        backgroundColor: Colors.orangeAccent,
                         child: IconButton(
                             icon: Icon(
                               CupertinoIcons.add,
                               color: Colors.black,
                             ),
                             onPressed: () {
-                              
                               DatabaseServices().addToCart(product, user);
                             }),
                       ),

@@ -2,10 +2,18 @@ import 'package:flutter/material.dart';
 
 class Buttons extends StatelessWidget {
   final Function onTap;
+  final Color textColor;
+  final Color iconColor;
   final String text;
   final IconData icon;
   final Color buttonColor;
-  Buttons({this.onTap, this.buttonColor, this.text, this.icon});
+  Buttons(
+      {this.onTap,
+      this.buttonColor,
+      this.text,
+      this.icon,
+      this.textColor,
+      this.iconColor});
 
   @override
   Widget build(BuildContext context) {
@@ -20,7 +28,9 @@ class Buttons extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.center,
               mainAxisSize: MainAxisSize.min,
               children: <Widget>[
-                Text(text, style: TextStyle(color: Colors.white, fontSize: 20)),
+                Text(text,
+                    style: TextStyle(
+                        color: textColor ?? Colors.white, fontSize: 20)),
                 icon != null
                     ? SizedBox(
                         width: 5,
@@ -28,7 +38,7 @@ class Buttons extends StatelessWidget {
                     : SizedBox(),
                 Icon(
                   icon,
-                  color: Colors.white,
+                  color: iconColor ?? Colors.white,
                   size: 20,
                 )
               ],

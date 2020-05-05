@@ -22,6 +22,7 @@ class _RegisterPageState extends State<RegisterPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: kbackgroundColor,
       body: verComplete
           ? Center(
               child: CircularProgressIndicator(
@@ -49,6 +50,7 @@ class _RegisterPageState extends State<RegisterPage> {
                               ? Container()
                               : TextFormField(
                                   decoration: kInputDecoration.copyWith(
+                                      fillColor: Colors.grey[300],
                                       prefixIcon: Icon(Icons.person),
                                       hintText: "Name"),
                                   keyboardType: TextInputType.text,
@@ -67,6 +69,7 @@ class _RegisterPageState extends State<RegisterPage> {
                               ? Container()
                               : TextFormField(
                                   decoration: kInputDecoration.copyWith(
+                                      fillColor: Colors.grey[300],
                                       prefixIcon: Icon(Icons.phone),
                                       // prefixText: "+91-",
                                       hintText: "Phone"),
@@ -101,30 +104,39 @@ class _RegisterPageState extends State<RegisterPage> {
                                   )
                                 : smsSent
                                     ? Container()
-                                    : Buttons(
-                                        icon: Icons.arrow_forward_ios,
-                                        buttonColor: Color(0xFF0013A8) ??
-                                            Colors.black ??
-                                            Color(0xEE075E55),
-                                        text: "Send OTP",
-                                        onTap: () async {
-                                          if (formkey.currentState.validate()) {
-                                            print(phone);
-                                            setState(() {
-                                              readonly = true;
-                                            });
-                                            await verifyPhone(phone);
-                                            setState(() {
-                                              sendingOtp = true;
-                                            });
-                                          }
-                                        },
+                                    : Container(
+                                        decoration:
+                                            kSoftShadowDecoration.copyWith(
+                                                borderRadius:
+                                                    BorderRadius.circular(50)),
+                                        child: Buttons(
+                                          icon: Icons.arrow_forward_ios,
+                                          buttonColor: kbackgroundColor,
+                                          text: "Send OTP",
+                                          iconColor: Color(0xFF0013A8),
+                                          textColor: Color(0xFF0013A8),
+                                          onTap: () async {
+                                            if (formkey.currentState
+                                                .validate()) {
+                                              print(phone);
+                                              setState(() {
+                                                readonly = true;
+                                              });
+                                              await verifyPhone(phone);
+                                              setState(() {
+                                                sendingOtp = true;
+                                              });
+                                            }
+                                          },
+                                        ),
                                       ),
                           ),
                           smsSent
                               ? TextFormField(
                                   textAlign: TextAlign.center,
-                                  decoration: kInputDecoration,
+                                  decoration: kInputDecoration.copyWith(
+                                    fillColor: Colors.grey[300],
+                                  ),
                                   keyboardType: TextInputType.number,
                                   onChanged: (value) {
                                     setState(() {
@@ -137,16 +149,21 @@ class _RegisterPageState extends State<RegisterPage> {
                             height: 20,
                           ),
                           smsSent
-                              ? Buttons(
-                                  icon: Icons.verified_user,
-                                  buttonColor:
-                                      Colors.black ?? Color(0xEE075E55),
-                                  text: "Verify OTP",
-                                  onTap: () {
-                                    print(phone);
-                                    AuthServices().signInOTP(
-                                        smsCode, verificationID, name, phone);
-                                  },
+                              ? Container(
+                                  decoration: kSoftShadowDecoration.copyWith(
+                                      borderRadius: BorderRadius.circular(50)),
+                                  child: Buttons(
+                                    iconColor: Colors.black,
+                                    textColor: Colors.black,
+                                    icon: Icons.verified_user,
+                                    buttonColor: kbackgroundColor,
+                                    text: "Verify OTP",
+                                    onTap: () {
+                                      print(phone);
+                                      AuthServices().signInOTP(
+                                          smsCode, verificationID, name, phone);
+                                    },
+                                  ),
                                 )
                               : Container(),
                         ],
