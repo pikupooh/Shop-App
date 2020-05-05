@@ -19,3 +19,12 @@ Color klightShadowColor = Colors.white;
 Color ktextColor = Color(0xFF707070);
 Color kseekBarLightColor = Color(0xFFB8ECED);
 Color kseekBarDarkColor = Color(0xFF37C8DF);
+var kSoftShadowDecoration = BoxDecoration(
+  borderRadius: BorderRadius.circular(50),
+  shape: BoxShape.rectangle,
+  color: kbackgroundColor,
+  boxShadow: [
+    BoxShadow(color: kshadowColor, offset: Offset(8, 6), blurRadius: 12),
+    BoxShadow(color: klightShadowColor, offset: Offset(-8, -6), blurRadius: 12),
+  ],
+);
