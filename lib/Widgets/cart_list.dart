@@ -38,8 +38,11 @@ class _CartListState extends State<CartList> {
   Widget _buildCaterogyListItem(BuildContext context, CartItem doc) {
     return Row(
       children: <Widget>[
+        Image.network(doc.imageurl.toString(),fit: BoxFit.contain,),
         Text(doc.name.toString()),
-        SizedBox(width: 30,),
+        SizedBox(
+          width: 30,
+        ),
         Text(doc.quantity.toString()),
       ],
     );

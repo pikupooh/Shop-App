@@ -7,7 +7,6 @@ import 'package:shop_app/Models/user.dart';
 class DatabaseServices {
   final _db = Firestore.instance;
 
-
   void createUser(String phoneNumber) async {
     final CollectionReference _doc = _db.collection('Users');
     await _doc.document(phoneNumber).setData({
@@ -21,9 +20,7 @@ class DatabaseServices {
 
   void createCart(String phoneNumber) async {
     final CollectionReference _doc = _db.collection('Cart');
-    await _doc.document(phoneNumber).setData({
-      'id': phoneNumber
-    });
+    await _doc.document(phoneNumber).setData({'id': phoneNumber});
   }
 
   Stream<User> streamUser(User user) {
@@ -34,8 +31,12 @@ class DatabaseServices {
         .map((snap) => User.fromfirebase(snap));
   }
 
-  Stream<List<CartItem>> getCartItems(User user){
-    return _db.collection('Cart').document(user.phone).snapshots().map((snap) => CartItem().fromFirebase(snap));
+  Stream<List<CartItem>> getCartItems(User user) {
+    return _db
+        .collection('Cart')
+        .document(user.phone)
+        .snapshots()
+        .map((snap) => CartItem().fromFirebase(snap));
   }
 
   Stream<List<Category>> getCateries() {
@@ -52,14 +53,12 @@ class DatabaseServices {
         list.documents.map((item) => Product.fromFirebase(item)).toList());
   }
 
-  void addToCart (Product product, User user) async {
+  void addToCart(Product product, User user) async {
     CartItem cartItem = CartItem.fromProduct(product);
     var _ref = _db.collection('Cart').document(user.phone);
-    final cartsnapShot = await Firestore.instance
-        .collection('Cart')
-        .document(user.phone)
-        .get();
-    
+    final cartsnapShot =
+        await Firestore.instance.collection('Cart').document(user.phone).get();
+
     if (cartsnapShot == null || !cartsnapShot.exists) {
       print("Cart Does not exits");
       DatabaseServices().createCart(user.phone);
@@ -68,23 +67,23 @@ class DatabaseServices {
     }
     await _ref.get().then((onValue) async {
       var data = onValue.data;
-      if(data[product.name] == null){
+      if (data[product.name] == null) {
         Map<dynamic, dynamic> item = {
+          'imageurl': cartItem.imageurl,
           'cost': cartItem.cost,
           'name': cartItem.name,
           'quantity': cartItem.quantity,
-          'totalCost': cartItem.totalCost };
-          Map <String, dynamic> other = {product.name: item}; 
+          'totalCost': cartItem.totalCost
+        };
+        Map<String, dynamic> other = {product.name: item};
         data.addAll(other);
-        await _ref.updateData({
-          product.name: item
-        });
-      }
-      else{
+        await _ref.updateData({product.name: item});
+      } else {
         // TODO optimise
         Map item = data[product.name];
         item['quantity'] += 1;
-        item['totalCost'] =  (int.parse(item['cost']) * item['quantity']).toString() ;
+        item['totalCost'] =
+            (int.parse(item['cost']) * item['quantity']).toString();
         await _ref.updateData({
           product.name: item,
         });
