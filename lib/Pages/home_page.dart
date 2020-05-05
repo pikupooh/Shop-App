@@ -84,14 +84,14 @@ class _HomePageState extends State<HomePage> {
               Align(
                 alignment: Alignment.centerLeft,
                 child: Padding(
-                  padding: const EdgeInsets.only(left: 20.0, bottom: 10),
+                  padding: const EdgeInsets.only(left: 20.0),
                   child: Text(
                     "Food & Groceries",
                     style: TextStyle(fontSize: 30),
                   ),
                 ),
               ),
-              SizedBox(height: 15),
+             
               // Row(
               //   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               //   children: <Widget>[
