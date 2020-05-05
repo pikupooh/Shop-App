@@ -1,5 +1,3 @@
-import 'dart:math';
-
 import 'package:flutter/material.dart';
 import 'package:shop_app/Models/categories.dart';
 import 'package:shop_app/Services/database.dart';
@@ -29,7 +27,7 @@ class _CategoryListState extends State<CategoryList> {
           if (snap.hasData)
             return _buildCategoryList(
                 categories); //_buildCategoryList(snap.data.documents);
-          return CircularProgressIndicator();
+          return Text('Categories Loading');
         },
       ),
     );
@@ -79,9 +77,6 @@ class _CategoryListState extends State<CategoryList> {
                     padding: const EdgeInsets.all(12.0),
                     child: Image.asset(
                       'assets/${doc.name}.png' ?? 'assets/Fish.png',
-                      errorBuilder: (context, error, stackTrace) {
-                        return Image.asset('assets/Fish.png');
-                      },
                     ),
                   ),
                 ),
