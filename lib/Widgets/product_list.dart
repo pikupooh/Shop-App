@@ -5,7 +5,6 @@ import 'package:provider/provider.dart';
 import 'package:shop_app/Models/product.dart';
 import 'package:shop_app/Models/user.dart';
 import 'package:shop_app/Services/database.dart';
-import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:shop_app/reusables/constants.dart';
 
 class ProductList extends StatefulWidget {

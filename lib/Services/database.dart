@@ -6,6 +6,8 @@ import 'package:shop_app/Models/user.dart';
 
 class DatabaseServices {
   final _db = Firestore.instance;
+
+
   void createUser(String phoneNumber) async {
     final CollectionReference _doc = _db.collection('Users');
     await _doc.document(phoneNumber).setData({
@@ -32,12 +34,8 @@ class DatabaseServices {
         .map((snap) => User.fromfirebase(snap));
   }
 
-  void getUser(User user)  {
-     //var v = _db.collection('Users').document(user.phone).snapshots().map((snap) => User.fromfirebase(snap)).toList();//_db.collection('Users').document(user.phone).get() ;
-     //print(v);
-     
-     //print(_db.collection('Users').document(user.phone).snapshots().map((snap) => User.fromfirebase(snap))) ;
-     
+  Stream<List<CartItem>> getCartItems(User user){
+    return _db.collection('Cart').document(user.phone).snapshots().map((snap) => CartItem().fromFirebase(snap));
   }
 
   Stream<List<Category>> getCateries() {

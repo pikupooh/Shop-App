@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:shop_app/Models/user.dart';
+import 'package:shop_app/Widgets/cart_list.dart';
 
 class CartPage extends StatefulWidget {
   @override
@@ -17,7 +18,7 @@ class _CartPageState extends State<CartPage> {
         title: Text("Cart", style: TextStyle(color: Colors.white,),)
       ),
       body: Container(
-        
+        child: CartList(),
       ),
     );
   }
