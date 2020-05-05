@@ -37,7 +37,7 @@ class _ProductListState extends State<ProductList> {
               });
         }
         // _buildProductList(products);
-        return Text("Loading");
+        return CircularProgressIndicator();
       },
     );
   }
@@ -130,7 +130,6 @@ class _ProductListState extends State<ProductList> {
                               color: Colors.black,
                             ),
                             onPressed: () {
-                              
                               DatabaseServices().addToCart(product, user);
                             }),
                       ),
