@@ -13,6 +13,7 @@ class ProfilePage extends StatefulWidget {
 }
 
 class _ProfilePageState extends State<ProfilePage> {
+  String name, alternatePhone, imageUrl, address;
   @override
   Widget build(BuildContext context) {
     var user = Provider.of<User>(context);
@@ -114,7 +115,13 @@ class _ProfilePageState extends State<ProfilePage> {
             child: SizedBox(
               width: MediaQuery.of(context).size.width / 1.3,
               child: TextField(
+                onChanged: (value) {
+                  setState(() {
+                    name = value;
+                  });
+                },
                 decoration: kInputDecoration.copyWith(
+                  hintStyle: TextStyle(color: Colors.black),
                   fillColor: kbackgroundColor,
                   prefixIcon: Icon(CupertinoIcons.person),
                   hintText: user.name,
@@ -129,7 +136,9 @@ class _ProfilePageState extends State<ProfilePage> {
             child: SizedBox(
               width: MediaQuery.of(context).size.width / 1.3,
               child: TextField(
+                readOnly: true,
                 decoration: kInputDecoration.copyWith(
+                  hintStyle: TextStyle(color: Colors.black),
                   fillColor: kbackgroundColor,
                   prefixIcon: Icon(CupertinoIcons.phone),
                   hintText: user.phone,
@@ -144,7 +153,14 @@ class _ProfilePageState extends State<ProfilePage> {
             child: SizedBox(
               width: MediaQuery.of(context).size.width / 1.3,
               child: TextField(
+                keyboardType: TextInputType.phone,
+                onChanged: (value) {
+                  setState(() {
+                    alternatePhone = value;
+                  });
+                },
                 decoration: kInputDecoration.copyWith(
+                  hintStyle: TextStyle(color: Colors.black),
                   fillColor: kbackgroundColor,
                   prefixIcon: Icon(CupertinoIcons.phone_solid),
                   hintText: user.alternatePhoneNumber,
@@ -159,7 +175,13 @@ class _ProfilePageState extends State<ProfilePage> {
             child: SizedBox(
               width: MediaQuery.of(context).size.width / 1.3,
               child: TextField(
+                onChanged: (value) {
+                  setState(() {
+                    address = value;
+                  });
+                },
                 decoration: kInputDecoration.copyWith(
+                  hintStyle: TextStyle(color: Colors.black),
                   fillColor: kbackgroundColor,
                   prefixIcon: Icon(CupertinoIcons.location),
                   hintText: user.address,
@@ -185,6 +207,15 @@ class _ProfilePageState extends State<ProfilePage> {
               ],
             ),
             child: Buttons(
+              onTap: () async {
+                DatabaseServices().updateProfile(
+                    user.phone,
+                    name ?? user.name,
+                    alternatePhone ?? user.alternatePhoneNumber,
+                    imageUrl ?? user.imageUrl,
+                    address ?? user.address);
+                print(name);
+              },
               iconColor: Colors.green,
               textColor: Colors.green,
               buttonColor: kbackgroundColor,

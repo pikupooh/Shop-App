@@ -14,7 +14,19 @@ class DatabaseServices {
       'phoneNumber': phoneNumber,
       'cartID': phoneNumber,
       'name': "Name",
+      'imageUrl': 'none',
       'alternatePhoneNumber': "Enter alternate phone number",
+    });
+  }
+
+  void updateProfile(String phoneNumber, String name, String alternatePhone,
+      String imageUrl, String address) async {
+    final CollectionReference _doc = _db.collection('Users');
+    await _doc.document(phoneNumber).updateData({
+      'address': address??"Enter your Address",
+      'name': name??"Name",
+      'alternatePhoneNumber': alternatePhone??"Alternate phone number",
+      'imageUrl': imageUrl
     });
   }
 
