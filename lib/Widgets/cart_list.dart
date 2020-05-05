@@ -23,10 +23,10 @@ class _CartListState extends State<CartList> {
         stream: DatabaseServices().getCartItems(user),
         builder: (context, snap) {
           List<CartItem> cartItem = snap.data;
-          if (snap.hasData)
+          if (snap.hasData && cartItem.length >= 1)
             return _buildCart(
                 cartItem); //_buildCategoryList(snap.data.documents);
-          return Center(child: CircularProgressIndicator());
+          return Center(child: Text("Cart is empty"));
         },
       ),
     );

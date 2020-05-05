@@ -1,6 +1,6 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import 'package:shop_app/Models/user.dart';
 import 'package:shop_app/Widgets/cart_list.dart';
@@ -16,7 +16,6 @@ class _CartPageState extends State<CartPage> {
   @override
   Widget build(BuildContext context) {
     User user = Provider.of<User>(context);
-    print(user.phone);
     return Scaffold(
 
       appBar: AppBar(
@@ -51,19 +50,7 @@ class _CartPageState extends State<CartPage> {
                   children: <Widget>[
                     Padding(
                       padding: const EdgeInsets.all(8.0),
-                      child: RichText(
-                        text: TextSpan(
-                            text: 'Total -',
-                            style: TextStyle(color: Colors.black54),
-                            children: <TextSpan>[
-                              TextSpan(
-                                  text: " ₹ X,XXX",
-                                  style: GoogleFonts.lato(
-                                      fontWeight: FontWeight.w500,
-                                      color: Colors.black,
-                                      fontSize: 29)),
-                            ]),
-                      ),
+                      child: _buildTotalCostText(user)
                     ),
                     Buttons(
                       icon: CupertinoIcons.forward,
@@ -77,6 +64,20 @@ class _CartPageState extends State<CartPage> {
           ],
         ),
       ),
+    );
+  }
+
+  Widget _buildTotalCostText(User user){
+    return StreamBuilder(
+      stream: Firestore.instance.collection("Cart").document(user.phone).snapshots(),
+      builder: (context, snap){
+        if(snap.hasData)
+        {
+          if(snap.data.data == null) return Text("");
+          return Text(snap.data.data['totalCartCost'].toString());
+        }
+        else return Text("");
+      },
     );
   }
 }
