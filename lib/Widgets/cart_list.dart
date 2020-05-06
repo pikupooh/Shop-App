@@ -81,7 +81,10 @@ class _CartListState extends State<CartList> {
                   children: <Widget>[
                     doc.quantity <= 1
                         ? IconButton(
-                            icon: Icon(CupertinoIcons.delete), onPressed: () {})
+                            icon: Icon(CupertinoIcons.delete),
+                            onPressed: () {
+                              DatabaseServices().deleteFromCart(doc.name, user);
+                            })
                         : IconButton(
                             icon: Icon(CupertinoIcons.minus_circled),
                             onPressed: () {

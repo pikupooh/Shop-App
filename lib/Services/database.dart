@@ -174,7 +174,7 @@ class DatabaseServices {
     }
   }
 
-  void changeCartItemQuantity(String product, User user,bool increase) async {
+  void changeCartItemQuantity(String product, User user, bool increase) async {
     try {
       var _ref = _db.collection('Cart').document(user.phone);
 
@@ -182,11 +182,31 @@ class DatabaseServices {
         var data = onValue.data;
 
         Map item = data[product];
-        increase?item['quantity'] += 1:item['quantity'] -= 1;
+        increase ? item['quantity'] += 1 : item['quantity'] -= 1;
         item['totalCost'] =
             (int.parse(item['cost']) * item['quantity']).toString();
         await _ref.updateData({product: item});
       });
+    } catch (e) {
+      print(e);
+    }
+  }
+
+  void deleteFromCart(String product, User user) async {
+    try {
+      var _ref = _db.collection('Cart').document(user.phone);
+      await _ref.updateData({product: FieldValue.delete()}).whenComplete(() {
+        print('Field Deleted');
+      });
+      // await _ref.get().then(
+      //   (onValue) async {
+      //     var data = onValue.data;
+
+      //     Map item = data[product];
+      //     item['name'] = FieldValue.delete();
+      //     await _ref.updateData({product: item});
+      //   },
+      // );
     } catch (e) {
       print(e);
     }
