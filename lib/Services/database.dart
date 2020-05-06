@@ -69,6 +69,7 @@ class DatabaseServices {
 
   void addToCart(Product product, User user) async {
     CartItem cartItem = CartItem.fromProduct(product);
+    print(cartItem.toString());
     var _ref = _db.collection('Cart').document(user.phone);
     final cartsnapShot =
         await Firestore.instance.collection('Cart').document(user.phone).get();
@@ -81,6 +82,8 @@ class DatabaseServices {
     }
     await _ref.get().then((onValue) async {
       var data = onValue.data;
+      print(data.toString());
+      print("item does not exits");
       if (data[product.name] == null) {
         Map<dynamic, dynamic> item = {
           'imageurl': cartItem.imageurl,
@@ -91,23 +94,19 @@ class DatabaseServices {
         };
         Map<String, dynamic> other = {product.name: item};
         data.addAll(other);
-        String totalCartCost =
-            (int.parse(data['totalCartCost']) + int.parse(product.cost))
-                .toString();
-        print("totalCost" + totalCartCost);
-        await _ref
-            .updateData({product.name: item, "totalCartCost": totalCartCost});
+        // String totalCartCost =
+        //     (int.parse(data['totalCartCost']) + int.parse(product.cost))
+        //         .toString();
+        //print("totalCost" + totalCartCost);
+        await _ref.updateData({product.name: item});
       } else {
         // TODO optimise
+        print("Item exits");
         Map item = data[product.name];
         item['quantity'] += 1;
         item['totalCost'] =
             (int.parse(item['cost']) * item['quantity']).toString();
-        String totalCartCost =
-            (int.parse(data['totalCartCost']) + int.parse(product.cost))
-                .toString();
-        await _ref
-            .updateData({product.name: item, 'totalCartCost': totalCartCost});
+        await _ref.updateData({product.name: item});
       }
     });
   }
@@ -115,6 +114,7 @@ class DatabaseServices {
   void updateCart(User user) async {
     //print("updatecart");
     var _ref = _db.collection('Cart').document(user.phone);
+    if(_ref == null) return;
     await _ref.get().then((onValue) async {
       List<CartItem> cartItems = CartItem().fromFirebase(onValue);
       if (cartItems != null && cartItems.length >= 1) {
@@ -137,16 +137,18 @@ class DatabaseServices {
       }
     });
     await _ref.get().then((onValue) async {
-      int totalCartCost = 0 ;
+      int totalCartCost = 0;
       //print(onValue.data.toString());
-      onValue.data.forEach((key, value){
-        if(key != 'id' && key != 'totalCartCost'){
-          totalCartCost += int.parse(value['totalcost']);
-          //print(value['totalcost'].toString() + " " + totalCartCost.toString());
-        }
-      });
-      //print(totalCartCost);
-      await _ref.updateData({'totalCartCost': totalCartCost});
+      if (onValue != null) {
+        onValue.data.forEach((key, value) {
+          if (key != 'id' && key != 'totalCartCost') {
+            totalCartCost += int.parse(value['totalcost']);
+            //print(value['totalcost'].toString() + " " + totalCartCost.toString());
+          }
+        });
+        //print(totalCartCost);
+        await _ref.updateData({'totalCartCost': totalCartCost});
+      }
     });
   }
 }
