@@ -23,16 +23,18 @@ class DatabaseServices {
       String imageUrl, String address) async {
     final CollectionReference _doc = _db.collection('Users');
     await _doc.document(phoneNumber).updateData({
-      'address': address??"Enter your Address",
-      'name': name??"Name",
-      'alternatePhoneNumber': alternatePhone??"Alternate phone number",
+      'address': address ?? "Enter your Address",
+      'name': name ?? "Name",
+      'alternatePhoneNumber': alternatePhone ?? "Alternate phone number",
       'imageUrl': imageUrl
     });
   }
 
   void createCart(String phoneNumber) async {
     final CollectionReference _doc = _db.collection('Cart');
-    await _doc.document(phoneNumber).setData({'id': phoneNumber});
+    await _doc
+        .document(phoneNumber)
+        .setData({'id': phoneNumber, 'totalCartCost': "0"});
   }
 
   Stream<User> streamUser(User user) {
@@ -65,6 +67,8 @@ class DatabaseServices {
         list.documents.map((item) => Product.fromFirebase(item)).toList());
   }
 
+  
+
   void addToCart(Product product, User user) async {
     CartItem cartItem = CartItem.fromProduct(product);
     var _ref = _db.collection('Cart').document(user.phone);
@@ -89,15 +93,24 @@ class DatabaseServices {
         };
         Map<String, dynamic> other = {product.name: item};
         data.addAll(other);
-        await _ref.updateData({product.name: item});
+        String totalCartCost =
+            (int.parse(data['totalCartCost']) + int.parse(product.cost))
+                .toString();
+        print("totalCost" + totalCartCost);
+        await _ref
+            .updateData({product.name: item, "totalCartCost": totalCartCost});
       } else {
         // TODO optimise
         Map item = data[product.name];
         item['quantity'] += 1;
         item['totalCost'] =
             (int.parse(item['cost']) * item['quantity']).toString();
+        String totalCartCost =
+            (int.parse(data['totalCartCost']) + int.parse(product.cost))
+                .toString();
         await _ref.updateData({
           product.name: item,
+          'totalCartCost': totalCartCost
         });
       }
     });

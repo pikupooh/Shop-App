@@ -33,7 +33,7 @@ class CartItem {
     var data = doc.data;
     List<CartItem> cartItems = new List();
     data.forEach((k, v) {
-      if (k != 'id') cartItems.add(CartItem.fromMap(v));
+      if (k != 'id' && k != 'totalCartCost') cartItems.add(CartItem.fromMap(v));
     });
     return cartItems;
   }
