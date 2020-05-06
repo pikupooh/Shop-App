@@ -91,7 +91,8 @@ class _ProductListState extends State<ProductList> {
                   alignment: Alignment.centerLeft,
                   child: Text(
                     product.name,
-                    style: TextStyle(fontSize: 24, fontWeight: FontWeight.w600),
+                    style: GoogleFonts.manrope(
+                        fontSize: 23, fontWeight: FontWeight.w400),
                   )),
               Align(
                   alignment: Alignment.centerLeft,
@@ -118,7 +119,7 @@ class _ProductListState extends State<ProductList> {
                               TextSpan(
                                   text: product.cost,
                                   style: GoogleFonts.lato(
-                                      fontWeight: FontWeight.bold,
+                                      fontWeight: FontWeight.w400,
                                       color: Colors.black,
                                       fontSize: 29)),
                             ]),
@@ -148,6 +149,7 @@ class _ProductListState extends State<ProductList> {
                         child: IconButton(
                             icon: Icon(
                               Icons.add,
+                              size: 30,
                               color: Colors.red,
                             ),
                             onPressed: () {

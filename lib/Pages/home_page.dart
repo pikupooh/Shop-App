@@ -108,7 +108,7 @@ class _HomePageState extends State<HomePage> {
                   padding: const EdgeInsets.only(left: 20.0),
                   child: Text(
                     "Food & Groceries",
-                    style: TextStyle(fontSize: 30),
+                    style: TextStyle(fontSize: 32),
                   ),
                 ),
               ),
