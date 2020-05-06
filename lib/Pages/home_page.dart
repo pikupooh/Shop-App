@@ -33,7 +33,9 @@ class _HomePageState extends State<HomePage> {
           onPressed: () {
             Navigator.push(
               context,
-              MaterialPageRoute(builder: (context) => ProfilePage()),
+              CupertinoPageRoute(
+                builder: (context) => ProfilePage(),
+              ),
             );
           },
         ),
@@ -49,12 +51,11 @@ class _HomePageState extends State<HomePage> {
               color: Colors.black,
             ),
             onPressed: () {
-              Navigator.push(
-                  context, MaterialPageRoute(builder: (context) => CartPage()));
+              Navigator.push(context,
+                  CupertinoPageRoute(builder: (context) => CartPage()));
             },
           ),
           Container(
-           
             child: Stack(
               children: <Widget>[
                 Center(
@@ -65,7 +66,7 @@ class _HomePageState extends State<HomePage> {
                     ),
                     onPressed: () {
                       Navigator.push(context,
-                          MaterialPageRoute(builder: (context) => CartPage()));
+                          CupertinoPageRoute(builder: (context) => CartPage()));
                     },
                   ),
                 ),
