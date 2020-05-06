@@ -75,6 +75,7 @@ class _CartPageState extends State<CartPage> {
           builder: (context, snap){
             if(snap.hasData)
             {
+              //DatabaseServices().updateCart(user);
               if(snap.data.data == null) return Text("");
               return Text(snap.data.data['totalCartCost'].toString());
             }
