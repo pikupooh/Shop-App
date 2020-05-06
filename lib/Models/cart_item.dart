@@ -25,7 +25,7 @@ class CartItem {
       name: doc['name'],
       cost: doc['cost'],
       quantity: doc['quantity'],
-      totalCost: doc['totalCost'],
+      totalCost: doc['totalcost'],
     );
   }
 
@@ -36,5 +36,10 @@ class CartItem {
       if (k != 'id' && k != 'totalCartCost') cartItems.add(CartItem.fromMap(v));
     });
     return cartItems;
+  }
+
+  Map toMap(){
+    Map mp = {"name": this.name, "imageurl": this.imageurl, "cost": this.cost, "quantity": this.quantity, "totalcost": this.totalCost};
+    return mp;
   }
 }

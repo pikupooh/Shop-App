@@ -23,11 +23,13 @@ class _ProductListState extends State<ProductList> {
   }
 
   Widget _buildProducts() {
+    User user = Provider.of<User>(context);
     return StreamBuilder(
       stream: DatabaseServices().getProducts(widget.currentCategory),
       builder: (context, AsyncSnapshot<dynamic> snap) {
         List<Product> products = snap.data;
         if (snap.hasData) {
+          DatabaseServices().updateCart(user);
           return GridView.builder(
               physics: ScrollPhysics(),
               shrinkWrap: true,
