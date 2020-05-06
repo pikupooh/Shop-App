@@ -67,8 +67,6 @@ class DatabaseServices {
         list.documents.map((item) => Product.fromFirebase(item)).toList());
   }
 
-  
-
   void addToCart(Product product, User user) async {
     CartItem cartItem = CartItem.fromProduct(product);
     var _ref = _db.collection('Cart').document(user.phone);
@@ -108,11 +106,47 @@ class DatabaseServices {
         String totalCartCost =
             (int.parse(data['totalCartCost']) + int.parse(product.cost))
                 .toString();
-        await _ref.updateData({
-          product.name: item,
-          'totalCartCost': totalCartCost
+        await _ref
+            .updateData({product.name: item, 'totalCartCost': totalCartCost});
+      }
+    });
+  }
+
+  void updateCart(User user) async {
+    //print("updatecart");
+    var _ref = _db.collection('Cart').document(user.phone);
+    await _ref.get().then((onValue) async {
+      List<CartItem> cartItems = CartItem().fromFirebase(onValue);
+      if (cartItems != null && cartItems.length >= 1) {
+        cartItems.forEach((item) async {
+          await _db
+              .collection('Shop')
+              .document(item.name)
+              .get()
+              .then((onValue) {
+            if (onValue != null) {
+              item.cost = onValue.data['cost'];
+              if (onValue.data['totalcost'] == null) item.totalCost = "0";
+              item.totalCost =
+                  (int.parse(item.cost) * item.quantity).toString();
+              //print(item.toMap().toString());
+              _ref.updateData({item.name: item.toMap()});
+            }
+          });
         });
       }
+    });
+    await _ref.get().then((onValue) async {
+      int totalCartCost = 0 ;
+      //print(onValue.data.toString());
+      onValue.data.forEach((key, value){
+        if(key != 'id' && key != 'totalCartCost'){
+          totalCartCost += int.parse(value['totalcost']);
+          //print(value['totalcost'].toString() + " " + totalCartCost.toString());
+        }
+      });
+      //print(totalCartCost);
+      await _ref.updateData({'totalCartCost': totalCartCost});
     });
   }
 }
