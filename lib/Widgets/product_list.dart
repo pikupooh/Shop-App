@@ -117,25 +117,53 @@ class _ProductListState extends State<ProductList> {
                       ),
                     ),
                   ),
+                  SizedBox(width: 10),
                   Padding(
-                    padding: const EdgeInsets.symmetric(
-                        horizontal: 10.0, vertical: 5),
-                    child: Material(
-                      elevation: 7,
-                      shape: CircleBorder(),
-                      child: CircleAvatar(
-                        backgroundColor: Colors.orangeAccent,
-                        child: IconButton(
-                            icon: Icon(
-                              CupertinoIcons.add,
-                              color: Colors.black,
-                            ),
-                            onPressed: () {
-                              DatabaseServices().addToCart(product, user);
-                            }),
+                    padding: const EdgeInsets.all(8.0),
+                    child: Container(
+                      decoration: BoxDecoration(
+                        shape: BoxShape.circle,
+                        color: kbackgroundColor,
+                        boxShadow: [
+                          BoxShadow(
+                              color: kshadowColor,
+                              offset: Offset(8, 6),
+                              blurRadius: 12),
+                          BoxShadow(
+                              color: klightShadowColor,
+                              offset: Offset(-8, -6),
+                              blurRadius: 12),
+                        ],
                       ),
+                      child: IconButton(
+                          icon: Icon(
+                            Icons.add,
+                            color: Colors.red,
+                          ),
+                          onPressed: () {
+                            DatabaseServices().addToCart(product, user);
+                          }),
                     ),
-                  )
+                  ),
+                  // Padding(
+                  //   padding: const EdgeInsets.symmetric(
+                  //       horizontal: 10.0, vertical: 5),
+                  //   child: Material(
+                  //     elevation: 7,
+                  //     shape: CircleBorder(),
+                  //     child: CircleAvatar(
+                  //       backgroundColor: Colors.orangeAccent,
+                  //       child: IconButton(
+                  //           icon: Icon(
+                  //             CupertinoIcons.add,
+                  //             color: Colors.black,
+                  //           ),
+                  //           onPressed: () {
+                  //             DatabaseServices().addToCart(product, user);
+                  //           }),
+                  //     ),
+                  //   ),
+                  // )
                 ],
               )
             ],
