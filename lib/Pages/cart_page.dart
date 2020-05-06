@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import 'package:shop_app/Models/user.dart';
 import 'package:shop_app/Widgets/cart_list.dart';
@@ -17,7 +18,7 @@ class _CartPageState extends State<CartPage> {
   Widget build(BuildContext context) {
     User user = Provider.of<User>(context);
     return Scaffold(
-
+      backgroundColor: kbackgroundColor,
       appBar: AppBar(
           leading: IconButton(
               icon: Icon(
@@ -40,6 +41,7 @@ class _CartPageState extends State<CartPage> {
       body: Container(
         child: Column(
           children: <Widget>[
+            SizedBox(height: 10),
             Expanded(child: CartList()),
             Container(
               color: kbackgroundColor,
@@ -49,13 +51,18 @@ class _CartPageState extends State<CartPage> {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: <Widget>[
                     Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: _buildTotalCostText(user)
-                    ),
-                    Buttons(
-                      icon: CupertinoIcons.forward,
-                      text: "Checkout",
-                      buttonColor: Colors.orange,
+                        padding: const EdgeInsets.all(8.0),
+                        child: _buildTotalCostText(user)),
+                    Container(
+                      decoration: kSoftShadowDecoration.copyWith(
+                          borderRadius: BorderRadius.circular(50)),
+                      child: Buttons(
+                        textColor: Colors.green,
+                        iconColor: Colors.green,
+                        icon: CupertinoIcons.forward,
+                        text: "Checkout",
+                        buttonColor: kbackgroundColor,
+                      ),
                     )
                   ],
                 ),
@@ -67,16 +74,35 @@ class _CartPageState extends State<CartPage> {
     );
   }
 
-  Widget _buildTotalCostText(User user){
+  Widget _buildTotalCostText(User user) {
     return StreamBuilder(
-      stream: Firestore.instance.collection("Cart").document(user.phone).snapshots(),
-      builder: (context, snap){
-        if(snap.hasData)
-        {
-          if(snap.data.data == null) return Text("");
-          return Text(snap.data.data['totalCartCost'].toString());
-        }
-        else return Text("");
+      stream: Firestore.instance
+          .collection("Cart")
+          .document(user.phone)
+          .snapshots(),
+      builder: (context, snap) {
+        if (snap.hasData) {
+          if (snap.data.data == null) return Text("");
+          {
+            String total = snap.data.data['totalCartCost'].toString();
+            return RichText(
+              text: TextSpan(
+                  text: 'Total -  ',
+                  style: GoogleFonts.questrial(color: Colors.redAccent),
+                  children: <TextSpan>[
+                    TextSpan(
+                        text: ' ₹ ', style: TextStyle(color: Colors.black54)),
+                    TextSpan(
+                        text: total,
+                        style: GoogleFonts.lato(
+                            fontWeight: FontWeight.bold,
+                            color: Colors.black,
+                            fontSize: 29)),
+                  ]),
+            );
+          }
+        } else
+          return Text("");
       },
     );
   }

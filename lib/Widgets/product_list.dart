@@ -47,6 +47,12 @@ class _ProductListState extends State<ProductList> {
   Widget _gridViewItem(
       BuildContext context, int index, List<Product> products) {
     Product product = products[index];
+    final snackBar = SnackBar(
+        elevation: 8,
+        content: Text(
+          '${product.name} added to Cart!',
+          style: GoogleFonts.questrial(),
+        ));
     User user = Provider.of<User>(context);
     return Padding(
       padding: const EdgeInsets.all(9.0),
@@ -142,6 +148,7 @@ class _ProductListState extends State<ProductList> {
                           ),
                           onPressed: () {
                             DatabaseServices().addToCart(product, user);
+                            Scaffold.of(context).showSnackBar(snackBar);
                           }),
                     ),
                   ),

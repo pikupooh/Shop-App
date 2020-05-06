@@ -35,7 +35,7 @@ class _CartListState extends State<CartList> {
   Widget _buildCart(List<CartItem> snapshot) {
     return ListView(
       padding: EdgeInsets.only(right: 20, left: 20),
-      itemExtent: 200,
+      itemExtent: 180,
       children: snapshot
           .map((data) => _buildCaterogyListItem(context, data))
           .toList(),
@@ -108,7 +108,7 @@ class _CartListState extends State<CartList> {
                       child: RichText(
                         text: TextSpan(
                             text: '₹ ',
-                            style: TextStyle(color: Colors.redAccent),
+                            style: TextStyle(color: Colors.black54),
                             children: <TextSpan>[
                               TextSpan(
                                   text: doc.totalCost,
