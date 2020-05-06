@@ -49,6 +49,12 @@ class _ProductListState extends State<ProductList> {
   Widget _gridViewItem(
       BuildContext context, int index, List<Product> products) {
     Product product = products[index];
+    final snackBar = SnackBar(
+        elevation: 8,
+        content: Text(
+          '${product.name} added to Cart!',
+          style: GoogleFonts.questrial(),
+        ));
     User user = Provider.of<User>(context);
     return Padding(
       padding: const EdgeInsets.all(9.0),
@@ -85,7 +91,8 @@ class _ProductListState extends State<ProductList> {
                   alignment: Alignment.centerLeft,
                   child: Text(
                     product.name,
-                    style: TextStyle(fontSize: 24, fontWeight: FontWeight.w600),
+                    style: GoogleFonts.manrope(
+                        fontSize: 23, fontWeight: FontWeight.w400),
                   )),
               Align(
                   alignment: Alignment.centerLeft,
@@ -112,32 +119,65 @@ class _ProductListState extends State<ProductList> {
                               TextSpan(
                                   text: product.cost,
                                   style: GoogleFonts.lato(
-                                      fontWeight: FontWeight.bold,
+                                      fontWeight: FontWeight.w400,
                                       color: Colors.black,
                                       fontSize: 29)),
                             ]),
                       ),
                     ),
                   ),
+                  SizedBox(width: 10),
                   Padding(
-                    padding: const EdgeInsets.symmetric(
-                        horizontal: 10.0, vertical: 5),
-                    child: Material(
-                      elevation: 7,
-                      shape: CircleBorder(),
-                      child: CircleAvatar(
-                        backgroundColor: Colors.orangeAccent,
+                    padding: const EdgeInsets.all(8.0),
+                    child: InkWell(
+                      onTap: () {},
+                      child: Container(
+                        decoration: BoxDecoration(
+                          shape: BoxShape.circle,
+                          color: kbackgroundColor,
+                          boxShadow: [
+                            BoxShadow(
+                                color: kshadowColor,
+                                offset: Offset(8, 6),
+                                blurRadius: 12),
+                            BoxShadow(
+                                color: klightShadowColor,
+                                offset: Offset(-8, -6),
+                                blurRadius: 12),
+                          ],
+                        ),
                         child: IconButton(
                             icon: Icon(
-                              CupertinoIcons.add,
-                              color: Colors.black,
+                              Icons.add,
+                              size: 30,
+                              color: Colors.red,
                             ),
                             onPressed: () {
                               DatabaseServices().addToCart(product, user);
+                              Scaffold.of(context).showSnackBar(snackBar);
                             }),
                       ),
                     ),
-                  )
+                  ),
+                  // Padding(
+                  //   padding: const EdgeInsets.symmetric(
+                  //       horizontal: 10.0, vertical: 5),
+                  //   child: Material(
+                  //     elevation: 7,
+                  //     shape: CircleBorder(),
+                  //     child: CircleAvatar(
+                  //       backgroundColor: Colors.orangeAccent,
+                  //       child: IconButton(
+                  //           icon: Icon(
+                  //             CupertinoIcons.add,
+                  //             color: Colors.black,
+                  //           ),
+                  //           onPressed: () {
+                  //             DatabaseServices().addToCart(product, user);
+                  //           }),
+                  //     ),
+                  //   ),
+                  // )
                 ],
               )
             ],

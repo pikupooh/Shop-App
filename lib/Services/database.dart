@@ -158,6 +158,7 @@ class DatabaseServices {
         int totalCartCost = 0;
         //print(onValue.data.toString());
         if (onValue != null) {
+        
           onValue.data.forEach((key, value) {
             if (key != 'id' && key != 'totalCartCost') {
               totalCartCost += int.parse(value['totalcost']);
@@ -171,6 +172,44 @@ class DatabaseServices {
     } catch (e) {
       print(e);
       print("update cart total cost error");
+    }
+  }
+
+  void changeCartItemQuantity(String product, User user, bool increase) async {
+    try {
+      var _ref = _db.collection('Cart').document(user.phone);
+
+      await _ref.get().then((onValue) async {
+        var data = onValue.data;
+
+        Map item = data[product];
+        increase ? item['quantity'] += 1 : item['quantity'] -= 1;
+        item['totalCost'] =
+            (int.parse(item['cost']) * item['quantity']).toString();
+        await _ref.updateData({product: item});
+      });
+    } catch (e) {
+      print(e);
+    }
+  }
+
+  Future<void> deleteFromCart(String product, User user) async {
+    try {
+      var _ref = _db.collection('Cart').document(user.phone);
+      await _ref.updateData({product: FieldValue.delete()}).whenComplete(() {
+        print('Field Deleted');
+      });
+      // await _ref.get().then(
+      //   (onValue) async {
+      //     var data = onValue.data;
+
+      //     Map item = data[product];
+      //     item['name'] = FieldValue.delete();
+      //     await _ref.updateData({product: item});
+      //   },
+      // );
+    } catch (e) {
+      print(e);
     }
   }
 }

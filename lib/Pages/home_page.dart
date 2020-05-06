@@ -33,7 +33,9 @@ class _HomePageState extends State<HomePage> {
           onPressed: () {
             Navigator.push(
               context,
-              MaterialPageRoute(builder: (context) => ProfilePage()),
+              CupertinoPageRoute(
+                builder: (context) => ProfilePage(),
+              ),
             );
           },
         ),
@@ -49,19 +51,38 @@ class _HomePageState extends State<HomePage> {
               color: Colors.black,
             ),
             onPressed: () {
-              Navigator.push(
-                  context, MaterialPageRoute(builder: (context) => CartPage()));
+              Navigator.push(context,
+                  CupertinoPageRoute(builder: (context) => CartPage()));
             },
           ),
-          IconButton(
-            icon: Icon(
-              CupertinoIcons.shopping_cart,
-              color: Colors.black,
+          Container(
+            child: Stack(
+              children: <Widget>[
+                Center(
+                  child: IconButton(
+                    icon: Icon(
+                      CupertinoIcons.shopping_cart,
+                      color: Colors.black,
+                    ),
+                    onPressed: () {
+                      Navigator.push(context,
+                          CupertinoPageRoute(builder: (context) => CartPage()));
+                    },
+                  ),
+                ),
+                Positioned(
+                  top: 14,
+                  left: 30,
+                  child: Container(
+                      height: 10,
+                      width: 8,
+                      decoration: BoxDecoration(
+                        color: Colors.red,
+                        shape: BoxShape.circle,
+                      )),
+                )
+              ],
             ),
-            onPressed: () {
-              Navigator.push(
-                  context, MaterialPageRoute(builder: (context) => CartPage()));
-            },
           )
         ],
       ),
@@ -87,11 +108,11 @@ class _HomePageState extends State<HomePage> {
                   padding: const EdgeInsets.only(left: 20.0),
                   child: Text(
                     "Food & Groceries",
-                    style: TextStyle(fontSize: 30),
+                    style: TextStyle(fontSize: 32),
                   ),
                 ),
               ),
-             
+
               // Row(
               //   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               //   children: <Widget>[
