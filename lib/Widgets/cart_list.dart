@@ -102,7 +102,7 @@ class _CartListState extends State<CartList> {
                     Text(
                       doc.name,
                       style:
-                          TextStyle(fontSize: 24, fontWeight: FontWeight.w600),
+                          TextStyle(fontSize: 24, fontWeight: FontWeight.w400),
                     ),
                     Padding(
                       padding: const EdgeInsets.only(top: 7, right: 8.0),
@@ -114,9 +114,9 @@ class _CartListState extends State<CartList> {
                               TextSpan(
                                   text: doc.totalCost,
                                   style: GoogleFonts.lato(
-                                      fontWeight: FontWeight.bold,
+                                      fontWeight: FontWeight.w400,
                                       color: Colors.black,
-                                      fontSize: 29)),
+                                      fontSize: 20)),
                             ]),
                       ),
                     ),
