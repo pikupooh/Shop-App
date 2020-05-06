@@ -158,6 +158,7 @@ class DatabaseServices {
         int totalCartCost = 0;
         //print(onValue.data.toString());
         if (onValue != null) {
+        
           onValue.data.forEach((key, value) {
             if (key != 'id' && key != 'totalCartCost') {
               totalCartCost += int.parse(value['totalcost']);
@@ -192,7 +193,7 @@ class DatabaseServices {
     }
   }
 
-  void deleteFromCart(String product, User user) async {
+  Future<void> deleteFromCart(String product, User user) async {
     try {
       var _ref = _db.collection('Cart').document(user.phone);
       await _ref.updateData({product: FieldValue.delete()}).whenComplete(() {

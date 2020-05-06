@@ -18,6 +18,8 @@ class _CartPageState extends State<CartPage> {
   @override
   Widget build(BuildContext context) {
     User user = Provider.of<User>(context);
+    
+
     return Scaffold(
       appBar: AppBar(
           leading: IconButton(

@@ -82,8 +82,10 @@ class _CartListState extends State<CartList> {
                     doc.quantity <= 1
                         ? IconButton(
                             icon: Icon(CupertinoIcons.delete),
-                            onPressed: () {
-                              DatabaseServices().deleteFromCart(doc.name, user);
+                            onPressed: () async {
+                              await DatabaseServices()
+                                  .deleteFromCart(doc.name, user);
+                              DatabaseServices().updateCart(user);
                             })
                         : IconButton(
                             icon: Icon(CupertinoIcons.minus_circled),
