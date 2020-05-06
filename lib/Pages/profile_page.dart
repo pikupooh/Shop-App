@@ -41,6 +41,7 @@ class _ProfilePageState extends State<ProfilePage> {
         stream: DatabaseServices().streamUser(user),
         builder: (context, snap) {
           if (snap.hasData) {
+            
             return _buildUserForm(snap.data);
           } else
             return CircularProgressIndicator();
@@ -50,6 +51,7 @@ class _ProfilePageState extends State<ProfilePage> {
   }
 
   Widget _buildUserForm(User user) {
+    //var _formKey = GlobalKey<FormState>();
     return SingleChildScrollView(
       child: Column(
         // TODO UI
@@ -175,6 +177,10 @@ class _ProfilePageState extends State<ProfilePage> {
             child: SizedBox(
               width: MediaQuery.of(context).size.width / 1.3,
               child: TextField(
+                onSubmitted: (value){
+                  if(value.isEmpty || value.length == 0 || value == 'None') return "Enter proper address";
+                  return null;
+                },
                 onChanged: (value) {
                   setState(() {
                     address = value;
@@ -208,13 +214,15 @@ class _ProfilePageState extends State<ProfilePage> {
             ),
             child: Buttons(
               onTap: () async {
-                DatabaseServices().updateProfile(
-                    user.phone,
-                    name ?? user.name,
-                    alternatePhone ?? user.alternatePhoneNumber,
-                    imageUrl ?? user.imageUrl,
-                    address ?? user.address);
-                print(name);
+                //if (_formKey.currentState.validate()) {
+                  DatabaseServices().updateProfile(
+                      user.phone,
+                      name ?? user.name,
+                      alternatePhone ?? user.alternatePhoneNumber,
+                      imageUrl ?? user.imageUrl,
+                      address ?? user.address);
+                  print(name);
+                //}
               },
               iconColor: Colors.green,
               textColor: Colors.green,
