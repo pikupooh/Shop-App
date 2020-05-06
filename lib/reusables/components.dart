@@ -18,7 +18,7 @@ class Buttons extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return InkWell(
-        splashColor: Colors.white,
+       
         child: Container(
           decoration: BoxDecoration(
               color: buttonColor, borderRadius: BorderRadius.circular(50)),

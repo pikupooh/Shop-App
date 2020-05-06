@@ -126,30 +126,33 @@ class _ProductListState extends State<ProductList> {
                   SizedBox(width: 10),
                   Padding(
                     padding: const EdgeInsets.all(8.0),
-                    child: Container(
-                      decoration: BoxDecoration(
-                        shape: BoxShape.circle,
-                        color: kbackgroundColor,
-                        boxShadow: [
-                          BoxShadow(
-                              color: kshadowColor,
-                              offset: Offset(8, 6),
-                              blurRadius: 12),
-                          BoxShadow(
-                              color: klightShadowColor,
-                              offset: Offset(-8, -6),
-                              blurRadius: 12),
-                        ],
+                    child: InkWell(
+                      onTap: () {},
+                      child: Container(
+                        decoration: BoxDecoration(
+                          shape: BoxShape.circle,
+                          color: kbackgroundColor,
+                          boxShadow: [
+                            BoxShadow(
+                                color: kshadowColor,
+                                offset: Offset(8, 6),
+                                blurRadius: 12),
+                            BoxShadow(
+                                color: klightShadowColor,
+                                offset: Offset(-8, -6),
+                                blurRadius: 12),
+                          ],
+                        ),
+                        child: IconButton(
+                            icon: Icon(
+                              Icons.add,
+                              color: Colors.red,
+                            ),
+                            onPressed: () {
+                              DatabaseServices().addToCart(product, user);
+                              Scaffold.of(context).showSnackBar(snackBar);
+                            }),
                       ),
-                      child: IconButton(
-                          icon: Icon(
-                            Icons.add,
-                            color: Colors.red,
-                          ),
-                          onPressed: () {
-                            DatabaseServices().addToCart(product, user);
-                            Scaffold.of(context).showSnackBar(snackBar);
-                          }),
                     ),
                   ),
                   // Padding(

@@ -53,15 +53,35 @@ class _HomePageState extends State<HomePage> {
                   context, MaterialPageRoute(builder: (context) => CartPage()));
             },
           ),
-          IconButton(
-            icon: Icon(
-              CupertinoIcons.shopping_cart,
-              color: Colors.black,
+          Container(
+           
+            child: Stack(
+              children: <Widget>[
+                Center(
+                  child: IconButton(
+                    icon: Icon(
+                      CupertinoIcons.shopping_cart,
+                      color: Colors.black,
+                    ),
+                    onPressed: () {
+                      Navigator.push(context,
+                          MaterialPageRoute(builder: (context) => CartPage()));
+                    },
+                  ),
+                ),
+                Positioned(
+                  top: 14,
+                  left: 30,
+                  child: Container(
+                      height: 10,
+                      width: 8,
+                      decoration: BoxDecoration(
+                        color: Colors.red,
+                        shape: BoxShape.circle,
+                      )),
+                )
+              ],
             ),
-            onPressed: () {
-              Navigator.push(
-                  context, MaterialPageRoute(builder: (context) => CartPage()));
-            },
           )
         ],
       ),
@@ -91,7 +111,7 @@ class _HomePageState extends State<HomePage> {
                   ),
                 ),
               ),
-             
+
               // Row(
               //   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               //   children: <Widget>[
