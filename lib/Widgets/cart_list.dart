@@ -44,6 +44,7 @@ class _CartListState extends State<CartList> {
   }
 
   Widget _buildCaterogyListItem(BuildContext context, CartItem doc) {
+    User user = Provider.of<User>(context);
     return FittedBox(
       child: Container(
         decoration: BoxDecoration(
@@ -78,11 +79,15 @@ class _CartListState extends State<CartList> {
               Container(
                 child: Row(
                   children: <Widget>[
-                    IconButton(
-                        icon: doc.quantity <= 1
-                            ? Icon(CupertinoIcons.delete)
-                            : Icon(CupertinoIcons.minus_circled),
-                        onPressed: () {}),
+                    doc.quantity <= 1
+                        ? IconButton(
+                            icon: Icon(CupertinoIcons.delete), onPressed: () {})
+                        : IconButton(
+                            icon: Icon(CupertinoIcons.minus_circled),
+                            onPressed: () {
+                              DatabaseServices().changeCartItemQuantity(
+                                  doc.name, user, false);
+                            }),
                     Text(
                       doc.quantity.toString(),
                       style:
@@ -90,7 +95,10 @@ class _CartListState extends State<CartList> {
                     ),
                     IconButton(
                         icon: Icon(CupertinoIcons.add_circled),
-                        onPressed: () {}),
+                        onPressed: () {
+                          DatabaseServices()
+                              .changeCartItemQuantity(doc.name, user, true);
+                        }),
                   ],
                 ),
               ),

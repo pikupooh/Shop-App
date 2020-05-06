@@ -173,4 +173,22 @@ class DatabaseServices {
       print("update cart total cost error");
     }
   }
+
+  void changeCartItemQuantity(String product, User user,bool increase) async {
+    try {
+      var _ref = _db.collection('Cart').document(user.phone);
+
+      await _ref.get().then((onValue) async {
+        var data = onValue.data;
+
+        Map item = data[product];
+        increase?item['quantity'] += 1:item['quantity'] -= 1;
+        item['totalCost'] =
+            (int.parse(item['cost']) * item['quantity']).toString();
+        await _ref.updateData({product: item});
+      });
+    } catch (e) {
+      print(e);
+    }
+  }
 }
