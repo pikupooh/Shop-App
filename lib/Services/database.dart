@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:provider/provider.dart';
 import 'package:shop_app/Models/cart_item.dart';
 import 'package:shop_app/Models/categories.dart';
 import 'package:shop_app/Models/order_item.dart';
@@ -208,6 +209,38 @@ class DatabaseServices {
       });
     } catch (e) {
       print(e);
+    }
+  }
+
+  void placeOrder(List<CartItem> cartItems, User user) async {
+    try{
+      OrderItem orderItem = new OrderItem();
+      orderItem.items = new Map();
+      orderItem.userid = user.phone;
+      orderItem.status = "Not Delivered";
+      orderItem.items = new Map();
+      orderItem.totalCartCost = "0";
+      cartItems.forEach((item){
+        orderItem.items.addAll({"${item.name}": item.quantity});
+        orderItem.totalCartCost = (int.parse(orderItem.totalCartCost) + int.parse(item.totalCost)).toString();
+      });
+      print(orderItem.items.toString());
+      // print(orderItem.totalCartCost);
+      // print(FieldValue.serverTimestamp().toString());
+      var ref = _db.collection("Orders").document();
+      await ref.setData({
+        "totalCartCost": orderItem.totalCartCost,
+        "orderDate": FieldValue.serverTimestamp(),
+        "status": orderItem.status,
+        "userid": orderItem.userid
+      });
+      orderItem.items.forEach((key, value) async {
+        await ref.updateData({"$key": value});
+      });
+      createCart(user.phone);
+      // print("order placed");
+    }catch(e){
+
     }
   }
 }
