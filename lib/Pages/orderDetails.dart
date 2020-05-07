@@ -1,3 +1,4 @@
+import 'package:barcode_widget/barcode_widget.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -144,6 +145,13 @@ class _OrderDetailsState extends State<OrderDetails> {
                 ),
                 Divider(
                   color: Colors.black54,
+                ),
+                BarcodeWidget(
+                  drawText: false,
+                  width: 230,
+                  height: 50,
+                  barcode: Barcode.code128(),
+                  data: widget.orderItem.orderID,
                 ),
                 Padding(
                   padding: const EdgeInsets.only(bottom: 20.0, top: 10),
