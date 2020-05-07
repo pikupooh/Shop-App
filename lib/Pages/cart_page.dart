@@ -5,6 +5,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import 'package:shop_app/Models/cart_item.dart';
 import 'package:shop_app/Models/user.dart';
+import 'package:shop_app/Pages/orderConfirmationPage.dart';
 import 'package:shop_app/Services/database.dart';
 import 'package:shop_app/Widgets/cart_list.dart';
 import 'package:shop_app/reusables/components.dart';
@@ -65,6 +66,10 @@ class _CartPageState extends State<CartPage> {
                         buttonColor: kbackgroundColor,
                         onTap: () {
                           createOrder(user);
+                          Navigator.push(
+                              context,
+                              CupertinoPageRoute(
+                                  builder: (context) => OrderConfirmation()));
                         },
                       ),
                     )
@@ -115,10 +120,14 @@ class _CartPageState extends State<CartPage> {
 
   void createOrder(User user) async {
     List<CartItem> cartItems = new List();
-    await Firestore.instance.collection("Cart").document(user.phone).get().then((onValue){
+    await Firestore.instance
+        .collection("Cart")
+        .document(user.phone)
+        .get()
+        .then((onValue) {
       cartItems = CartItem().fromFirebase(onValue);
     });
-    if(cartItems == null || cartItems.isEmpty || cartItems.length == 0){
+    if (cartItems == null || cartItems.isEmpty || cartItems.length == 0) {
       print("not added");
       return;
     }

@@ -105,50 +105,60 @@ class _OrdersPageState extends State<OrdersPage> {
                 Padding(
                   padding: const EdgeInsets.only(bottom: 13.0),
                   child: Column(
+                    mainAxisAlignment: MainAxisAlignment.spaceAround,
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: <Widget>[
-                      RichText(
-                        text: TextSpan(
-                          text: 'Order Date:  ',
-                          style: GoogleFonts.questrial(color: Colors.black54),
-                          children: <TextSpan>[
-                            TextSpan(
-                                text:
-                                    "${order.orderDate.toDate().day}-${order.orderDate.toDate().month}-${order.orderDate.toDate().year}",
+                      Padding(
+                        padding: const EdgeInsets.only(top: 8.0),
+                        child: RichText(
+                          text: TextSpan(
+                            text: 'Order Date:  ',
+                            style: GoogleFonts.questrial(color: Colors.black54),
+                            children: <TextSpan>[
+                              TextSpan(
+                                  text:
+                                      "${order.orderDate.toDate().day}-${order.orderDate.toDate().month}-${order.orderDate.toDate().year}",
+                                  style: GoogleFonts.lato(
+                                      fontWeight: FontWeight.w400,
+                                      color: Colors.black,
+                                      fontSize: 16)),
+                            ],
+                          ),
+                        ),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.only(top: 8.0),
+                        child: RichText(
+                          text: TextSpan(
+                            text: 'Order Total: ₹ ',
+                            style: GoogleFonts.questrial(color: Colors.black54),
+                            children: <TextSpan>[
+                              TextSpan(
+                                  text: order.totalCartCost,
+                                  style: GoogleFonts.lato(
+                                      fontWeight: FontWeight.w400,
+                                      color: Colors.black,
+                                      fontSize: 16)),
+                            ],
+                          ),
+                        ),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.only(top: 8.0, bottom: 8),
+                        child: RichText(
+                          text: TextSpan(
+                            text: 'Item Count: ',
+                            style: GoogleFonts.questrial(color: Colors.black54),
+                            children: <TextSpan>[
+                              TextSpan(
+                                text: order.items.length.toString(),
                                 style: GoogleFonts.lato(
                                     fontWeight: FontWeight.w400,
                                     color: Colors.black,
-                                    fontSize: 20)),
-                          ],
-                        ),
-                      ),
-                      RichText(
-                        text: TextSpan(
-                          text: 'Order Total: ₹ ',
-                          style: GoogleFonts.questrial(color: Colors.black54),
-                          children: <TextSpan>[
-                            TextSpan(
-                                text: order.totalCartCost,
-                                style: GoogleFonts.lato(
-                                    fontWeight: FontWeight.w400,
-                                    color: Colors.black,
-                                    fontSize: 20)),
-                          ],
-                        ),
-                      ),
-                      RichText(
-                        text: TextSpan(
-                          text: 'Item Count: ',
-                          style: GoogleFonts.questrial(color: Colors.black54),
-                          children: <TextSpan>[
-                            TextSpan(
-                              text: order.items.length.toString(),
-                              style: GoogleFonts.lato(
-                                  fontWeight: FontWeight.w400,
-                                  color: Colors.black,
-                                  fontSize: 20),
-                            ),
-                          ],
+                                    fontSize: 16),
+                              ),
+                            ],
+                          ),
                         ),
                       ),
                     ],
