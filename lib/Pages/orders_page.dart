@@ -72,7 +72,7 @@ class _OrdersPageState extends State<OrdersPage> {
           children: <Widget>[
             Padding(
               padding: const EdgeInsets.only(top: 10.0),
-              child: Text("Placed: ${order.orderDate.toDate().toLocal()}"),
+              child: Text("Placed: ${order.orderDate.toDate().day}-${order.orderDate.toDate().month}-${order.orderDate.toDate().year}"),
             ),
             Divider(
               color: Colors.grey,

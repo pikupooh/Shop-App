@@ -3,6 +3,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
+import 'package:shop_app/Models/cart_item.dart';
 import 'package:shop_app/Models/user.dart';
 import 'package:shop_app/Services/database.dart';
 import 'package:shop_app/Widgets/cart_list.dart';
@@ -18,7 +19,6 @@ class _CartPageState extends State<CartPage> {
   @override
   Widget build(BuildContext context) {
     User user = Provider.of<User>(context);
-    
 
     return Scaffold(
       appBar: AppBar(
@@ -63,6 +63,9 @@ class _CartPageState extends State<CartPage> {
                         icon: CupertinoIcons.forward,
                         text: "Checkout",
                         buttonColor: kbackgroundColor,
+                        onTap: () {
+                          createOrder(user);
+                        },
                       ),
                     )
                   ],
@@ -108,5 +111,18 @@ class _CartPageState extends State<CartPage> {
           return Text("");
       },
     );
+  }
+
+  void createOrder(User user) async {
+    List<CartItem> cartItems = new List();
+    await Firestore.instance.collection("Cart").document(user.phone).get().then((onValue){
+      cartItems = CartItem().fromFirebase(onValue);
+    });
+    if(cartItems == null || cartItems.isEmpty || cartItems.length == 0){
+      print("not added");
+      return;
+    }
+    DatabaseServices().placeOrder(cartItems, user);
+    // DatabaseServices().createCart(user.phone);
   }
 }
