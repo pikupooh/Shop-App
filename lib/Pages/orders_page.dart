@@ -72,7 +72,21 @@ class _OrdersPageState extends State<OrdersPage> {
           children: <Widget>[
             Padding(
               padding: const EdgeInsets.only(top: 10.0),
-              child: Text("Placed: ${order.orderDate.toDate().day}-${order.orderDate.toDate().month}-${order.orderDate.toDate().year}"),
+              child: RichText(
+                text: TextSpan(
+                  text: 'OrderID:  ',
+                  style: GoogleFonts.questrial(
+                      color: Colors.black54, fontSize: 12),
+                  children: <TextSpan>[
+                    TextSpan(
+                        text: order.orderID,
+                        style: GoogleFonts.lato(
+                            fontWeight: FontWeight.w400,
+                            color: Colors.black,
+                            fontSize: 10)),
+                  ],
+                ),
+              ),
             ),
             Divider(
               color: Colors.grey,
@@ -94,11 +108,12 @@ class _OrdersPageState extends State<OrdersPage> {
                     children: <Widget>[
                       RichText(
                         text: TextSpan(
-                          text: 'OrderID:  ',
-                          style: TextStyle(color: Colors.black54),
+                          text: 'Order Date:  ',
+                          style: GoogleFonts.questrial(color: Colors.black54),
                           children: <TextSpan>[
                             TextSpan(
-                                text: order.orderID,
+                                text:
+                                    "${order.orderDate.toDate().day}-${order.orderDate.toDate().month}-${order.orderDate.toDate().year}",
                                 style: GoogleFonts.lato(
                                     fontWeight: FontWeight.w400,
                                     color: Colors.black,
@@ -109,7 +124,7 @@ class _OrdersPageState extends State<OrdersPage> {
                       RichText(
                         text: TextSpan(
                           text: 'Order Total: ₹ ',
-                          style: TextStyle(color: Colors.black54),
+                          style: GoogleFonts.questrial(color: Colors.black54),
                           children: <TextSpan>[
                             TextSpan(
                                 text: order.totalCartCost,
@@ -123,7 +138,7 @@ class _OrdersPageState extends State<OrdersPage> {
                       RichText(
                         text: TextSpan(
                           text: 'Item Count: ',
-                          style: TextStyle(color: Colors.black54),
+                          style: GoogleFonts.questrial(color: Colors.black54),
                           children: <TextSpan>[
                             TextSpan(
                               text: order.items.length.toString(),

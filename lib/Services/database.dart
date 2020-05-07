@@ -69,8 +69,12 @@ class DatabaseServices {
         list.documents.map((item) => Product.fromFirebase(item)).toList());
   }
 
-  Stream<List<OrderItem>> getOrderItem(User user){
-    var ref = _db.collection("Orders").where('userid', isEqualTo: user.phone).snapshots() ;
+  Stream<List<OrderItem>> getOrderItem(User user) {
+    var ref = _db
+        .collection("Orders")
+        .where('userid', isEqualTo: user.phone)
+        .orderBy('orderDate',descending: true)
+        .snapshots();
     return ref.map((list) =>
         list.documents.map((item) => OrderItem.fromFirebase(item)).toList());
   }
@@ -166,7 +170,6 @@ class DatabaseServices {
         int totalCartCost = 0;
         //print(onValue.data.toString());
         if (onValue != null) {
-        
           onValue.data.forEach((key, value) {
             if (key != 'id' && key != 'totalCartCost') {
               totalCartCost += int.parse(value['totalcost']);
@@ -213,16 +216,18 @@ class DatabaseServices {
   }
 
   void placeOrder(List<CartItem> cartItems, User user) async {
-    try{
+    try {
       OrderItem orderItem = new OrderItem();
       orderItem.items = new Map();
       orderItem.userid = user.phone;
       orderItem.status = "Not Delivered";
       orderItem.items = new Map();
       orderItem.totalCartCost = "0";
-      cartItems.forEach((item){
+      cartItems.forEach((item) {
         orderItem.items.addAll({"${item.name}": item.quantity});
-        orderItem.totalCartCost = (int.parse(orderItem.totalCartCost) + int.parse(item.totalCost)).toString();
+        orderItem.totalCartCost =
+            (int.parse(orderItem.totalCartCost) + int.parse(item.totalCost))
+                .toString();
       });
       print(orderItem.items.toString());
       // print(orderItem.totalCartCost);
@@ -239,8 +244,6 @@ class DatabaseServices {
       });
       createCart(user.phone);
       // print("order placed");
-    }catch(e){
-
-    }
+    } catch (e) {}
   }
 }
