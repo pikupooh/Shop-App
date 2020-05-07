@@ -4,6 +4,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import 'package:shop_app/Models/order_item.dart';
 import 'package:shop_app/Models/user.dart';
+import 'package:shop_app/Pages/orderDetails.dart';
 import 'package:shop_app/Services/database.dart';
 import 'package:shop_app/reusables/constants.dart';
 
@@ -30,7 +31,7 @@ class _OrdersPageState extends State<OrdersPage> {
         ),
         centerTitle: true,
         title: Text(
-          "Past Orders",
+          "My Orders",
           style: TextStyle(fontSize: 22),
         ),
         backgroundColor: kbackgroundColor,
@@ -155,54 +156,63 @@ class _OrdersPageState extends State<OrdersPage> {
                 ),
                 Container(
                   decoration: kSoftShadowDecoration,
-                  child: IconButton(
-                    icon: Icon(
-                      CupertinoIcons.forward,
-                      color: Colors.green,
+                  child: Provider<OrderItem>.value(
+                    value: order,
+                    child: IconButton(
+                      icon: Icon(
+                        CupertinoIcons.forward,
+                        color: Colors.green,
+                      ),
+                      onPressed: () {
+                        Navigator.push(
+                            context,
+                            CupertinoPageRoute(
+                                builder: (context) => OrderDetails(
+                                      orderItem: order,
+                                    )));
+                        // showModalBottomSheet(
+                        //   useRootNavigator: true,
+                        //   elevation: 0,
+                        //   shape: RoundedRectangleBorder(
+                        //       borderRadius: BorderRadius.circular(20)),
+                        //   backgroundColor: kbackgroundColor,
+                        //   context: context,
+                        //   builder: (context) {
+                        //     return Container(
+                        //       color: kbackgroundColor,
+                        //       child: Column(
+                        //         children: <Widget>[
+                        //           Padding(
+                        //             padding: const EdgeInsets.all(8.0),
+                        //             child: Text(
+                        //               "Order Details",
+                        //               style: TextStyle(fontSize: 25),
+                        //             ),
+                        //           ),
+                        //           Divider(
+                        //             color: Colors.black,
+                        //           ),
+                        //         ],
+                        //       ),
+                        //     );
+                        //   },
+                        // );
+                        // showDialog(
+                        //     context: context,
+                        //     builder: (context) {
+                        //       return Dialog(
+                        //         child: Container(
+                        //           child:Column(
+                        //             children: <Widget>[
+                        //               Text("Order Details")
+                        //             ],
+                        //           )?? Text(order.items.toString()),
+                        //           color: kbackgroundColor,
+                        //         ),
+                        //       );
+                        //     });
+                      },
                     ),
-                    onPressed: () {
-                      showModalBottomSheet(
-                        useRootNavigator: true,
-                        elevation: 0,
-                        shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(20)),
-                        backgroundColor: kbackgroundColor,
-                        context: context,
-                        builder: (context) {
-                          return Container(
-                            color: kbackgroundColor,
-                            child: Column(
-                              children: <Widget>[
-                                Padding(
-                                  padding: const EdgeInsets.all(8.0),
-                                  child: Text(
-                                    "Order Details",
-                                    style: TextStyle(fontSize: 25),
-                                  ),
-                                ),
-                                Divider(
-                                  color: Colors.black,
-                                ),
-                              ],
-                            ),
-                          );
-                        },
-                      );
-                      // showDialog(
-                      //     context: context,
-                      //     builder: (context) {
-                      //       return Dialog(
-                      //         child: Container(
-                      //           child:Column(
-                      //             children: <Widget>[
-                      //               Text("Order Details")
-                      //             ],
-                      //           )?? Text(order.items.toString()),
-                      //           color: kbackgroundColor,
-                      //         ),
-                      //       );
-                      //     });
-                    },
                   ),
                 )
               ],
@@ -212,4 +222,13 @@ class _OrdersPageState extends State<OrdersPage> {
       ),
     );
   }
+}
+
+List<Widget> _buildOrderDetails(Map<String, int> orderitems) {
+  List<Widget> list = [];
+  orderitems.forEach((key, value) {
+    Widget temp = Text(key);
+    list.add(temp);
+  });
+  return list;
 }
