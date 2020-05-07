@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:shop_app/Models/cart_item.dart';
 import 'package:shop_app/Models/categories.dart';
+import 'package:shop_app/Models/order_item.dart';
 import 'package:shop_app/Models/product.dart';
 import 'package:shop_app/Models/user.dart';
 
@@ -67,10 +68,16 @@ class DatabaseServices {
         list.documents.map((item) => Product.fromFirebase(item)).toList());
   }
 
+  Stream<List<OrderItem>> getOrderItem(User user){
+    var ref = _db.collection("Orders").where('userid', isEqualTo: user.phone).snapshots() ;
+    return ref.map((list) =>
+        list.documents.map((item) => OrderItem.fromFirebase(item)).toList());
+  }
+
   void addToCart(Product product, User user) async {
     try {
       CartItem cartItem = CartItem.fromProduct(product);
-      print(cartItem.toString());
+      // print(cartItem.toString());
       var _ref = _db.collection('Cart').document(user.phone);
       final cartsnapShot = await Firestore.instance
           .collection('Cart')
@@ -78,15 +85,15 @@ class DatabaseServices {
           .get();
 
       if (cartsnapShot == null || !cartsnapShot.exists) {
-        print("Cart Does not exits");
+        // print("Cart Does not exits");
         DatabaseServices().createCart(user.phone);
       } else {
-        print("Cart Exits");
+        // print("Cart Exits");
       }
       await _ref.get().then((onValue) async {
         var data = onValue.data;
-        print(data.toString());
-        print("item does not exits");
+        // print(data.toString());
+        // print("item does not exits");
         if (data[product.name] == null) {
           Map<dynamic, dynamic> item = {
             'imageurl': cartItem.imageurl,
@@ -104,7 +111,7 @@ class DatabaseServices {
           await _ref.updateData({product.name: item});
         } else {
           // TODO optimise
-          print("Item exits");
+          // print("Item exits");
           Map item = data[product.name];
           item['quantity'] += 1;
           item['totalCost'] =
@@ -113,8 +120,8 @@ class DatabaseServices {
         }
       });
     } catch (e) {
-      print(e);
-      print("error");
+      // print(e);
+      // print("error");
     }
   }
 
@@ -146,8 +153,8 @@ class DatabaseServices {
       });
       updateCartTotalCost(user);
     } catch (e) {
-      print(e);
-      print("update cart error");
+      // print(e);
+      // print("update cart error");
     }
   }
 
@@ -165,13 +172,13 @@ class DatabaseServices {
               //print(value['totalcost'].toString() + " " + totalCartCost.toString());
             }
           });
-          print(totalCartCost);
+          // print(totalCartCost);
           await _ref.updateData({'totalCartCost': totalCartCost});
         }
       });
     } catch (e) {
-      print(e);
-      print("update cart total cost error");
+      // print(e);
+      // print("update cart total cost error");
     }
   }
 
@@ -189,7 +196,7 @@ class DatabaseServices {
         await _ref.updateData({product: item});
       });
     } catch (e) {
-      print(e);
+      // print(e);
     }
   }
 
@@ -199,15 +206,6 @@ class DatabaseServices {
       await _ref.updateData({product: FieldValue.delete()}).whenComplete(() {
         print('Field Deleted');
       });
-      // await _ref.get().then(
-      //   (onValue) async {
-      //     var data = onValue.data;
-
-      //     Map item = data[product];
-      //     item['name'] = FieldValue.delete();
-      //     await _ref.updateData({product: item});
-      //   },
-      // );
     } catch (e) {
       print(e);
     }

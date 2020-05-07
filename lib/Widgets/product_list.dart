@@ -99,7 +99,7 @@ class _ProductListState extends State<ProductList> {
                   child: Padding(
                     padding: const EdgeInsets.only(top: 10),
                     child: Text(
-                      "1 Kg.",
+                      product.description,
                       style: TextStyle(color: Colors.grey),
                     ),
                   )),

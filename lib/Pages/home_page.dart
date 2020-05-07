@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:shop_app/Pages/cart_page.dart';
+import 'package:shop_app/Pages/orders_page.dart';
 import 'package:shop_app/Pages/profile_page.dart';
 import 'package:shop_app/Widgets/category_list.dart';
 import 'package:shop_app/Widgets/product_list.dart';
@@ -45,6 +46,16 @@ class _HomePageState extends State<HomePage> {
             Color.fromRGBO(0, 0, 500, 0.3),
         //  title: Text('Shop'),
         actions: <Widget>[
+          IconButton(
+            icon: Icon(
+              CupertinoIcons.book,
+              color: Colors.black,
+            ),
+            onPressed: () {
+              Navigator.push(context,
+                  CupertinoPageRoute(builder: (context) => OrdersPage()));
+            },
+          ),
           IconButton(
             icon: Icon(
               CupertinoIcons.search,
