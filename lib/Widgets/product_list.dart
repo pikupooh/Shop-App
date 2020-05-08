@@ -50,6 +50,7 @@ class _ProductListState extends State<ProductList> {
       BuildContext context, int index, List<Product> products) {
     Product product = products[index];
     final snackBar = SnackBar(
+        duration: Duration(milliseconds: 100),
         elevation: 8,
         content: Text(
           '${product.name} added to Cart!',
