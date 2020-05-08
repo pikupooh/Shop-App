@@ -46,20 +46,7 @@ class _RegisterPageState extends State<RegisterPage> {
                       padding: const EdgeInsets.all(30.0),
                       child: Column(
                         children: <Widget>[
-                          smsSent
-                              ? Container()
-                              : TextFormField(
-                                  decoration: kInputDecoration.copyWith(
-                                      fillColor: Colors.grey[300],
-                                      prefixIcon: Icon(Icons.person),
-                                      hintText: "Name"),
-                                  keyboardType: TextInputType.text,
-                                  onChanged: (value) {
-                                    setState(() {
-                                      name = value;
-                                    });
-                                  },
-                                ),
+                     
                           smsSent
                               ? Container()
                               : SizedBox(
