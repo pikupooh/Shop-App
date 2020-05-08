@@ -4,6 +4,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import 'package:shop_app/Models/order_item.dart';
 import 'package:shop_app/Models/user.dart';
+import 'package:shop_app/Pages/orderDetails.dart';
 import 'package:shop_app/Services/database.dart';
 import 'package:shop_app/reusables/constants.dart';
 
@@ -30,7 +31,7 @@ class _OrdersPageState extends State<OrdersPage> {
         ),
         centerTitle: true,
         title: Text(
-          "Past Orders",
+          "My Orders",
           style: TextStyle(fontSize: 22),
         ),
         backgroundColor: kbackgroundColor,
@@ -72,7 +73,21 @@ class _OrdersPageState extends State<OrdersPage> {
           children: <Widget>[
             Padding(
               padding: const EdgeInsets.only(top: 10.0),
-              child: Text("Placed: ${order.orderDate.toDate().day}-${order.orderDate.toDate().month}-${order.orderDate.toDate().year}"),
+              child: RichText(
+                text: TextSpan(
+                  text: 'OrderID:  ',
+                  style: GoogleFonts.questrial(
+                      color: Colors.black54, fontSize: 12),
+                  children: <TextSpan>[
+                    TextSpan(
+                        text: order.orderID,
+                        style: GoogleFonts.lato(
+                            fontWeight: FontWeight.w400,
+                            color: Colors.black,
+                            fontSize: 10)),
+                  ],
+                ),
+              ),
             ),
             Divider(
               color: Colors.grey,
@@ -90,49 +105,60 @@ class _OrdersPageState extends State<OrdersPage> {
                 Padding(
                   padding: const EdgeInsets.only(bottom: 13.0),
                   child: Column(
+                    mainAxisAlignment: MainAxisAlignment.spaceAround,
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: <Widget>[
-                      RichText(
-                        text: TextSpan(
-                          text: 'OrderID:  ',
-                          style: TextStyle(color: Colors.black54),
-                          children: <TextSpan>[
-                            TextSpan(
-                                text: order.orderID,
+                      Padding(
+                        padding: const EdgeInsets.only(top: 8.0),
+                        child: RichText(
+                          text: TextSpan(
+                            text: 'Order Date:  ',
+                            style: GoogleFonts.questrial(color: Colors.black54),
+                            children: <TextSpan>[
+                              TextSpan(
+                                  text:
+                                      "${order.orderDate.toDate().day}-${order.orderDate.toDate().month}-${order.orderDate.toDate().year}",
+                                  style: GoogleFonts.lato(
+                                      fontWeight: FontWeight.w400,
+                                      color: Colors.black,
+                                      fontSize: 16)),
+                            ],
+                          ),
+                        ),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.only(top: 8.0),
+                        child: RichText(
+                          text: TextSpan(
+                            text: 'Order Total: ₹ ',
+                            style: GoogleFonts.questrial(color: Colors.black54),
+                            children: <TextSpan>[
+                              TextSpan(
+                                  text: order.totalCartCost,
+                                  style: GoogleFonts.lato(
+                                      fontWeight: FontWeight.w400,
+                                      color: Colors.black,
+                                      fontSize: 16)),
+                            ],
+                          ),
+                        ),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.only(top: 8.0, bottom: 8),
+                        child: RichText(
+                          text: TextSpan(
+                            text: 'Item Count: ',
+                            style: GoogleFonts.questrial(color: Colors.black54),
+                            children: <TextSpan>[
+                              TextSpan(
+                                text: order.items.length.toString(),
                                 style: GoogleFonts.lato(
                                     fontWeight: FontWeight.w400,
                                     color: Colors.black,
-                                    fontSize: 20)),
-                          ],
-                        ),
-                      ),
-                      RichText(
-                        text: TextSpan(
-                          text: 'Order Total: ₹ ',
-                          style: TextStyle(color: Colors.black54),
-                          children: <TextSpan>[
-                            TextSpan(
-                                text: order.totalCartCost,
-                                style: GoogleFonts.lato(
-                                    fontWeight: FontWeight.w400,
-                                    color: Colors.black,
-                                    fontSize: 20)),
-                          ],
-                        ),
-                      ),
-                      RichText(
-                        text: TextSpan(
-                          text: 'Item Count: ',
-                          style: TextStyle(color: Colors.black54),
-                          children: <TextSpan>[
-                            TextSpan(
-                              text: order.items.length.toString(),
-                              style: GoogleFonts.lato(
-                                  fontWeight: FontWeight.w400,
-                                  color: Colors.black,
-                                  fontSize: 20),
-                            ),
-                          ],
+                                    fontSize: 16),
+                              ),
+                            ],
+                          ),
                         ),
                       ),
                     ],
@@ -140,54 +166,63 @@ class _OrdersPageState extends State<OrdersPage> {
                 ),
                 Container(
                   decoration: kSoftShadowDecoration,
-                  child: IconButton(
-                    icon: Icon(
-                      CupertinoIcons.forward,
-                      color: Colors.green,
+                  child: Provider<OrderItem>.value(
+                    value: order,
+                    child: IconButton(
+                      icon: Icon(
+                        CupertinoIcons.forward,
+                        color: Colors.green,
+                      ),
+                      onPressed: () {
+                        Navigator.push(
+                            context,
+                            CupertinoPageRoute(
+                                builder: (context) => OrderDetails(
+                                      orderItem: order,
+                                    )));
+                        // showModalBottomSheet(
+                        //   useRootNavigator: true,
+                        //   elevation: 0,
+                        //   shape: RoundedRectangleBorder(
+                        //       borderRadius: BorderRadius.circular(20)),
+                        //   backgroundColor: kbackgroundColor,
+                        //   context: context,
+                        //   builder: (context) {
+                        //     return Container(
+                        //       color: kbackgroundColor,
+                        //       child: Column(
+                        //         children: <Widget>[
+                        //           Padding(
+                        //             padding: const EdgeInsets.all(8.0),
+                        //             child: Text(
+                        //               "Order Details",
+                        //               style: TextStyle(fontSize: 25),
+                        //             ),
+                        //           ),
+                        //           Divider(
+                        //             color: Colors.black,
+                        //           ),
+                        //         ],
+                        //       ),
+                        //     );
+                        //   },
+                        // );
+                        // showDialog(
+                        //     context: context,
+                        //     builder: (context) {
+                        //       return Dialog(
+                        //         child: Container(
+                        //           child:Column(
+                        //             children: <Widget>[
+                        //               Text("Order Details")
+                        //             ],
+                        //           )?? Text(order.items.toString()),
+                        //           color: kbackgroundColor,
+                        //         ),
+                        //       );
+                        //     });
+                      },
                     ),
-                    onPressed: () {
-                      showModalBottomSheet(
-                        useRootNavigator: true,
-                        elevation: 0,
-                        shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(20)),
-                        backgroundColor: kbackgroundColor,
-                        context: context,
-                        builder: (context) {
-                          return Container(
-                            color: kbackgroundColor,
-                            child: Column(
-                              children: <Widget>[
-                                Padding(
-                                  padding: const EdgeInsets.all(8.0),
-                                  child: Text(
-                                    "Order Details",
-                                    style: TextStyle(fontSize: 25),
-                                  ),
-                                ),
-                                Divider(
-                                  color: Colors.black,
-                                ),
-                              ],
-                            ),
-                          );
-                        },
-                      );
-                      // showDialog(
-                      //     context: context,
-                      //     builder: (context) {
-                      //       return Dialog(
-                      //         child: Container(
-                      //           child:Column(
-                      //             children: <Widget>[
-                      //               Text("Order Details")
-                      //             ],
-                      //           )?? Text(order.items.toString()),
-                      //           color: kbackgroundColor,
-                      //         ),
-                      //       );
-                      //     });
-                    },
                   ),
                 )
               ],
@@ -197,4 +232,13 @@ class _OrdersPageState extends State<OrdersPage> {
       ),
     );
   }
+}
+
+List<Widget> _buildOrderDetails(Map<String, int> orderitems) {
+  List<Widget> list = [];
+  orderitems.forEach((key, value) {
+    Widget temp = Text(key);
+    list.add(temp);
+  });
+  return list;
 }
