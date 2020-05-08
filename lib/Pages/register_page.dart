@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:fluttertoast/fluttertoast.dart';
@@ -182,7 +183,19 @@ class _RegisterPageState extends State<RegisterPage> {
                             ),
                           ),
                         )
-                      : Center(child: Text("Please connect to internet to use the app.")),
+                      : Center(
+                          child: Column(
+                          children: <Widget>[
+                            Icon(
+                              Icons.warning,
+                              size: 50,
+                            ),
+                            Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: Text("Please connect to internet to use the app."),
+                            ),
+                          ],
+                        )),
                 ],
               ),
             ),
