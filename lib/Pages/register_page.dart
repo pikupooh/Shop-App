@@ -29,13 +29,13 @@ class _RegisterPageState extends State<RegisterPage> {
         setState(() {
           isConnected = true;
         });
-        // print('connected');
+       // print('connected');
       }
     } on SocketException catch (_) {
       setState(() {
         isConnected = false;
       });
-      // print('not connected');
+     // print('not connected');
     }
   }
 

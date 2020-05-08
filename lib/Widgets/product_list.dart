@@ -7,7 +7,6 @@ import 'package:shop_app/Models/product.dart';
 import 'package:shop_app/Models/user.dart';
 import 'package:shop_app/Services/database.dart';
 import 'package:shop_app/reusables/constants.dart';
-import 'package:path_provider/path_provider.dart';
 
 class ProductList extends StatefulWidget {
   final String currentCategory;
@@ -50,7 +49,8 @@ class _ProductListState extends State<ProductList> {
       BuildContext context, int index, List<Product> products) {
     Product product = products[index];
     final snackBar = SnackBar(
-        duration: Duration(milliseconds: 100),
+      
+        duration: Duration(milliseconds: 50),
         elevation: 8,
         content: Text(
           '${product.name} added to Cart!',
@@ -153,8 +153,9 @@ class _ProductListState extends State<ProductList> {
                               size: 30,
                               color: Colors.red,
                             ),
-                            onPressed: () async {
-                              await DatabaseServices().addToCart(product, user);
+                            onPressed: () {
+                            
+                              DatabaseServices().addToCart(product, user);
                               Scaffold.of(context).showSnackBar(snackBar);
                             }),
                       ),
