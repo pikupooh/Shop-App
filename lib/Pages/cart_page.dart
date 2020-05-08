@@ -17,6 +17,13 @@ class CartPage extends StatefulWidget {
 }
 
 class _CartPageState extends State<CartPage> {
+  final snackBar = SnackBar(
+      duration: Duration(milliseconds: 300),
+      elevation: 8,
+      content: Text(
+        'Cart is empty',
+        style: GoogleFonts.questrial(),
+      ));
   @override
   Widget build(BuildContext context) {
     User user = Provider.of<User>(context);
@@ -56,23 +63,27 @@ class _CartPageState extends State<CartPage> {
                         padding: const EdgeInsets.all(8.0),
                         child: _buildTotalCostText(user)),
                     Container(
-                      decoration: kSoftShadowDecoration.copyWith(
-                          borderRadius: BorderRadius.circular(50)),
-                      child: Buttons(
-                        textColor: Colors.red,
-                        iconColor: Colors.red,
-                        icon: CupertinoIcons.forward,
-                        text: "Checkout",
-                        buttonColor: kbackgroundColor,
-                        onTap: () {
-                          createOrder(user);
-                          Navigator.push(
-                              context,
-                              CupertinoPageRoute(
-                                  builder: (context) => OrderConfirmation()));
-                        },
-                      ),
-                    )
+                        decoration: kSoftShadowDecoration.copyWith(
+                            borderRadius: BorderRadius.circular(50)),
+                        child: Builder(
+                          builder: (context) => Buttons(
+                            textColor: Colors.red,
+                            iconColor: Colors.red,
+                            icon: CupertinoIcons.forward,
+                            text: "Checkout",
+                            buttonColor: kbackgroundColor,
+                            onTap: () async {
+                              bool status = await createOrder(user);
+                              status
+                                  ? Navigator.push(
+                                      context,
+                                      CupertinoPageRoute(
+                                          builder: (context) =>
+                                              OrderConfirmation()))
+                                  : Scaffold.of(context).showSnackBar(snackBar);
+                            },
+                          ),
+                        ))
                   ],
                 ),
               ),
@@ -99,7 +110,7 @@ class _CartPageState extends State<CartPage> {
                 style: GoogleFonts.questrial(color: Colors.redAccent),
                 children: <TextSpan>[
                   TextSpan(
-                      text: '  ₹',
+                      text: '  ₹ ',
                       style: GoogleFonts.lato(
                           fontWeight: FontWeight.w400,
                           color: Colors.black54,
@@ -118,7 +129,7 @@ class _CartPageState extends State<CartPage> {
     );
   }
 
-  void createOrder(User user) async {
+  Future<bool> createOrder(User user) async {
     List<CartItem> cartItems = new List();
     await Firestore.instance
         .collection("Cart")
@@ -129,9 +140,10 @@ class _CartPageState extends State<CartPage> {
     });
     if (cartItems == null || cartItems.isEmpty || cartItems.length == 0) {
       print("not added");
-      return;
+      return false;
     }
     DatabaseServices().placeOrder(cartItems, user);
+    return true;
     // DatabaseServices().createCart(user.phone);
   }
 }

@@ -73,7 +73,7 @@ class DatabaseServices {
     var ref = _db
         .collection("Orders")
         .where('userid', isEqualTo: user.phone)
-        .orderBy('orderDate',descending: true)
+        .orderBy('orderDate', descending: true)
         .snapshots();
     return ref.map((list) =>
         list.documents.map((item) => OrderItem.fromFirebase(item)).toList());
@@ -125,6 +125,7 @@ class DatabaseServices {
         }
       });
     } catch (e) {
+      throw (e);
       // print(e);
       // print("error");
     }
@@ -158,6 +159,7 @@ class DatabaseServices {
       });
       updateCartTotalCost(user);
     } catch (e) {
+      throw (e);
       // print(e);
       // print("update cart error");
     }

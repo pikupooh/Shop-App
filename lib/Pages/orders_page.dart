@@ -14,6 +14,7 @@ class OrdersPage extends StatefulWidget {
 }
 
 class _OrdersPageState extends State<OrdersPage> {
+
   @override
   Widget build(BuildContext context) {
     User user = Provider.of<User>(context);
@@ -50,7 +51,7 @@ class _OrdersPageState extends State<OrdersPage> {
               child: _buildOrderedList(orderItems),
             );
           } else
-            return Text("Loading");
+            return Center(child: Text("No Orders"));
         },
       )),
     );
