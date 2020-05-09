@@ -73,7 +73,7 @@ class DatabaseServices {
     var ref = _db
         .collection("Orders")
         .where('userid', isEqualTo: user.phone)
-        .orderBy('orderDate',descending: true)
+        .orderBy('orderDate', descending: true)
         .snapshots();
     return ref.map((list) =>
         list.documents.map((item) => OrderItem.fromFirebase(item)).toList());
@@ -127,6 +127,7 @@ class DatabaseServices {
         // print('add to cart ended');
       });
     } catch (e) {
+      throw (e);
       // print(e);
       // print("error");
     }
@@ -161,6 +162,7 @@ class DatabaseServices {
       updateCartTotalCost(user);
       // print("update cart end");
     } catch (e) {
+      throw (e);
       // print(e);
       // print("update cart error");
     }
@@ -191,7 +193,7 @@ class DatabaseServices {
     }
   }
 
-  void changeCartItemQuantity(String product, User user, bool increase) async {
+  Future changeCartItemQuantity(String product, User user, bool increase) async {
     try {
       var _ref = _db.collection('Cart').document(user.phone);
 
