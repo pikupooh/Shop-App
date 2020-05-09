@@ -16,49 +16,35 @@ class CartList extends StatefulWidget {
 }
 
 class _CartListState extends State<CartList> {
-  // @override
-  // initState() {
-  //   super.initState();
-  //   new Timer(const Duration(seconds: 3), (){
-  //     setState(() {
-  //       loadingScreen = false;
-  //     });
-  //   });
-  // }
-
-  bool loadingScreen = true;
-  void changeScreen(bool currenScreen) {
-    setState(() {
-      loadingScreen = currenScreen;
-    });
-  }
-
+  bool isLoading = false;
   @override
   Widget build(BuildContext context) {
     User user = Provider.of<User>(context);
-    return loadingScreen
-        ? loadScreen()
-        : Container(
-            color: kbackgroundColor,
-            child: StreamBuilder(
-              stream: DatabaseServices().getCartItems(user),
-              builder: (context, snap) {
-                List<CartItem> cartItem = snap.data;
-                if (snap.hasData && cartItem.length >= 1) {
-                  DatabaseServices().updateCart(user);
-                  return _buildCart(cartItem);
-                }
-                return Center(child: Text("Cart is empty"));
-              },
-            ),
-          );
-  }
-
-  Widget loadScreen() {
-    Timer(const Duration(seconds: 3), () {
-      changeScreen(false);
-    });
-    return Center(child: CircularProgressIndicator());
+    return Container(
+      color: kbackgroundColor,
+      child: StreamBuilder(
+        stream: DatabaseServices().getCartItems(user),
+        builder: (context, snap) {
+          List<CartItem> cartItem = snap.data;
+          if (snap.hasData && cartItem.length >= 1) {
+            DatabaseServices().updateCart(user);
+            return Stack(
+              children: <Widget>[
+                _buildCart(cartItem),
+                isLoading
+                    ? Container(
+                        color: Colors.transparent,
+                        width: MediaQuery.of(context).size.width,
+                        height: MediaQuery.of(context).size.height,
+                        child: Center(child: CircularProgressIndicator()))
+                    : Container()
+              ],
+            );
+          }
+          return Center(child: Text("Cart is empty"));
+        },
+      ),
+    );
   }
 
   Widget _buildCart(List<CartItem> snapshot) {
@@ -111,18 +97,27 @@ class _CartListState extends State<CartList> {
                         ? IconButton(
                             icon: Icon(CupertinoIcons.delete),
                             onPressed: () async {
-                              DatabaseServices().deleteFromCart(doc.name, user);
-                              changeScreen(true);
-                              // DatabaseServices().updateCart(user);
+                              setState(() {
+                                isLoading = true;
+                              });
+                              await DatabaseServices()
+                                  .deleteFromCart(doc.name, user);
+                              DatabaseServices().updateCart(user);
+                              setState(() {
+                                isLoading = false;
+                              });
                             })
                         : IconButton(
                             icon: Icon(CupertinoIcons.minus_circled),
-                            onPressed: () {
-                              DatabaseServices().changeCartItemQuantity(
+                            onPressed: () async {
+                              setState(() {
+                                isLoading = true;
+                              });
+                              await DatabaseServices().changeCartItemQuantity(
                                   doc.name, user, false);
-                              if(doc.quantity == 2){
-                                changeScreen(true);
-                              }
+                              setState(() {
+                                isLoading = false;
+                              });
                             }),
                     Text(
                       doc.quantity.toString(),
@@ -131,10 +126,15 @@ class _CartListState extends State<CartList> {
                     ),
                     IconButton(
                         icon: Icon(CupertinoIcons.add_circled),
-                        onPressed: () {
-                          DatabaseServices()
+                        onPressed: () async {
+                          setState(() {
+                            isLoading = true;
+                          });
+                          await DatabaseServices()
                               .changeCartItemQuantity(doc.name, user, true);
-                              
+                          setState(() {
+                            isLoading = false;
+                          });
                         }),
                   ],
                 ),
