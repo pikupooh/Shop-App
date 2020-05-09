@@ -42,7 +42,7 @@ class _CategoryListState extends State<CategoryList> {
               .toList() +
           [
             Padding(
-              padding: const EdgeInsets.only(left: 15.0, right: 15, top: 15),
+              padding: const EdgeInsets.only(left: 15.0, right: 0, top: 15),
               child: FittedBox(
                 child: Container(
                     // height: 30,
@@ -99,6 +99,7 @@ class _CategoryListState extends State<CategoryList> {
     return Padding(
       padding: const EdgeInsets.only(left: 15.0, right: 15, top: 15),
       child: FittedBox(
+        fit: BoxFit.scaleDown,
         child: Container(
             // height: 30,
             // width: 100,
