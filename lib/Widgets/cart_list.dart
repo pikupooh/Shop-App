@@ -120,6 +120,9 @@ class _CartListState extends State<CartList> {
                             onPressed: () {
                               DatabaseServices().changeCartItemQuantity(
                                   doc.name, user, false);
+                              if(doc.quantity == 2){
+                                changeScreen(true);
+                              }
                             }),
                     Text(
                       doc.quantity.toString(),
@@ -131,6 +134,7 @@ class _CartListState extends State<CartList> {
                         onPressed: () {
                           DatabaseServices()
                               .changeCartItemQuantity(doc.name, user, true);
+                              
                         }),
                   ],
                 ),
