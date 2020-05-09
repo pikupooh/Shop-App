@@ -71,105 +71,123 @@ class _CartListState extends State<CartList> {
                   offset: Offset(-8, -6),
                   blurRadius: 12),
             ],
-            borderRadius: BorderRadius.circular(20)),
-        child: FittedBox(
-          fit: BoxFit.contain,
-          child: Row(
-            children: <Widget>[
-              Padding(
-                padding: const EdgeInsets.only(left: 8.0, top: 8, bottom: 8),
-                child: Container(
-                  height: 130,
-                  width: 130,
-                  child: ClipRRect(
-                    borderRadius: BorderRadius.circular(20),
-                    child: Image.network(
-                      doc.imageurl,
-                      fit: BoxFit.cover,
+            borderRadius: BorderRadius.circular(10)),
+        child: Stack(
+          children: <Widget>[
+            FittedBox(
+              fit: BoxFit.contain,
+              child: Row(
+                children: <Widget>[
+                  Padding(
+                    padding:
+                        const EdgeInsets.only(left: 8.0, top: 8, bottom: 8),
+                    child: Container(
+                      height: 130,
+                      width: 130,
+                      child: ClipRRect(
+                        borderRadius: BorderRadius.circular(10),
+                        child: Image.network(
+                          doc.imageurl,
+                          fit: BoxFit.cover,
+                        ),
+                      ),
                     ),
                   ),
-                ),
-              ),
-              Container(
-                child: Row(
-                  children: <Widget>[
-                    doc.quantity <= 1
-                        ? IconButton(
-                            icon: Icon(CupertinoIcons.delete),
+                  Container(
+                    child: Row(
+                      children: <Widget>[
+                        IconButton(
+                          icon: Icon(
+                            CupertinoIcons.minus_circled,
+                            color:
+                                doc.quantity <= 1 ? Colors.grey[300] : Colors.black,
+                          ),
+                          onPressed: doc.quantity <= 1
+                              ? null
+                              : () async {
+                                  setState(() {
+                                    isLoading = true;
+                                  });
+                                  await DatabaseServices()
+                                      .changeCartItemQuantity(
+                                          doc.name, user, false);
+                                  setState(
+                                    () {
+                                      isLoading = false;
+                                    },
+                                  );
+                                },
+                        ),
+                        Text(
+                          doc.quantity.toString(),
+                          style: TextStyle(
+                              fontSize: 24, fontWeight: FontWeight.w600),
+                        ),
+                        IconButton(
+                            enableFeedback: true,
+                            icon: Icon(CupertinoIcons.add_circled),
                             onPressed: () async {
                               setState(() {
                                 isLoading = true;
                               });
                               await DatabaseServices()
-                                  .deleteFromCart(doc.name, user);
-                              DatabaseServices().updateCart(user);
-                              setState(() {
-                                isLoading = false;
-                              });
-                            })
-                        : IconButton(
-                            icon: Icon(CupertinoIcons.minus_circled),
-                            onPressed: () async {
-                              setState(() {
-                                isLoading = true;
-                              });
-                              await DatabaseServices().changeCartItemQuantity(
-                                  doc.name, user, false);
+                                  .changeCartItemQuantity(doc.name, user, true);
                               setState(() {
                                 isLoading = false;
                               });
                             }),
-                    Text(
-                      doc.quantity.toString(),
-                      style:
-                          TextStyle(fontSize: 24, fontWeight: FontWeight.w600),
+                      ],
                     ),
-                    IconButton(
-                        icon: Icon(CupertinoIcons.add_circled),
-                        onPressed: () async {
-                          setState(() {
-                            isLoading = true;
-                          });
-                          await DatabaseServices()
-                              .changeCartItemQuantity(doc.name, user, true);
-                          setState(() {
-                            isLoading = false;
-                          });
-                        }),
-                  ],
-                ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.spaceAround,
+                      children: <Widget>[
+                        Text(
+                          doc.name,
+                          style: TextStyle(
+                              fontSize: 24, fontWeight: FontWeight.w400),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.only(top: 7, right: 8.0),
+                          child: RichText(
+                            text: TextSpan(
+                                text: '₹ ',
+                                style: TextStyle(color: Colors.black54),
+                                children: <TextSpan>[
+                                  TextSpan(
+                                      text: doc.totalCost,
+                                      style: GoogleFonts.lato(
+                                          fontWeight: FontWeight.w400,
+                                          color: Colors.black,
+                                          fontSize: 20)),
+                                ]),
+                          ),
+                        ),
+                      ],
+                    ),
+                  )
+                ],
               ),
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.spaceAround,
-                  children: <Widget>[
-                    Text(
-                      doc.name,
-                      style:
-                          TextStyle(fontSize: 24, fontWeight: FontWeight.w400),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.only(top: 7, right: 8.0),
-                      child: RichText(
-                        text: TextSpan(
-                            text: '₹ ',
-                            style: TextStyle(color: Colors.black54),
-                            children: <TextSpan>[
-                              TextSpan(
-                                  text: doc.totalCost,
-                                  style: GoogleFonts.lato(
-                                      fontWeight: FontWeight.w400,
-                                      color: Colors.black,
-                                      fontSize: 20)),
-                            ]),
-                      ),
-                    ),
-                  ],
-                ),
-              )
-            ],
-          ),
+            ),
+            Positioned(
+              top: -7,
+              right: -7,
+              child: IconButton(
+                  icon: Icon(CupertinoIcons.clear),
+                  onPressed: () async {
+                    setState(() {
+                      isLoading = true;
+                    });
+                    await DatabaseServices().deleteFromCart(doc.name, user);
+                    DatabaseServices().updateCart(user);
+                    setState(() {
+                      isLoading = false;
+                    });
+                  }),
+            ),
+          ],
         ),
       ),
     );

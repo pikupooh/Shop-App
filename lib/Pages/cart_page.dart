@@ -57,8 +57,38 @@ class _CartPageState extends State<CartPage> {
               child: Padding(
                 padding: const EdgeInsets.all(10.0),
                 child: Row(
+                  mainAxisSize: MainAxisSize.max,
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: <Widget>[
+                    // Column(
+                    //   children: <Widget>[
+                    //     IconButton(
+                    //         icon: Icon(
+                    //           CupertinoIcons.clear_circled,
+                    //           color: Colors.black,
+                    //         ),
+                    //         onPressed: () {
+                    //           DatabaseServices().createCart(user.phone);
+                    //         }),
+                    //   ],
+                    // ),
+                    Container(
+                        decoration: kSoftShadowDecoration.copyWith(
+                            borderRadius: BorderRadius.circular(50)),
+                        child: Builder(
+                          builder: (context) => Buttons(
+                            textColor: Colors.red,
+                            iconColor: Colors.red,
+                            icon: Icons.clear_all ??
+                                CupertinoIcons.delete_simple ??
+                                Icons.delete_outline,
+                            text: "Clear",
+                            buttonColor: kbackgroundColor,
+                            onTap: () {
+                              DatabaseServices().createCart(user.phone);
+                            },
+                          ),
+                        )),
                     Padding(
                         padding: const EdgeInsets.all(8.0),
                         child: _buildTotalCostText(user)),
@@ -67,8 +97,8 @@ class _CartPageState extends State<CartPage> {
                             borderRadius: BorderRadius.circular(50)),
                         child: Builder(
                           builder: (context) => Buttons(
-                            textColor: Colors.red,
-                            iconColor: Colors.red,
+                            textColor: Colors.green,
+                            iconColor: Colors.green,
                             icon: CupertinoIcons.forward,
                             text: "Checkout",
                             buttonColor: kbackgroundColor,
@@ -106,7 +136,7 @@ class _CartPageState extends State<CartPage> {
           if (snap.data.data == null) return Text("");
           return RichText(
             text: TextSpan(
-                text: 'Total - ',
+                text: '',
                 style: GoogleFonts.questrial(color: Colors.redAccent),
                 children: <TextSpan>[
                   TextSpan(

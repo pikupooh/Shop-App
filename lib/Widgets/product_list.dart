@@ -1,6 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import 'package:shop_app/Models/product.dart';
@@ -45,11 +46,17 @@ class _ProductListState extends State<ProductList> {
     );
   }
 
+  void _showToast(String name) {
+    Fluttertoast.showToast(
+        msg: "$name added to cart",
+        toastLength: Toast.LENGTH_SHORT,
+        gravity: ToastGravity.BOTTOM);
+  }
+
   Widget _gridViewItem(
       BuildContext context, int index, List<Product> products) {
     Product product = products[index];
     final snackBar = SnackBar(
-      
         duration: Duration(milliseconds: 50),
         elevation: 8,
         content: Text(
@@ -154,9 +161,9 @@ class _ProductListState extends State<ProductList> {
                               color: Colors.red,
                             ),
                             onPressed: () {
-                            
                               DatabaseServices().addToCart(product, user);
-                              Scaffold.of(context).showSnackBar(snackBar);
+                              _showToast(product.name);
+                              //  Scaffold.of(context).showSnackBar(snackBar);
                             }),
                       ),
                     ),
