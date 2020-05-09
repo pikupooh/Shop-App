@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -14,23 +16,49 @@ class CartList extends StatefulWidget {
 }
 
 class _CartListState extends State<CartList> {
+  // @override
+  // initState() {
+  //   super.initState();
+  //   new Timer(const Duration(seconds: 3), (){
+  //     setState(() {
+  //       loadingScreen = false;
+  //     });
+  //   });
+  // }
+
+  bool loadingScreen = true;
+  void changeScreen(bool currenScreen) {
+    setState(() {
+      loadingScreen = currenScreen;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     User user = Provider.of<User>(context);
-    return Container(
-      color: kbackgroundColor,
-      child: StreamBuilder(
-        stream: DatabaseServices().getCartItems(user),
-        builder: (context, snap) {
-          List<CartItem> cartItem = snap.data;
-          if (snap.hasData && cartItem.length >= 1) {
-            DatabaseServices().updateCart(user);
-            return _buildCart(cartItem);
-          }
-          return Center(child: Text("Cart is empty"));
-        },
-      ),
-    );
+    return loadingScreen
+        ? loadScreen()
+        : Container(
+            color: kbackgroundColor,
+            child: StreamBuilder(
+              stream: DatabaseServices().getCartItems(user),
+              builder: (context, snap) {
+                List<CartItem> cartItem = snap.data;
+                if (snap.hasData && cartItem.length >= 1) {
+                  DatabaseServices().updateCart(user);
+                  return _buildCart(cartItem);
+                }
+                return Center(child: Text("Cart is empty"));
+              },
+            ),
+          );
+  }
+
+  Widget loadScreen() {
+    Timer(const Duration(seconds: 3), () {
+      changeScreen(false);
+    });
+    return Center(child: CircularProgressIndicator());
   }
 
   Widget _buildCart(List<CartItem> snapshot) {
@@ -83,9 +111,9 @@ class _CartListState extends State<CartList> {
                         ? IconButton(
                             icon: Icon(CupertinoIcons.delete),
                             onPressed: () async {
-                              await DatabaseServices()
-                                  .deleteFromCart(doc.name, user);
-                              DatabaseServices().updateCart(user);
+                              DatabaseServices().deleteFromCart(doc.name, user);
+                              changeScreen(true);
+                              // DatabaseServices().updateCart(user);
                             })
                         : IconButton(
                             icon: Icon(CupertinoIcons.minus_circled),

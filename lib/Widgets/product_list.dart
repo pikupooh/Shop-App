@@ -152,8 +152,8 @@ class _ProductListState extends State<ProductList> {
                               size: 30,
                               color: Colors.red,
                             ),
-                            onPressed: () {
-                              DatabaseServices().addToCart(product, user);
+                            onPressed: () async {
+                              await DatabaseServices().addToCart(product, user);
                               Scaffold.of(context).showSnackBar(snackBar);
                             }),
                       ),

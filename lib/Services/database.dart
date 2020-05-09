@@ -79,8 +79,9 @@ class DatabaseServices {
         list.documents.map((item) => OrderItem.fromFirebase(item)).toList());
   }
 
-  void addToCart(Product product, User user) async {
+  Future<void> addToCart(Product product, User user) async {
     try {
+      // print("add to cart called");
       CartItem cartItem = CartItem.fromProduct(product);
       // print(cartItem.toString());
       var _ref = _db.collection('Cart').document(user.phone);
@@ -123,6 +124,7 @@ class DatabaseServices {
               (int.parse(item['cost']) * item['quantity']).toString();
           await _ref.updateData({product.name: item});
         }
+        // print('add to cart ended');
       });
     } catch (e) {
       // print(e);
@@ -132,7 +134,7 @@ class DatabaseServices {
 
   void updateCart(User user) async {
     try {
-      //print("updatecart");
+      // print("updatecart called");
       var _ref = _db.collection('Cart').document(user.phone);
       if (_ref == null) return;
       await _ref.get().then((onValue) async {
@@ -157,6 +159,7 @@ class DatabaseServices {
         }
       });
       updateCartTotalCost(user);
+      // print("update cart end");
     } catch (e) {
       // print(e);
       // print("update cart error");
@@ -165,6 +168,7 @@ class DatabaseServices {
 
   void updateCartTotalCost(User user) async {
     try {
+      // print("update cart cost called");
       var _ref = _db.collection("Cart").document(user.phone);
       await _ref.get().then((onValue) async {
         int totalCartCost = 0;
@@ -178,11 +182,12 @@ class DatabaseServices {
           });
           // print(totalCartCost);
           await _ref.updateData({'totalCartCost': totalCartCost});
+          // print("update cart cost end");
         }
       });
     } catch (e) {
       // print(e);
-      // print("update cart total cost error");
+      print("update cart total cost error");
     }
   }
 
@@ -206,10 +211,12 @@ class DatabaseServices {
 
   Future<void> deleteFromCart(String product, User user) async {
     try {
+      // print("Delete from cart called");
       var _ref = _db.collection('Cart').document(user.phone);
       await _ref.updateData({product: FieldValue.delete()}).whenComplete(() {
         print('Field Deleted');
       });
+      // print("Delete from cart ended");
     } catch (e) {
       print(e);
     }
@@ -229,7 +236,7 @@ class DatabaseServices {
             (int.parse(orderItem.totalCartCost) + int.parse(item.totalCost))
                 .toString();
       });
-      print(orderItem.items.toString());
+      // print(orderItem.items.toString());
       // print(orderItem.totalCartCost);
       // print(FieldValue.serverTimestamp().toString());
       var ref = _db.collection("Orders").document();

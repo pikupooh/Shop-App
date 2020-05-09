@@ -91,7 +91,7 @@ class _CartPageState extends State<CartPage> {
           .snapshots(),
       builder: (context, snap) {
         if (snap.hasData) {
-          //DatabaseServices().updateCart(user);
+          DatabaseServices().updateCart(user);
           if (snap.data.data == null) return Text("");
           return RichText(
             text: TextSpan(
