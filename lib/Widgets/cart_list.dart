@@ -14,6 +14,7 @@ class CartList extends StatefulWidget {
 }
 
 class _CartListState extends State<CartList> {
+  bool isLoading = false;
   @override
   Widget build(BuildContext context) {
     User user = Provider.of<User>(context);
@@ -25,7 +26,18 @@ class _CartListState extends State<CartList> {
           List<CartItem> cartItem = snap.data;
           if (snap.hasData && cartItem.length >= 1) {
             DatabaseServices().updateCart(user);
-            return _buildCart(cartItem);
+            return Stack(
+              children: <Widget>[
+                _buildCart(cartItem),
+                isLoading
+                    ? Container(
+                        color: Colors.transparent,
+                        width: MediaQuery.of(context).size.width,
+                        height: MediaQuery.of(context).size.height,
+                        child: Center(child: CircularProgressIndicator()))
+                    : Container()
+              ],
+            );
           }
           return Center(child: Text("Cart is empty"));
         },
@@ -83,15 +95,27 @@ class _CartListState extends State<CartList> {
                         ? IconButton(
                             icon: Icon(CupertinoIcons.delete),
                             onPressed: () async {
+                              setState(() {
+                                isLoading = true;
+                              });
                               await DatabaseServices()
                                   .deleteFromCart(doc.name, user);
                               DatabaseServices().updateCart(user);
+                              setState(() {
+                                isLoading = false;
+                              });
                             })
                         : IconButton(
                             icon: Icon(CupertinoIcons.minus_circled),
-                            onPressed: () {
-                              DatabaseServices().changeCartItemQuantity(
+                            onPressed: () async {
+                              setState(() {
+                                isLoading = true;
+                              });
+                              await DatabaseServices().changeCartItemQuantity(
                                   doc.name, user, false);
+                              setState(() {
+                                isLoading = false;
+                              });
                             }),
                     Text(
                       doc.quantity.toString(),
@@ -100,9 +124,15 @@ class _CartListState extends State<CartList> {
                     ),
                     IconButton(
                         icon: Icon(CupertinoIcons.add_circled),
-                        onPressed: () {
-                          DatabaseServices()
+                        onPressed: () async {
+                          setState(() {
+                            isLoading = true;
+                          });
+                          await DatabaseServices()
                               .changeCartItemQuantity(doc.name, user, true);
+                          setState(() {
+                            isLoading = false;
+                          });
                         }),
                   ],
                 ),

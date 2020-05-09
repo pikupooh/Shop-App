@@ -188,7 +188,7 @@ class DatabaseServices {
     }
   }
 
-  void changeCartItemQuantity(String product, User user, bool increase) async {
+  Future changeCartItemQuantity(String product, User user, bool increase) async {
     try {
       var _ref = _db.collection('Cart').document(user.phone);
 
