@@ -56,13 +56,13 @@ class _ProductListState extends State<ProductList> {
   Widget _gridViewItem(
       BuildContext context, int index, List<Product> products) {
     Product product = products[index];
-    final snackBar = SnackBar(
-        duration: Duration(milliseconds: 50),
-        elevation: 8,
-        content: Text(
-          '${product.name} added to Cart!',
-          style: GoogleFonts.questrial(),
-        ));
+    // final snackBar = SnackBar(
+    //     duration: Duration(milliseconds: 50),
+    //     elevation: 8,
+    //     content: Text(
+    //       '${product.name} added to Cart!',
+    //       style: GoogleFonts.questrial(),
+    //     ));
     User user = Provider.of<User>(context);
     return Padding(
       padding: const EdgeInsets.all(9.0),
@@ -77,7 +77,7 @@ class _ProductListState extends State<ProductList> {
                   offset: Offset(-8, -6),
                   blurRadius: 12),
             ],
-            borderRadius: BorderRadius.circular(20)),
+            borderRadius: BorderRadius.circular(15)),
         child: FittedBox(
           fit: BoxFit.contain,
           child: Column(
@@ -85,13 +85,13 @@ class _ProductListState extends State<ProductList> {
               Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: Container(
-                  height: 130,
-                  width: 130,
+                  height: 120,
+                  width: 150,
                   child: ClipRRect(
-                      borderRadius: BorderRadius.circular(20),
+                      borderRadius: BorderRadius.circular(15),
                       child: CachedNetworkImage(
                         imageUrl: product.imageurl,
-                        fit: BoxFit.contain,
+                        fit: BoxFit.cover,
                       )),
                 ),
               ),

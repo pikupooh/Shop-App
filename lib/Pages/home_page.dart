@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:provider/provider.dart';
 import 'package:shop_app/Models/user.dart';
 import 'package:shop_app/Pages/cart_page.dart';
@@ -21,6 +22,14 @@ class _HomePageState extends State<HomePage> {
     setState(() {
       currentCategory = cat;
     });
+  }
+
+  void _showToast() {
+    Fluttertoast.showToast(
+        backgroundColor: Colors.black12,
+        msg: "This feature is not ready yet.",
+        toastLength: Toast.LENGTH_SHORT,
+        gravity: ToastGravity.BOTTOM);
   }
 
   @override
@@ -69,8 +78,10 @@ class _HomePageState extends State<HomePage> {
                     color: Colors.black,
                   ),
                   onPressed: () {
-                    Navigator.push(context,
-                        CupertinoPageRoute(builder: (context) => CartPage()));
+                    _showToast();
+
+                    // Navigator.push(context,
+                    //     CupertinoPageRoute(builder: (context) => CartPage()));
                   },
                 ),
                 Container(
@@ -97,7 +108,8 @@ class _HomePageState extends State<HomePage> {
                             child: Center(
                               child: Text(
                                 snapshot.data.length.toString(),
-                                style: TextStyle(color: Colors.white,fontSize: 10),
+                                style: TextStyle(
+                                    color: Colors.white, fontSize: 10),
                               ),
                             ),
                             height: 15,
@@ -176,13 +188,13 @@ class _HomePageState extends State<HomePage> {
                     //     // SizedBox(width: 5)
                     //   ],
                     // ),
-
+                    SizedBox(height: 10),
                     CategoryList(
                       onTap: changeCategory,
                     ),
-
+                    SizedBox(height: 20),
                     Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 0.0),
+                      padding: const EdgeInsets.only(top: 0.0),
                       child: ProductList(
                         currentCategory: currentCategory,
                       ),
