@@ -107,7 +107,9 @@ class _HomePageState extends State<HomePage> {
                         child: Container(
                             child: Center(
                               child: Text(
-                                snapshot.data.length.toString(),
+                                snapshot.data != null
+                                    ? snapshot.data.length.toString()
+                                    : '0',
                                 style: TextStyle(
                                     color: Colors.white, fontSize: 10),
                               ),

@@ -121,11 +121,18 @@ class _RegisterPageState extends State<RegisterPage> {
                                                 borderRadius:
                                                     BorderRadius.circular(30)),
                                         child: TextFormField(
-                                          decoration: kInputDecoration.copyWith(
+                                          // textAlign: TextAlign.center,
+                                          decoration: InputDecoration(
                                               fillColor: kbackgroundColor ??
                                                   Colors.grey[300],
                                               prefixIcon: Icon(Icons.phone),
                                               // prefixText: "+91-",
+                                              disabledBorder: kInputBorder,
+                                              focusedBorder: kInputBorder,
+                                              enabledBorder: kInputBorder,
+                                              border: kInputBorder,
+                                              prefixStyle: TextStyle(
+                                                  color: Colors.black),
                                               hintText: "Enter phone number "),
                                           keyboardType: TextInputType.phone,
                                           onChanged: (value) {
@@ -198,6 +205,10 @@ class _RegisterPageState extends State<RegisterPage> {
                                         child: TextFormField(
                                           textAlign: TextAlign.center,
                                           decoration: kInputDecoration.copyWith(
+                                            disabledBorder: kInputBorder,
+                                            focusedBorder: kInputBorder,
+                                            enabledBorder: kInputBorder,
+                                            border: kInputBorder,
                                             fillColor: kbackgroundColor ??
                                                 Colors.grey[300],
                                           ),

@@ -1,17 +1,13 @@
 import 'package:flutter/material.dart';
 
 var kInputDecoration = InputDecoration(
+  disabledBorder: kInputBorder,
+  focusedBorder: kInputBorder,
+  enabledBorder: kInputBorder,
+  border: kInputBorder,
   hintText: "Enter OTP",
   fillColor: Colors.black12,
   filled: true,
-  focusedBorder: OutlineInputBorder(
-    borderSide: BorderSide(color: Colors.white),
-    borderRadius: BorderRadius.circular(30),
-  ),
-  enabledBorder: OutlineInputBorder(
-    borderSide: BorderSide(color: Colors.white),
-    borderRadius: BorderRadius.circular(30),
-  ),
 );
 Color kbackgroundColor = Color(0xFFF1F2F6);
 Color kshadowColor = Color(0xFFDADFF0);
@@ -28,3 +24,6 @@ var kSoftShadowDecoration = BoxDecoration(
     BoxShadow(color: klightShadowColor, offset: Offset(-8, -6), blurRadius: 12),
   ],
 );
+var kInputBorder = OutlineInputBorder(
+    borderRadius: BorderRadius.circular(30),
+    borderSide: BorderSide(color: kbackgroundColor, width: 1));
