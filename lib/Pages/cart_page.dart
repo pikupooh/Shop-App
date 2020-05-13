@@ -1,8 +1,10 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
+import 'package:razorpay_flutter/razorpay_flutter.dart';
 import 'package:shop_app/Models/cart_item.dart';
 import 'package:shop_app/Models/user.dart';
 import 'package:shop_app/Pages/orderConfirmationPage.dart';
@@ -17,6 +19,59 @@ class CartPage extends StatefulWidget {
 }
 
 class _CartPageState extends State<CartPage> {
+  Razorpay _razorpay;
+  double amount;
+  @override
+  void initState() {
+    super.initState();
+    _razorpay = Razorpay();
+    _razorpay.on(Razorpay.EVENT_PAYMENT_SUCCESS, _handlePaymentSuccess);
+    _razorpay.on(Razorpay.EVENT_PAYMENT_ERROR, _handlePaymentError);
+    _razorpay.on(Razorpay.EVENT_EXTERNAL_WALLET, _handleExternalWallet);
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    _razorpay.clear();
+  }
+
+  Future openCheckout(double amount, User user) async {
+    var options = {
+      'key': 'rzp_test_GSlKWUbuUWCb8L',
+      'amount': amount * 100,
+      'name': 'Quality',
+      'description': 'Food and Groceries',
+      'prefill': {'contact': user.phone, 'email': 'test@razorpay.com'},
+    };
+
+    try {
+      _razorpay.open(options);
+    } catch (e) {
+      debugPrint(e);
+    }
+  }
+
+  void _handlePaymentSuccess(PaymentSuccessResponse response) {
+    print(response.orderId);
+    print(response.paymentId);
+    Navigator.push(
+        context, CupertinoPageRoute(builder: (context) => OrderConfirmation()));
+    Fluttertoast.showToast(
+        msg: "SUCCESS: " + response.paymentId, timeInSecForIosWeb: 4);
+  }
+
+  void _handlePaymentError(PaymentFailureResponse response) {
+    Fluttertoast.showToast(
+        msg: "ERROR: " + response.code.toString() + " - " + response.message,
+        timeInSecForIosWeb: 4);
+  }
+
+  void _handleExternalWallet(ExternalWalletResponse response) {
+    Fluttertoast.showToast(
+        msg: "EXTERNAL_WALLET: " + response.walletName, timeInSecForIosWeb: 4);
+  }
+
   final snackBar = SnackBar(
       duration: Duration(milliseconds: 300),
       elevation: 8,
@@ -29,6 +84,7 @@ class _CartPageState extends State<CartPage> {
     User user = Provider.of<User>(context);
 
     return Scaffold(
+      backgroundColor: kbackgroundColor,
       appBar: AppBar(
           leading: IconButton(
               icon: Icon(
@@ -51,6 +107,21 @@ class _CartPageState extends State<CartPage> {
       body: Container(
         child: Column(
           children: <Widget>[
+            // Expanded(
+            //   child: Padding(
+            //     padding: const EdgeInsets.only(top: 10.0),
+            //     child: Container(
+            //         width: MediaQuery.of(context).size.width,
+            //         decoration: kSoftShadowDecoration,
+            //         child: Column(
+            //           children: <Widget>[
+            //             Text("Deliver to"),
+            //             Text(user.name),
+            //           ],
+            //         )),
+            //   ),
+            // ),
+
             Expanded(child: CartList()),
             Container(
               color: kbackgroundColor,
@@ -60,18 +131,6 @@ class _CartPageState extends State<CartPage> {
                   mainAxisSize: MainAxisSize.max,
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: <Widget>[
-                    // Column(
-                    //   children: <Widget>[
-                    //     IconButton(
-                    //         icon: Icon(
-                    //           CupertinoIcons.clear_circled,
-                    //           color: Colors.black,
-                    //         ),
-                    //         onPressed: () {
-                    //           DatabaseServices().createCart(user.phone);
-                    //         }),
-                    //   ],
-                    // ),
                     Container(
                         decoration: kSoftShadowDecoration.copyWith(
                             borderRadius: BorderRadius.circular(50)),
@@ -105,11 +164,7 @@ class _CartPageState extends State<CartPage> {
                             onTap: () async {
                               bool status = await createOrder(user);
                               status
-                                  ? Navigator.push(
-                                      context,
-                                      CupertinoPageRoute(
-                                          builder: (context) =>
-                                              OrderConfirmation()))
+                                  ? openCheckout(amount, user)
                                   : Scaffold.of(context).showSnackBar(snackBar);
                             },
                           ),
@@ -134,6 +189,10 @@ class _CartPageState extends State<CartPage> {
         if (snap.hasData) {
           DatabaseServices().updateCart(user);
           if (snap.data.data == null) return Text("");
+
+          this.amount =
+              double.parse(snap.data.data['totalCartCost'].toString());
+
           return RichText(
             text: TextSpan(
                 text: '',
