@@ -39,6 +39,7 @@ class _RegisterPageState extends State<RegisterPage> {
     }
   }
 
+
   @override
   Widget build(BuildContext context) {
     checkNetwok();
@@ -149,6 +150,12 @@ class _RegisterPageState extends State<RegisterPage> {
                                         ),
                                       ),
                                 SizedBox(height: 20),
+                                smsSent
+                                    ? Text(
+                                        "OTP sent to $phone",
+                                        style: TextStyle(color: Colors.grey),
+                                      )
+                                    : Container(),
                                 Padding(
                                   padding: const EdgeInsets.all(8.0),
                                   child: sendingOtp
@@ -196,6 +203,7 @@ class _RegisterPageState extends State<RegisterPage> {
                                               ),
                                             ),
                                 ),
+                                SizedBox(height: 10),
                                 smsSent
                                     ? Container(
                                         decoration:

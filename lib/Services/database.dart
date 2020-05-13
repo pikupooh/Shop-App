@@ -21,7 +21,7 @@ class DatabaseServices {
     });
   }
 
-  void updateProfile(String phoneNumber, String name, String alternatePhone,
+  Future updateProfile(String phoneNumber, String name, String alternatePhone,
       String imageUrl, String address) async {
     final CollectionReference _doc = _db.collection('Users');
     await _doc.document(phoneNumber).updateData({
