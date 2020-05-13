@@ -2,6 +2,7 @@ import 'package:flare_flutter/flare_actor.dart';
 import 'package:flare_flutter/flare_controller.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:shop_app/Pages/home_page.dart';
 import 'package:shop_app/reusables/constants.dart';
 import 'package:shop_app/reusables/components.dart';
 import 'package:shop_app/Pages/orders_page.dart';
@@ -24,7 +25,8 @@ class _OrderConfirmationState extends State<OrderConfirmation> {
               color: Colors.black,
             ),
             onPressed: () {
-              Navigator.pop(context);
+              Navigator.push(
+                  context, MaterialPageRoute(builder: (context) => HomePage()));
             }),
         centerTitle: true,
         elevation: 0,
@@ -69,7 +71,7 @@ class _OrderConfirmationState extends State<OrderConfirmation> {
                   Navigator.push(context,
                       CupertinoPageRoute(builder: (context) => OrdersPage()));
                 },
-                text: "Your Order",
+                text: "Your Orders",
               ),
             ),
           ),

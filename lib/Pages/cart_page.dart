@@ -1,10 +1,13 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
+import 'package:razorpay_flutter/razorpay_flutter.dart';
 import 'package:shop_app/Models/cart_item.dart';
 import 'package:shop_app/Models/user.dart';
+import 'package:shop_app/Pages/addressPage.dart';
 import 'package:shop_app/Pages/orderConfirmationPage.dart';
 import 'package:shop_app/Services/database.dart';
 import 'package:shop_app/Widgets/cart_list.dart';
@@ -17,6 +20,8 @@ class CartPage extends StatefulWidget {
 }
 
 class _CartPageState extends State<CartPage> {
+  double amount;
+
   final snackBar = SnackBar(
       duration: Duration(milliseconds: 300),
       elevation: 8,
@@ -29,6 +34,7 @@ class _CartPageState extends State<CartPage> {
     User user = Provider.of<User>(context);
 
     return Scaffold(
+      backgroundColor: kbackgroundColor,
       appBar: AppBar(
           leading: IconButton(
               icon: Icon(
@@ -60,18 +66,6 @@ class _CartPageState extends State<CartPage> {
                   mainAxisSize: MainAxisSize.max,
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: <Widget>[
-                    // Column(
-                    //   children: <Widget>[
-                    //     IconButton(
-                    //         icon: Icon(
-                    //           CupertinoIcons.clear_circled,
-                    //           color: Colors.black,
-                    //         ),
-                    //         onPressed: () {
-                    //           DatabaseServices().createCart(user.phone);
-                    //         }),
-                    //   ],
-                    // ),
                     Container(
                         decoration: kSoftShadowDecoration.copyWith(
                             borderRadius: BorderRadius.circular(50)),
@@ -103,14 +97,18 @@ class _CartPageState extends State<CartPage> {
                             text: "Checkout",
                             buttonColor: kbackgroundColor,
                             onTap: () async {
-                              bool status = await createOrder(user);
-                              status
-                                  ? Navigator.push(
+                              amount == 0
+                                  ? Scaffold.of(context).showSnackBar(snackBar)
+                                  : Navigator.push(
                                       context,
                                       CupertinoPageRoute(
-                                          builder: (context) =>
-                                              OrderConfirmation()))
-                                  : Scaffold.of(context).showSnackBar(snackBar);
+                                          builder: (context) => AddressPage(
+                                                userPhone: user.phone,
+                                                amount: amount,
+                                              ))); // bool status = await createOrder(user);
+                              // status
+                              //     ? openCheckout(amount, user)
+                              //     : Scaffold.of(context).showSnackBar(snackBar);
                             },
                           ),
                         ))
@@ -134,6 +132,10 @@ class _CartPageState extends State<CartPage> {
         if (snap.hasData) {
           DatabaseServices().updateCart(user);
           if (snap.data.data == null) return Text("");
+
+          this.amount =
+              double.parse(snap.data.data['totalCartCost'].toString());
+
           return RichText(
             text: TextSpan(
                 text: '',
@@ -159,21 +161,21 @@ class _CartPageState extends State<CartPage> {
     );
   }
 
-  Future<bool> createOrder(User user) async {
-    List<CartItem> cartItems = new List();
-    await Firestore.instance
-        .collection("Cart")
-        .document(user.phone)
-        .get()
-        .then((onValue) {
-      cartItems = CartItem().fromFirebase(onValue);
-    });
-    if (cartItems == null || cartItems.isEmpty || cartItems.length == 0) {
-      print("not added");
-      return false;
-    }
-    DatabaseServices().placeOrder(cartItems, user);
-    return true;
-    // DatabaseServices().createCart(user.phone);
-  }
+  // Future<bool> createOrder(User user) async {
+  //   List<CartItem> cartItems = new List();
+  //   await Firestore.instance
+  //       .collection("Cart")
+  //       .document(user.phone)
+  //       .get()
+  //       .then((onValue) {
+  //     cartItems = CartItem().fromFirebase(onValue);
+  //   });
+  //   if (cartItems == null || cartItems.isEmpty || cartItems.length == 0) {
+  //     print("not added");
+  //     return false;
+  //   }
+  //   DatabaseServices().placeOrder(cartItems, user, 'test');
+  //   return true;
+  //   // DatabaseServices().createCart(user.phone);
+  // }
 }

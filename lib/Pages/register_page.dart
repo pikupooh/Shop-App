@@ -29,15 +29,16 @@ class _RegisterPageState extends State<RegisterPage> {
         setState(() {
           isConnected = true;
         });
-       // print('connected');
+        // print('connected');
       }
     } on SocketException catch (_) {
       setState(() {
         isConnected = false;
       });
-     // print('not connected');
+      // print('not connected');
     }
   }
+
 
   @override
   Widget build(BuildContext context) {
@@ -55,11 +56,51 @@ class _RegisterPageState extends State<RegisterPage> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
                   SizedBox(
-                    height: 80,
-                  ),
-                  Container(child: Image.asset('assets/welcome.png')),
-                  SizedBox(
                     height: 40,
+                  ),
+                  Stack(
+                    children: <Widget>[
+                      Positioned(
+                          left: 0,
+                          top: MediaQuery.of(context).size.width / 2,
+                          child: Icon(
+                            CupertinoIcons.back,
+                            color: Color(0x220013A8) ?? Colors.grey,
+                            size: 30,
+                          )),
+                      SizedBox(
+                        height: MediaQuery.of(context).size.width / 1,
+                        child: PageView(
+                              pageSnapping: true,
+                              scrollDirection: Axis.horizontal,
+                              children: <Widget>[
+                                Image.asset(
+                                  'assets/welcome.png',
+                                ),
+                                Container(
+                                    child:
+                                        Image.asset('assets/OnBoarding1.png'))
+                              ],
+                            ) ??
+                            Container(child: Image.asset('assets/welcome.png')),
+                      ),
+                      Positioned(
+                          right: 0,
+                          top: MediaQuery.of(context).size.width / 2,
+                          child: Icon(
+                            CupertinoIcons.forward,
+                            color: Color(0x220013A8) ?? Colors.grey,
+                            size: 30,
+                          )),
+                    ],
+                  ),
+                  Text(
+                    "Get Started.",
+                    style: TextStyle(
+                        fontSize: 25, color: Color(0xFF0013A8) ?? Colors.black),
+                  ),
+                  SizedBox(
+                    height: 10,
                   ),
                   isConnected
                       ? Form(
@@ -75,26 +116,46 @@ class _RegisterPageState extends State<RegisterPage> {
                                       ),
                                 smsSent
                                     ? Container()
-                                    : TextFormField(
-                                        decoration: kInputDecoration.copyWith(
-                                            fillColor: Colors.grey[300],
-                                            prefixIcon: Icon(Icons.phone),
-                                            // prefixText: "+91-",
-                                            hintText: "Phone"),
-                                        keyboardType: TextInputType.phone,
-                                        onChanged: (value) {
-                                          setState(() {
-                                            phone = "+91" + value;
-                                          });
-                                        },
-                                        validator: (String value) {
-                                          if (value.isEmpty ||
-                                              value.length != 10)
-                                            return "Enter 10 digits";
-                                          return null;
-                                        },
+                                    : Container(
+                                        decoration:
+                                            kSoftShadowDecoration.copyWith(
+                                                borderRadius:
+                                                    BorderRadius.circular(30)),
+                                        child: TextFormField(
+                                          // textAlign: TextAlign.center,
+                                          decoration: InputDecoration(
+                                              fillColor: kbackgroundColor ??
+                                                  Colors.grey[300],
+                                              prefixIcon: Icon(Icons.phone),
+                                              // prefixText: "+91-",
+                                              disabledBorder: kInputBorder,
+                                              focusedBorder: kInputBorder,
+                                              enabledBorder: kInputBorder,
+                                              border: kInputBorder,
+                                              prefixStyle: TextStyle(
+                                                  color: Colors.black),
+                                              hintText: "Enter phone number "),
+                                          keyboardType: TextInputType.phone,
+                                          onChanged: (value) {
+                                            setState(() {
+                                              phone = "+91" + value;
+                                            });
+                                          },
+                                          validator: (String value) {
+                                            if (value.isEmpty ||
+                                                value.length != 10)
+                                              return "Enter 10 digits";
+                                            return null;
+                                          },
+                                        ),
                                       ),
-                                SizedBox(height: 10),
+                                SizedBox(height: 20),
+                                smsSent
+                                    ? Text(
+                                        "OTP sent to $phone",
+                                        style: TextStyle(color: Colors.grey),
+                                      )
+                                    : Container(),
                                 Padding(
                                   padding: const EdgeInsets.all(8.0),
                                   child: sendingOtp
@@ -142,18 +203,30 @@ class _RegisterPageState extends State<RegisterPage> {
                                               ),
                                             ),
                                 ),
+                                SizedBox(height: 10),
                                 smsSent
-                                    ? TextFormField(
-                                        textAlign: TextAlign.center,
-                                        decoration: kInputDecoration.copyWith(
-                                          fillColor: Colors.grey[300],
+                                    ? Container(
+                                        decoration:
+                                            kSoftShadowDecoration.copyWith(
+                                                borderRadius:
+                                                    BorderRadius.circular(30)),
+                                        child: TextFormField(
+                                          textAlign: TextAlign.center,
+                                          decoration: kInputDecoration.copyWith(
+                                            disabledBorder: kInputBorder,
+                                            focusedBorder: kInputBorder,
+                                            enabledBorder: kInputBorder,
+                                            border: kInputBorder,
+                                            fillColor: kbackgroundColor ??
+                                                Colors.grey[300],
+                                          ),
+                                          keyboardType: TextInputType.number,
+                                          onChanged: (value) {
+                                            setState(() {
+                                              smsCode = value;
+                                            });
+                                          },
                                         ),
-                                        keyboardType: TextInputType.number,
-                                        onChanged: (value) {
-                                          setState(() {
-                                            smsCode = value;
-                                          });
-                                        },
                                       )
                                     : Container(),
                                 SizedBox(
@@ -192,7 +265,8 @@ class _RegisterPageState extends State<RegisterPage> {
                             ),
                             Padding(
                               padding: const EdgeInsets.all(8.0),
-                              child: Text("Please connect to internet to use the app."),
+                              child: Text(
+                                  "Please connect to internet to use the app."),
                             ),
                           ],
                         )),
@@ -205,7 +279,7 @@ class _RegisterPageState extends State<RegisterPage> {
   void _showToast() {
     Fluttertoast.showToast(
         msg: "OTP sent",
-        toastLength: Toast.LENGTH_LONG,
+        toastLength: Toast.LENGTH_SHORT,
         gravity: ToastGravity.CENTER);
   }
 

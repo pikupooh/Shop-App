@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:provider/provider.dart';
 import 'package:shop_app/Models/user.dart';
 import 'package:shop_app/Services/auth.dart';
@@ -43,13 +44,19 @@ class _ProfilePageState extends State<ProfilePage> {
           if (snap.hasData) {
             return _buildUserForm(snap.data);
           } else
-            return CircularProgressIndicator();
+            return Center(child: CircularProgressIndicator());
         },
       ),
     );
   }
 
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+  void _showToast() {
+    Fluttertoast.showToast(
+        msg: "Profile Updated",
+        toastLength: Toast.LENGTH_SHORT,
+        gravity: ToastGravity.BOTTOM);
+  }
 
   Widget _buildUserForm(User user) {
     return SingleChildScrollView(
@@ -231,12 +238,14 @@ class _ProfilePageState extends State<ProfilePage> {
               child: Buttons(
                 onTap: () async {
                   if (_formKey.currentState.validate()) {
-                    DatabaseServices().updateProfile(
+                    await DatabaseServices().updateProfile(
                         user.phone,
                         name ?? user.name,
                         alternatePhone ?? user.alternatePhoneNumber,
                         imageUrl ?? user.imageUrl,
                         address ?? user.address);
+                    _showToast();
+
                     print(name);
                   }
                 },
