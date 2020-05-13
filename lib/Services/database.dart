@@ -193,7 +193,8 @@ class DatabaseServices {
     }
   }
 
-  Future changeCartItemQuantity(String product, User user, bool increase) async {
+  Future changeCartItemQuantity(
+      String product, User user, bool increase) async {
     try {
       var _ref = _db.collection('Cart').document(user.phone);
 
@@ -224,11 +225,13 @@ class DatabaseServices {
     }
   }
 
-  void placeOrder(List<CartItem> cartItems, User user) async {
+  void placeOrder(
+      List<CartItem> cartItems, String userPhone, String paymentId) async {
     try {
       OrderItem orderItem = new OrderItem();
+      orderItem.paymenetId = paymentId;
       orderItem.items = new Map();
-      orderItem.userid = user.phone;
+      orderItem.userid = userPhone;
       orderItem.status = "Not Delivered";
       orderItem.items = new Map();
       orderItem.totalCartCost = "0";
@@ -243,6 +246,7 @@ class DatabaseServices {
       // print(FieldValue.serverTimestamp().toString());
       var ref = _db.collection("Orders").document();
       await ref.setData({
+        "paymentId":paymentId,
         "totalCartCost": orderItem.totalCartCost,
         "orderDate": FieldValue.serverTimestamp(),
         "status": orderItem.status,
@@ -251,7 +255,7 @@ class DatabaseServices {
       orderItem.items.forEach((key, value) async {
         await ref.updateData({"$key": value});
       });
-      createCart(user.phone);
+      createCart(userPhone);
       // print("order placed");
     } catch (e) {}
   }

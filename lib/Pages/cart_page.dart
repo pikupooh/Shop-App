@@ -7,6 +7,7 @@ import 'package:provider/provider.dart';
 import 'package:razorpay_flutter/razorpay_flutter.dart';
 import 'package:shop_app/Models/cart_item.dart';
 import 'package:shop_app/Models/user.dart';
+import 'package:shop_app/Pages/addressPage.dart';
 import 'package:shop_app/Pages/orderConfirmationPage.dart';
 import 'package:shop_app/Services/database.dart';
 import 'package:shop_app/Widgets/cart_list.dart';
@@ -19,58 +20,7 @@ class CartPage extends StatefulWidget {
 }
 
 class _CartPageState extends State<CartPage> {
-  Razorpay _razorpay;
   double amount;
-  @override
-  void initState() {
-    super.initState();
-    _razorpay = Razorpay();
-    _razorpay.on(Razorpay.EVENT_PAYMENT_SUCCESS, _handlePaymentSuccess);
-    _razorpay.on(Razorpay.EVENT_PAYMENT_ERROR, _handlePaymentError);
-    _razorpay.on(Razorpay.EVENT_EXTERNAL_WALLET, _handleExternalWallet);
-  }
-
-  @override
-  void dispose() {
-    super.dispose();
-    _razorpay.clear();
-  }
-
-  Future openCheckout(double amount, User user) async {
-    var options = {
-      'key': 'rzp_test_GSlKWUbuUWCb8L',
-      'amount': amount * 100,
-      'name': 'Quality',
-      'description': 'Food and Groceries',
-      'prefill': {'contact': user.phone, 'email': 'test@razorpay.com'},
-    };
-
-    try {
-      _razorpay.open(options);
-    } catch (e) {
-      debugPrint(e);
-    }
-  }
-
-  void _handlePaymentSuccess(PaymentSuccessResponse response) {
-    print(response.orderId);
-    print(response.paymentId);
-    Navigator.push(
-        context, CupertinoPageRoute(builder: (context) => OrderConfirmation()));
-    Fluttertoast.showToast(
-        msg: "SUCCESS: " + response.paymentId, timeInSecForIosWeb: 4);
-  }
-
-  void _handlePaymentError(PaymentFailureResponse response) {
-    Fluttertoast.showToast(
-        msg: "ERROR: " + response.code.toString() + " - " + response.message,
-        timeInSecForIosWeb: 4);
-  }
-
-  void _handleExternalWallet(ExternalWalletResponse response) {
-    Fluttertoast.showToast(
-        msg: "EXTERNAL_WALLET: " + response.walletName, timeInSecForIosWeb: 4);
-  }
 
   final snackBar = SnackBar(
       duration: Duration(milliseconds: 300),
@@ -107,21 +57,6 @@ class _CartPageState extends State<CartPage> {
       body: Container(
         child: Column(
           children: <Widget>[
-            // Expanded(
-            //   child: Padding(
-            //     padding: const EdgeInsets.only(top: 10.0),
-            //     child: Container(
-            //         width: MediaQuery.of(context).size.width,
-            //         decoration: kSoftShadowDecoration,
-            //         child: Column(
-            //           children: <Widget>[
-            //             Text("Deliver to"),
-            //             Text(user.name),
-            //           ],
-            //         )),
-            //   ),
-            // ),
-
             Expanded(child: CartList()),
             Container(
               color: kbackgroundColor,
@@ -162,10 +97,18 @@ class _CartPageState extends State<CartPage> {
                             text: "Checkout",
                             buttonColor: kbackgroundColor,
                             onTap: () async {
-                              bool status = await createOrder(user);
-                              status
-                                  ? openCheckout(amount, user)
-                                  : Scaffold.of(context).showSnackBar(snackBar);
+                              amount == 0
+                                  ? Scaffold.of(context).showSnackBar(snackBar)
+                                  : Navigator.push(
+                                      context,
+                                      CupertinoPageRoute(
+                                          builder: (context) => AddressPage(
+                                                userPhone: user.phone,
+                                                amount: amount,
+                                              ))); // bool status = await createOrder(user);
+                              // status
+                              //     ? openCheckout(amount, user)
+                              //     : Scaffold.of(context).showSnackBar(snackBar);
                             },
                           ),
                         ))
@@ -218,21 +161,21 @@ class _CartPageState extends State<CartPage> {
     );
   }
 
-  Future<bool> createOrder(User user) async {
-    List<CartItem> cartItems = new List();
-    await Firestore.instance
-        .collection("Cart")
-        .document(user.phone)
-        .get()
-        .then((onValue) {
-      cartItems = CartItem().fromFirebase(onValue);
-    });
-    if (cartItems == null || cartItems.isEmpty || cartItems.length == 0) {
-      print("not added");
-      return false;
-    }
-    DatabaseServices().placeOrder(cartItems, user);
-    return true;
-    // DatabaseServices().createCart(user.phone);
-  }
+  // Future<bool> createOrder(User user) async {
+  //   List<CartItem> cartItems = new List();
+  //   await Firestore.instance
+  //       .collection("Cart")
+  //       .document(user.phone)
+  //       .get()
+  //       .then((onValue) {
+  //     cartItems = CartItem().fromFirebase(onValue);
+  //   });
+  //   if (cartItems == null || cartItems.isEmpty || cartItems.length == 0) {
+  //     print("not added");
+  //     return false;
+  //   }
+  //   DatabaseServices().placeOrder(cartItems, user, 'test');
+  //   return true;
+  //   // DatabaseServices().createCart(user.phone);
+  // }
 }
