@@ -225,10 +225,14 @@ class DatabaseServices {
     }
   }
 
-  void placeOrder(
-      List<CartItem> cartItems, String userPhone, String paymentId) async {
+  void placeOrder(List<CartItem> cartItems, String userPhone, String paymentId,
+      String name, String address, String alternatePhone, String phone) async {
     try {
       OrderItem orderItem = new OrderItem();
+      orderItem.address = address;
+      orderItem.alternatePhone = alternatePhone;
+      orderItem.name = name;
+      orderItem.phone = phone;
       orderItem.paymenetId = paymentId;
       orderItem.items = new Map();
       orderItem.userid = userPhone;
@@ -246,11 +250,15 @@ class DatabaseServices {
       // print(FieldValue.serverTimestamp().toString());
       var ref = _db.collection("Orders").document();
       await ref.setData({
-        "paymentId":paymentId,
+        "paymentId": paymentId,
         "totalCartCost": orderItem.totalCartCost,
         "orderDate": FieldValue.serverTimestamp(),
         "status": orderItem.status,
-        "userid": orderItem.userid
+        "userid": orderItem.userid,
+        "name": orderItem.name,
+        "phone": orderItem.phone,
+        "address": orderItem.address,
+        "alternatePhone": orderItem.alternatePhone,
       });
       orderItem.items.forEach((key, value) async {
         await ref.updateData({"$key": value});

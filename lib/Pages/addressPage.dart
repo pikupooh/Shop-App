@@ -6,6 +6,7 @@ import 'package:provider/provider.dart';
 import 'package:razorpay_flutter/razorpay_flutter.dart';
 import 'package:shop_app/Models/cart_item.dart';
 import 'package:shop_app/Models/user.dart';
+import 'package:shop_app/Pages/register_page.dart';
 
 import 'package:shop_app/Services/database.dart';
 import 'package:shop_app/reusables/components.dart';
@@ -21,8 +22,9 @@ class AddressPage extends StatefulWidget {
   _AddressPageState createState() => _AddressPageState();
 }
 
+String name, alternatePhone, address;
+
 class _AddressPageState extends State<AddressPage> {
-  String name, alternatePhone, address;
   Razorpay _razorpay;
 
   @override
@@ -56,12 +58,13 @@ class _AddressPageState extends State<AddressPage> {
     }
   }
 
-  void _handlePaymentSuccess(PaymentSuccessResponse response) async{
-    await createOrder(widget.userPhone, response.paymentId);
-    print(response.orderId);
-    print(response.paymentId);
+  void _handlePaymentSuccess(PaymentSuccessResponse response) async {
+    await createOrder(widget.userPhone, response.paymentId, name, address,
+        alternatePhone, phone);
+    print("Name is");
+    print(name);
 
-    Navigator.push(
+    Navigator.pushReplacement(
         context, CupertinoPageRoute(builder: (context) => OrderConfirmation()));
     Fluttertoast.showToast(
         msg: "SUCCESS: " + response.paymentId, timeInSecForIosWeb: 4);
@@ -138,6 +141,11 @@ class _AddressPageState extends State<AddressPage> {
   }
 
   Widget _buildUserForm(User user) {
+    name = user.name;
+    address = user.address;
+    alternatePhone = user.alternatePhoneNumber;
+    phone = user.phone;
+
     return SingleChildScrollView(
       child: Center(
         child: Form(
@@ -234,6 +242,7 @@ class _AddressPageState extends State<AddressPage> {
                   child: SizedBox(
                     width: MediaQuery.of(context).size.width / 1.3,
                     child: TextFormField(
+                      minLines: 2,
                       keyboardType: TextInputType.multiline,
                       maxLines: null,
                       initialValue: user.address,
@@ -265,7 +274,8 @@ class _AddressPageState extends State<AddressPage> {
   }
 }
 
-Future<bool> createOrder(String userPhone, String paymentId) async {
+Future<bool> createOrder(String userPhone, String paymentId, String name,
+    String address, String alternatePhone, String phone) async {
   List<CartItem> cartItems = new List();
   await Firestore.instance
       .collection("Cart")
@@ -278,6 +288,7 @@ Future<bool> createOrder(String userPhone, String paymentId) async {
     print("not added");
     return false;
   }
-  DatabaseServices().placeOrder(cartItems, userPhone, paymentId);
+  DatabaseServices().placeOrder(
+      cartItems, userPhone, paymentId, name, address, alternatePhone, phone);
   return true;
 }
