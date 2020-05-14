@@ -56,12 +56,12 @@ class _AddressPageState extends State<AddressPage> {
     }
   }
 
-  void _handlePaymentSuccess(PaymentSuccessResponse response) async{
+  void _handlePaymentSuccess(PaymentSuccessResponse response) async {
     await createOrder(widget.userPhone, response.paymentId);
     print(response.orderId);
     print(response.paymentId);
 
-    Navigator.push(
+    Navigator.pushReplacement(
         context, CupertinoPageRoute(builder: (context) => OrderConfirmation()));
     Fluttertoast.showToast(
         msg: "SUCCESS: " + response.paymentId, timeInSecForIosWeb: 4);
@@ -234,6 +234,7 @@ class _AddressPageState extends State<AddressPage> {
                   child: SizedBox(
                     width: MediaQuery.of(context).size.width / 1.3,
                     child: TextFormField(
+                      minLines: 2,
                       keyboardType: TextInputType.multiline,
                       maxLines: null,
                       initialValue: user.address,

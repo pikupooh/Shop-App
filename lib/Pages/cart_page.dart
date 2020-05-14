@@ -99,7 +99,7 @@ class _CartPageState extends State<CartPage> {
                             onTap: () async {
                               amount == 0
                                   ? Scaffold.of(context).showSnackBar(snackBar)
-                                  : Navigator.push(
+                                  : Navigator.pushReplacement(
                                       context,
                                       CupertinoPageRoute(
                                           builder: (context) => AddressPage(
