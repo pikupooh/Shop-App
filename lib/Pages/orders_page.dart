@@ -96,11 +96,13 @@ class _OrdersPageState extends State<OrdersPage> {
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: <Widget>[
                 Text(
-                  order.status,
+                  order.status ?? "N/A",
                   style: TextStyle(
                       color: order.status == 'Delivered'
                           ? Colors.green
-                          : Color(0xFF0013A8)),
+                          : order.status == 'Cancelled'
+                              ? Colors.red
+                              : Color(0xFF0013A8)),
                 ),
                 Padding(
                   padding: const EdgeInsets.only(bottom: 13.0),
