@@ -14,7 +14,6 @@ class OrdersPage extends StatefulWidget {
 }
 
 class _OrdersPageState extends State<OrdersPage> {
-
   @override
   Widget build(BuildContext context) {
     User user = Provider.of<User>(context);
@@ -181,47 +180,6 @@ class _OrdersPageState extends State<OrdersPage> {
                                 builder: (context) => OrderDetails(
                                       orderItem: order,
                                     )));
-                        // showModalBottomSheet(
-                        //   useRootNavigator: true,
-                        //   elevation: 0,
-                        //   shape: RoundedRectangleBorder(
-                        //       borderRadius: BorderRadius.circular(20)),
-                        //   backgroundColor: kbackgroundColor,
-                        //   context: context,
-                        //   builder: (context) {
-                        //     return Container(
-                        //       color: kbackgroundColor,
-                        //       child: Column(
-                        //         children: <Widget>[
-                        //           Padding(
-                        //             padding: const EdgeInsets.all(8.0),
-                        //             child: Text(
-                        //               "Order Details",
-                        //               style: TextStyle(fontSize: 25),
-                        //             ),
-                        //           ),
-                        //           Divider(
-                        //             color: Colors.black,
-                        //           ),
-                        //         ],
-                        //       ),
-                        //     );
-                        //   },
-                        // );
-                        // showDialog(
-                        //     context: context,
-                        //     builder: (context) {
-                        //       return Dialog(
-                        //         child: Container(
-                        //           child:Column(
-                        //             children: <Widget>[
-                        //               Text("Order Details")
-                        //             ],
-                        //           )?? Text(order.items.toString()),
-                        //           color: kbackgroundColor,
-                        //         ),
-                        //       );
-                        //     });
                       },
                     ),
                   ),
@@ -233,13 +191,4 @@ class _OrdersPageState extends State<OrdersPage> {
       ),
     );
   }
-}
-
-List<Widget> _buildOrderDetails(Map<String, int> orderitems) {
-  List<Widget> list = [];
-  orderitems.forEach((key, value) {
-    Widget temp = Text(key);
-    list.add(temp);
-  });
-  return list;
 }
