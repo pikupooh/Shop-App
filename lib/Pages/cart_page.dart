@@ -62,57 +62,60 @@ class _CartPageState extends State<CartPage> {
               color: kbackgroundColor,
               child: Padding(
                 padding: const EdgeInsets.all(10.0),
-                child: Row(
-                  mainAxisSize: MainAxisSize.max,
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: <Widget>[
-                    Container(
-                        decoration: kSoftShadowDecoration.copyWith(
-                            borderRadius: BorderRadius.circular(50)),
-                        child: Builder(
-                          builder: (context) => Buttons(
-                            textColor: Colors.red,
-                            iconColor: Colors.red,
-                            icon: Icons.clear_all ??
-                                CupertinoIcons.delete_simple ??
-                                Icons.delete_outline,
-                            text: "Clear",
-                            buttonColor: kbackgroundColor,
-                            onTap: () {
-                              DatabaseServices().createCart(user.phone);
-                            },
-                          ),
-                        )),
-                    Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: _buildTotalCostText(user)),
-                    Container(
-                        decoration: kSoftShadowDecoration.copyWith(
-                            borderRadius: BorderRadius.circular(50)),
-                        child: Builder(
-                          builder: (context) => Buttons(
-                            textColor: Colors.green,
-                            iconColor: Colors.green,
-                            icon: CupertinoIcons.forward,
-                            text: "Checkout",
-                            buttonColor: kbackgroundColor,
-                            onTap: () async {
-                              amount == 0
-                                  ? Scaffold.of(context).showSnackBar(snackBar)
-                                  : Navigator.pushReplacement(
-                                      context,
-                                      CupertinoPageRoute(
-                                          builder: (context) => AddressPage(
-                                                userPhone: user.phone,
-                                                amount: amount,
-                                              ))); // bool status = await createOrder(user);
-                              // status
-                              //     ? openCheckout(amount, user)
-                              //     : Scaffold.of(context).showSnackBar(snackBar);
-                            },
-                          ),
-                        ))
-                  ],
+                child: FittedBox(
+                  fit: BoxFit.cover,
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: <Widget>[
+                      Container(
+                          decoration: kSoftShadowDecoration.copyWith(
+                              borderRadius: BorderRadius.circular(50)),
+                          child: Builder(
+                            builder: (context) => Buttons(
+                              textColor: Colors.red,
+                              iconColor: Colors.red,
+                              icon: Icons.clear_all ??
+                                  CupertinoIcons.delete_simple ??
+                                  Icons.delete_outline,
+                              text: "Clear",
+                              buttonColor: kbackgroundColor,
+                              onTap: () {
+                                DatabaseServices().createCart(user.phone);
+                              },
+                            ),
+                          )),
+                      Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: _buildTotalCostText(user)),
+                      Container(
+                          decoration: kSoftShadowDecoration.copyWith(
+                              borderRadius: BorderRadius.circular(50)),
+                          child: Builder(
+                            builder: (context) => Buttons(
+                              textColor: Colors.green,
+                              iconColor: Colors.green,
+                              icon: CupertinoIcons.forward,
+                              text: "Checkout",
+                              buttonColor: kbackgroundColor,
+                              onTap: () async {
+                                amount == 0
+                                    ? Scaffold.of(context)
+                                        .showSnackBar(snackBar)
+                                    : Navigator.pushReplacement(
+                                        context,
+                                        CupertinoPageRoute(
+                                            builder: (context) => AddressPage(
+                                                  userPhone: user.phone,
+                                                  amount: amount,
+                                                ))); // bool status = await createOrder(user);
+                                // status
+                                //     ? openCheckout(amount, user)
+                                //     : Scaffold.of(context).showSnackBar(snackBar);
+                              },
+                            ),
+                          ))
+                    ],
+                  ),
                 ),
               ),
             )

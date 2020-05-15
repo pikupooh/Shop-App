@@ -90,8 +90,9 @@ class _ProfilePageState extends State<ProfilePage> {
                       ),
                       child: CircleAvatar(
                         child: Icon(
-                          CupertinoIcons.person_add_solid,
-                          color: Colors.white,
+                          
+                          CupertinoIcons.person_solid,
+                          color: Colors.black38,
                           size: 100,
                         ),
                         backgroundColor: kbackgroundColor ?? Colors.grey[200],
@@ -100,21 +101,22 @@ class _ProfilePageState extends State<ProfilePage> {
                     )
                   ],
                 ),
-                Padding(
-                    padding: EdgeInsets.only(top: 90.0, left: 100.0),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: <Widget>[
-                        CircleAvatar(
-                          backgroundColor: Colors.orange,
-                          radius: 25.0,
-                          child: Icon(
-                            CupertinoIcons.photo_camera,
-                            color: Colors.white,
-                          ),
-                        )
-                      ],
-                    )),
+                // Padding(
+                //   padding: EdgeInsets.only(top: 90.0, left: 100.0),
+                //   child: Row(
+                //     mainAxisAlignment: MainAxisAlignment.center,
+                //     children: <Widget>[
+                //       CircleAvatar(
+                //         backgroundColor: Colors.orange,
+                //         radius: 25.0,
+                //         child: Icon(
+                //           CupertinoIcons.photo_camera,
+                //           color: Colors.white,
+                //         ),
+                //       )
+                //     ],
+                //   ),
+                // ),
               ]),
             ),
             SizedBox(
