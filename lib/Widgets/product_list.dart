@@ -6,6 +6,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import 'package:shop_app/Models/product.dart';
 import 'package:shop_app/Models/user.dart';
+import 'package:shop_app/Pages/productDetailspage.dart';
 import 'package:shop_app/Services/database.dart';
 import 'package:shop_app/reusables/constants.dart';
 
@@ -138,7 +139,16 @@ class _ProductListState extends State<ProductList> {
                   Padding(
                     padding: const EdgeInsets.all(8.0),
                     child: InkWell(
-                      onTap: () {},
+                      onTap: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => ProductDetails(
+                              product: product,
+                            ),
+                          ),
+                        );
+                      },
                       child: Container(
                         decoration: BoxDecoration(
                           shape: BoxShape.circle,

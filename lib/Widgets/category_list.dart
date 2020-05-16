@@ -42,7 +42,7 @@ class _CategoryListState extends State<CategoryList> {
               .toList() +
           [
             Padding(
-              padding: const EdgeInsets.only(left: 15.0, right: 0, top: 15),
+              padding: const EdgeInsets.only(left: 15.0, right: 15.0, top: 15),
               child: FittedBox(
                 child: Container(
                     // height: 30,
@@ -130,9 +130,10 @@ class _CategoryListState extends State<CategoryList> {
                   radius: 30,
                   backgroundColor: Colors.transparent,
                   child: Padding(
-                    padding: const EdgeInsets.all(12.0),
+                    padding: const EdgeInsets.all(10.0),
                     child: Image.asset(
-                      'assets/${doc.name}.png' ?? 'assets/Fish.png',
+                      
+                      'assets/${doc.name}.png' ?? 'assets/Fish.png',fit: BoxFit.cover,
                     ),
                   ),
                 ),
@@ -140,8 +141,10 @@ class _CategoryListState extends State<CategoryList> {
             ),
             SizedBox(height: 10),
             Text(
+              
               doc.name,
-              style: TextStyle(fontSize: 17),
+              softWrap: true,
+              style: TextStyle(fontSize: 16),
             ),
           ],
         )),

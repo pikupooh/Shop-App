@@ -22,7 +22,7 @@ class _MyAppState extends State<MyApp> {
     return StreamProvider<User>.value(
       value: AuthServices().user,
       child: MaterialApp(
-        title:"Quality",
+        title: "Ajker Fresh",
         debugShowCheckedModeBanner: false,
         theme: ThemeData(
             appBarTheme: AppBarTheme(textTheme: GoogleFonts.latoTextTheme()),
