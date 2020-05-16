@@ -141,10 +141,10 @@ class _AddressPageState extends State<AddressPage> {
   }
 
   Widget _buildUserForm(User user) {
-    // name = user.name;
-    // address = user.address;
-    // alternatePhone = user.alternatePhoneNumber;
-    // phone = user.phone;
+    name == null ? name = user.name : null;
+    address == null ? address = user.address : null;
+    alternatePhone == null ? alternatePhone = user.alternatePhoneNumber : null;
+    phone = user.phone;
 
     return SingleChildScrollView(
       child: Center(

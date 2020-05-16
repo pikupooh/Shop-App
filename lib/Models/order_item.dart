@@ -12,6 +12,7 @@ class OrderItem {
   String address;
   String alternatePhone;
   String phone;
+  Timestamp statusUpdatedOn;
 
   OrderItem(
       {this.userid,
@@ -23,23 +24,26 @@ class OrderItem {
       this.address,
       this.alternatePhone,
       this.name,
-      this.phone});
+      this.phone,
+      this.statusUpdatedOn});
 
   factory OrderItem.fromFirebase(DocumentSnapshot doc) {
     String orderID = doc.documentID;
     Map data = doc.data;
     // print(data.toString());
     OrderItem orderItem = new OrderItem(
-        address: data['address'],
-        name: data['name'],
-        alternatePhone: data['alternatePhone'],
-        phone: data['phone'],
-        paymenetId: data['paymentId'],
-        status: data['status'],
-        orderDate: data['orderDate'],
-        orderID: orderID,
-        userid: data['userid'],
-        totalCartCost: data['totalCartCost']);
+      address: data['address'],
+      name: data['name'],
+      alternatePhone: data['alternatePhone'],
+      phone: data['phone'],
+      paymenetId: data['paymentId'],
+      status: data['status'],
+      orderDate: data['orderDate'],
+      orderID: orderID,
+      userid: data['userid'],
+      totalCartCost: data['totalCartCost'],
+      statusUpdatedOn: data['statusUpdatedOn'],
+    );
     orderItem.items = new Map<String, int>();
     data.forEach((key, value) {
       if (key != 'userid' &&
@@ -50,7 +54,8 @@ class OrderItem {
           key != 'name' &&
           key != 'address' &&
           key != 'alternatePhone' &&
-          key != 'phone') {
+          key != 'phone' &&
+          key != 'statusUpdatedOn') {
         // print(value);
         orderItem.items.addAll({"$key": value});
       }
