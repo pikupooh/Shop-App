@@ -22,9 +22,10 @@ class AddressPage extends StatefulWidget {
   _AddressPageState createState() => _AddressPageState();
 }
 
-String name, alternatePhone, address;
+
 
 class _AddressPageState extends State<AddressPage> {
+  String name, alternatePhone, address;
   Razorpay _razorpay;
 
   @override
