@@ -62,7 +62,7 @@ class _AddressPageState extends State<AddressPage> {
     await createOrder(widget.userPhone, response.paymentId, name, address,
         alternatePhone, phone);
     print("Name is");
-    print(name);
+    print(address);
 
     Navigator.pushReplacement(
         context, CupertinoPageRoute(builder: (context) => OrderConfirmation()));
@@ -141,10 +141,10 @@ class _AddressPageState extends State<AddressPage> {
   }
 
   Widget _buildUserForm(User user) {
-    name = user.name;
-    address = user.address;
-    alternatePhone = user.alternatePhoneNumber;
-    phone = user.phone;
+    // name = user.name;
+    // address = user.address;
+    // alternatePhone = user.alternatePhoneNumber;
+    // phone = user.phone;
 
     return SingleChildScrollView(
       child: Center(
