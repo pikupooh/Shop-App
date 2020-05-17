@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:shop_app/Models/categories.dart';
 import 'package:shop_app/Services/database.dart';
@@ -130,18 +131,18 @@ class _CategoryListState extends State<CategoryList> {
                   radius: 30,
                   backgroundColor: Colors.transparent,
                   child: Padding(
-                    padding: const EdgeInsets.all(10.0),
-                    child: Image.asset(
-                      
-                      'assets/${doc.name}.png' ?? 'assets/Fish.png',fit: BoxFit.cover,
-                    ),
-                  ),
+                      padding: const EdgeInsets.all(10.0),
+                      child: CachedNetworkImage(imageUrl: doc.imgUrl)
+                      // Image.asset(
+
+                      //   'assets/${doc.name}.png' ?? 'assets/Fish.png',fit: BoxFit.cover,
+                      // ),
+                      ),
                 ),
               ),
             ),
             SizedBox(height: 10),
             Text(
-              
               doc.name,
               softWrap: true,
               style: TextStyle(fontSize: 16),

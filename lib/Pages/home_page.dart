@@ -74,18 +74,18 @@ class _HomePageState extends State<HomePage> {
                         CupertinoPageRoute(builder: (context) => OrdersPage()));
                   },
                 ),
-                IconButton(
-                  icon: Icon(
-                    CupertinoIcons.search,
-                    color: Colors.black,
-                  ),
-                  onPressed: () {
-                    _showToast();
+                // IconButton(
+                //   icon: Icon(
+                //     CupertinoIcons.search,
+                //     color: Colors.black,
+                //   ),
+                //   onPressed: () {
+                //     _showToast();
 
-                    // Navigator.push(context,
-                    //     CupertinoPageRoute(builder: (context) => CartPage()));
-                  },
-                ),
+                //     // Navigator.push(context,
+                //     //     CupertinoPageRoute(builder: (context) => CartPage()));
+                //   },
+                // ),
                 Container(
                   child: Stack(
                     children: <Widget>[
