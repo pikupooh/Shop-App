@@ -35,10 +35,12 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     final user = Provider.of<User>(context);
+
     return StreamBuilder(
         stream: DatabaseServices().getCartItems(user),
         builder: (context, snapshot) {
           return Scaffold(
+            endDrawer: Drawer(),
             backgroundColor: kbackgroundColor,
             appBar: AppBar(
               elevation: 0,

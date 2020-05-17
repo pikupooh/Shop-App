@@ -34,17 +34,26 @@ class _ProductDetailsState extends State<ProductDetails> {
     return Scaffold(
       floatingActionButton: Container(
         decoration: kSoftShadowDecoration,
-        child: Buttons(
-          onTap: () async {
-            DatabaseServices().addToCart(widget.product, user);
-            _showToast(widget.product.name);
-          },
-          iconColor: Colors.red,
-          textColor: Colors.red,
-          buttonColor: kbackgroundColor,
-          text: "Add to Cart",
-          icon: CupertinoIcons.add_circled_solid,
-        ),
+        child: !widget.product.outOfStock
+            ? Buttons(
+                onTap: () async {
+                  DatabaseServices().addToCart(widget.product, user);
+                  _showToast(widget.product.name);
+                },
+                iconColor: Colors.red,
+                textColor: Colors.red,
+                buttonColor: kbackgroundColor,
+                text: "Add to Cart",
+                icon: CupertinoIcons.add_circled_solid,
+              )
+            : Padding(
+                padding:
+                    const EdgeInsets.symmetric(vertical: 10.0, horizontal: 19),
+                child: Text(
+                  "Out of Stock",
+                  style: TextStyle(fontSize: 20),
+                ),
+              ),
       ),
       backgroundColor: kbackgroundColor,
       appBar: AppBar(
@@ -106,7 +115,7 @@ class _ProductDetailsState extends State<ProductDetails> {
         backgroundColor: kbackgroundColor,
         elevation: 0,
         title: Text(
-         ""?? widget.product.name,
+          "" ?? widget.product.name,
           style: TextStyle(fontSize: 20),
         ),
       ),

@@ -63,8 +63,6 @@ class _ProfilePageState extends State<ProfilePage> {
       child: Form(
         key: _formKey,
         child: Column(
-          // TODO UI
-
           children: <Widget>[
             Padding(
               padding: EdgeInsets.only(top: 20.0),
@@ -90,7 +88,6 @@ class _ProfilePageState extends State<ProfilePage> {
                       ),
                       child: CircleAvatar(
                         child: Icon(
-                          
                           CupertinoIcons.person_solid,
                           color: Colors.black38,
                           size: 100,
