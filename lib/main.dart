@@ -25,6 +25,7 @@ class _MyAppState extends State<MyApp> {
         title: "Ajker Fresh",
         debugShowCheckedModeBanner: false,
         theme: ThemeData(
+          buttonColor: Colors.black,
             appBarTheme: AppBarTheme(textTheme: GoogleFonts.latoTextTheme()),
             textTheme: GoogleFonts.questrialTextTheme(),
             //TODO theme

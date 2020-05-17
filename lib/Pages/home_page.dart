@@ -3,7 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:provider/provider.dart';
 import 'package:shop_app/Models/user.dart';
+import 'package:shop_app/Pages/aboutUsPage.dart';
 import 'package:shop_app/Pages/cart_page.dart';
+import 'package:shop_app/Pages/contactUsPage.dart';
 import 'package:shop_app/Pages/orders_page.dart';
 import 'package:shop_app/Pages/profile_page.dart';
 import 'package:shop_app/Services/database.dart';
@@ -40,40 +42,110 @@ class _HomePageState extends State<HomePage> {
         stream: DatabaseServices().getCartItems(user),
         builder: (context, snapshot) {
           return Scaffold(
-            endDrawer: Drawer(),
+            drawer: Drawer(
+              child: ListView(
+                children: <Widget>[
+                  DrawerHeader(
+                      child: Image.asset(
+                    "assets/logoTransparent.png",
+                    fit: BoxFit.fitWidth,
+                  )),
+                  ListTile(
+                    onTap: () => Navigator.pop(context),
+                    //  Navigator.push(context,
+                    //     CupertinoPageRoute(builder: (context) => HomePage())),
+                    title: Text(
+                      "Shop",
+                      style: TextStyle(fontSize: 22),
+                    ),
+                  ),
+                  ListTile(
+                    onTap: () => Navigator.push(
+                        context,
+                        CupertinoPageRoute(
+                            builder: (context) => ProfilePage())),
+                    title: Text(
+                      "My Profile",
+                      style: TextStyle(fontSize: 22),
+                    ),
+                  ),
+                  ListTile(
+                    onTap: () => Navigator.push(context,
+                        CupertinoPageRoute(builder: (context) => OrdersPage())),
+                    title: Text(
+                      "My Orders",
+                      style: TextStyle(fontSize: 22),
+                    ),
+                  ),
+                  ListTile(
+                    onTap: () => Navigator.push(context,
+                        CupertinoPageRoute(builder: (context) => ContactUs())),
+                    title: Text(
+                      "Contact Us",
+                      style: TextStyle(fontSize: 22),
+                    ),
+                  ),
+                  ListTile(
+                    onTap: () => Navigator.push(context,
+                        CupertinoPageRoute(builder: (context) => AboutUs())),
+                    title: Text(
+                      "About Us",
+                      style: TextStyle(fontSize: 22),
+                    ),
+                  ),
+                ],
+              ),
+            ),
             backgroundColor: kbackgroundColor,
             appBar: AppBar(
+              leading: Builder(builder: (BuildContext context) {
+                return IconButton(
+                  icon: Icon(
+                    CupertinoIcons.ellipsis,
+                    color: Colors.black,
+                  ),
+                  onPressed: () {
+                    Scaffold.of(context).openDrawer();
+                    // Navigator.push(
+                    //   context,
+                    //   CupertinoPageRoute(
+                    //     builder: (context) => ProfilePage(),
+                    //   ),
+                    // );
+                  },
+                );
+              }),
               elevation: 0,
-              leading: IconButton(
-                icon: Icon(
-                  CupertinoIcons.ellipsis,
-                  color: Colors.black,
-                ),
-                onPressed: () {
-                  Navigator.push(
-                    context,
-                    CupertinoPageRoute(
-                      builder: (context) => ProfilePage(),
-                    ),
-                  );
-                },
-              ),
+              // leading: IconButton(
+              //   icon: Icon(
+              //     CupertinoIcons.ellipsis,
+              //     color: Colors.black,
+              //   ),
+              //   onPressed: () {
+              //     Navigator.push(
+              //       context,
+              //       CupertinoPageRoute(
+              //         builder: (context) => ProfilePage(),
+              //       ),
+              //     );
+              //   },
+              // ),
 
               backgroundColor: kbackgroundColor ??
                   Colors.grey[100] ??
                   Color.fromRGBO(0, 0, 500, 0.3),
               //  title: Text('Shop'),
               actions: <Widget>[
-                IconButton(
-                  icon: Icon(
-                    CupertinoIcons.book,
-                    color: Colors.black,
-                  ),
-                  onPressed: () {
-                    Navigator.push(context,
-                        CupertinoPageRoute(builder: (context) => OrdersPage()));
-                  },
-                ),
+                // IconButton(
+                //   icon: Icon(
+                //     CupertinoIcons.book,
+                //     color: Colors.black,
+                //   ),
+                //   onPressed: () {
+                //     Navigator.push(context,
+                //         CupertinoPageRoute(builder: (context) => OrdersPage()));
+                //   },
+                // ),
                 // IconButton(
                 //   icon: Icon(
                 //     CupertinoIcons.search,
