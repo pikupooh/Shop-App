@@ -22,9 +22,10 @@ class AddressPage extends StatefulWidget {
   _AddressPageState createState() => _AddressPageState();
 }
 
-String name, alternatePhone, address;
+
 
 class _AddressPageState extends State<AddressPage> {
+  String name, alternatePhone, address;
   Razorpay _razorpay;
 
   @override
@@ -62,7 +63,7 @@ class _AddressPageState extends State<AddressPage> {
     await createOrder(widget.userPhone, response.paymentId, name, address,
         alternatePhone, phone);
     print("Name is");
-    print(name);
+    print(address);
 
     Navigator.pushReplacement(
         context, CupertinoPageRoute(builder: (context) => OrderConfirmation()));
@@ -141,9 +142,9 @@ class _AddressPageState extends State<AddressPage> {
   }
 
   Widget _buildUserForm(User user) {
-    name = user.name;
-    address = user.address;
-    alternatePhone = user.alternatePhoneNumber;
+    name == null ? name = user.name : null;
+    address == null ? address = user.address : null;
+    alternatePhone == null ? alternatePhone = user.alternatePhoneNumber : null;
     phone = user.phone;
 
     return SingleChildScrollView(

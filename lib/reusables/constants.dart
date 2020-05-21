@@ -27,3 +27,4 @@ var kSoftShadowDecoration = BoxDecoration(
 var kInputBorder = OutlineInputBorder(
     borderRadius: BorderRadius.circular(30),
     borderSide: BorderSide(color: kbackgroundColor, width: 1));
+const String priv="";

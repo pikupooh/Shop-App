@@ -250,6 +250,7 @@ class DatabaseServices {
       // print(FieldValue.serverTimestamp().toString());
       var ref = _db.collection("Orders").document();
       await ref.setData({
+        "statusUpdatedOn": FieldValue.serverTimestamp(),
         "paymentId": paymentId,
         "totalCartCost": orderItem.totalCartCost,
         "orderDate": FieldValue.serverTimestamp(),
